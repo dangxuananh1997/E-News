@@ -1,0 +1,39 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <package name="config" extends="struts-default">
+        <action name="home">
+            <result>index.jsp</result>
+        </action>
+        <action name="admin">
+            <result>admin.jsp</result>
+        </action>
+        <action name="article">
+            <result>article.jsp</result>
+        </action>
+        <action name="articleEditing">
+            <result>articleEditing.jsp</result>
+        </action>
+        <action name="author">
+            <result>author.jsp</result>
+        </action>
+        <action name="editor">
+            <result>editor.jsp</result>
+        </action>
+        <action name="manageProfile">
+            <result>manageProfile.jsp</result>
+        </action>
+        <action name="register">
+            <result>register.jsp</result>
+        </action>
+        <action name="resetPassword">
+            <result>resetPassword.jsp</result>
+        </action>
+        <action name="viewProfile">
+            <result>viewProfile.jsp</result>
+        </action>
+    </package>
+</struts>
