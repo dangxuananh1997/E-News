@@ -20,7 +20,7 @@ public class LoginAction {
 
     private String email;
     private String password;
-    private List<UsersDetailDTO> details = null;
+    private UsersDetailDTO userDetails;
     private final String SUCCESS_MEMBER = "successMember";
     private final String SUCCESS_AUTHOR = "successAuthor";
     private final String SUCCESS_EDITOR = "successEditor";
@@ -37,27 +37,25 @@ public class LoginAction {
         boolean result = userDao.checkLogin(email, password);
 
         if (result) {
-
             int role = userDao.getRole(email);
-            if (role == 1) {
-                url = SUCCESS_MEMBER;
+            switch (role) {
+                case 1:
+                    url = SUCCESS_MEMBER;
+                    break;
+                case 2:
+                    url = SUCCESS_AUTHOR;
+                    break;
+                case 3:
+                    url = SUCCESS_EDITOR;
+                    break;
+                case 4:
+                    url = SUCCESS_ADMIN;
+                    break;
             }
-            if (role == 2) {
-                url = SUCCESS_AUTHOR;
-            }
-            if (role == 3) {
-                url = SUCCESS_EDITOR;
-            }
-            if (role == 4) {
-                url = SUCCESS_ADMIN;
-            }
-
             UsersDetailDAO detailDAO = new UsersDetailDAO();
-            detailDAO.getUsersDetail(email);
-            details = detailDAO.getDetailsList();
-
+            userDetails = detailDAO.getUserDetails(email);
             Map session = ActionContext.getContext().getSession();
-            session.put("DETAILS", details);
+            session.put("USERDETAILS", userDetails);
         }
         return url;
     }

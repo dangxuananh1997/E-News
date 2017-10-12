@@ -10,8 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.naming.NamingException;
 import utils.DBUtils;
 
@@ -21,15 +19,8 @@ import utils.DBUtils;
  */
 public class UsersDetailDAO implements Serializable {
 
-    //list of user details
-    private List<UsersDetailDTO> details = null;
-
-    public List<UsersDetailDTO> getDetailsList() {
-        return details;
-    }
-
     //get user details
-    public void getUsersDetail(String email)
+    public UsersDetailDTO getUserDetails(String email)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -43,9 +34,14 @@ public class UsersDetailDAO implements Serializable {
                 stm.setString(1, email);
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    if (this.details == null) {
-                        this.details = new ArrayList<>();
-                    }
+                    String name = rs.getString("FullName");
+                    int gender = rs.getInt("Gender");
+                    String birthdate = rs.getString("BirthDate");
+                    String address = rs.getString("Address");
+                    String phone = rs.getString("Phone");
+                    String image = rs.getString("FeatureImageID");
+                    UsersDetailDTO user = new UsersDetailDTO(email, name, gender, birthdate, address, phone, image);
+                    return user;
                 }
             }
         } finally {
@@ -59,6 +55,7 @@ public class UsersDetailDAO implements Serializable {
                 con.close();
             }
         }
+        return null;
     }
     //insert email and fullname into database
     public boolean insertEmailAndFullName(String email, String name)
