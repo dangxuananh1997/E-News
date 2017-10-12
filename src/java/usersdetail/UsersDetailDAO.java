@@ -36,11 +36,11 @@ public class UsersDetailDAO implements Serializable {
                 if (rs.next()) {
                     String name = rs.getString("FullName");
                     int gender = rs.getInt("Gender");
-                    String birthdate = rs.getString("BirthDate");
+//                    String birthdate = rs.getDate("BirthDate");
                     String address = rs.getString("Address");
                     String phone = rs.getString("Phone");
                     String image = rs.getString("FeatureImageID");
-                    UsersDetailDTO user = new UsersDetailDTO(email, name, gender, birthdate, address, phone, image);
+                    UsersDetailDTO user = new UsersDetailDTO(email, name, gender, "asdas", address, phone, image);
                     return user;
                 }
             }

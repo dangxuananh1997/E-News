@@ -16,7 +16,7 @@
 		<div class="article"><!-- repeat -->
 			<div class="feature-pic">
 				<a href="article">
-					<img src="assets/img/Author-NguyenVanAuthor/P0000001.jpg" alt="">
+					<img src="assets/img/Author-NguyenVanAuthor/P0000001.jpg">
 				</a>
 			</div>
 			<div class="article-info">

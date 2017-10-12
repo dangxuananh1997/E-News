@@ -64,14 +64,14 @@ public class LoginAction {
      * @return the email
      */
     public String getEmail() {
-        return email;
+        return password;
     }
 
     /**
      * @return the password
      */
     public String getPassword() {
-        return password;
+        return email;
     }
 
     /**
