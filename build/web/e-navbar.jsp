@@ -1,3 +1,6 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
 <nav class="navbar fixed-top navbar-toggleable-sm navbar-light bg-light">
 	<button 
 		class="navbar-toggler navbar-toggler-right" 
@@ -29,7 +32,19 @@
 		</ul>
 	</div>
 	<input type="" name="" placeholder="Search" class="search">
-	<a href="manageProfile" class="profile-picture">
-		<img src="assets/img/member.jpg" height="30px" width="30px" class="profile-pic">
-	</a>
+
+    
+    
+    <s:if test="%{#session.USERDETAILS != null}">
+        <a href="manageProfile" class="profile-picture">
+            <s:if test="%{#session.USERDETAILS.image != null && #session.USERDETAILS.image != ''}">
+                <img src="<s:property value="%{#session.USERDETAILS.image"/>" height="30px" width="30px" class="profile-pic">
+            </s:if>
+            <s:if test="%{#session.USERDETAILS.image == null || #session.USERDETAILS.image == ''}">
+                <img src="assets/img/default-user.png" height="30px" width="30px" class="profile-pic">
+            </s:if>
+        </a>
+        <a href="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.name}"/></span></a>
+        <a href="logout">Logout</a>
+    </s:if>
 </nav>
