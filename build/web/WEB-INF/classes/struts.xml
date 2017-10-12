@@ -4,7 +4,7 @@
 
 <struts>
     <!-- Configuration for the default package. -->
-    <package name="config" extends="struts-default">
+    <package name="config" extends="struts-default" namespace="/">
         <action name="home">
             <result>index.jsp</result>
         </action>
@@ -35,5 +35,16 @@
         <action name="viewProfile">
             <result>viewProfile.jsp</result>
         </action>
+        <action name="login" class="action.LoginAction">
+            <result name="successMember" type="redirect">index.jsp</result>
+            <result name="successAuthor" type="redirect">author.jsp</result>
+            <result name="successEditor" type="redirect">editor.jsp</result>
+            <result name="successAdmin" type="redirect">admin.jsp</result>
+            <result name="fail" type="redirect">index.jsp</result>
+        </action>
+        <action name="registerUser" class="action.RegisterAction">
+            <result name="success" type="redirect">index.jsp</result>
+            <result name="input" type="redirect">register.jsp</result>
+        </action>        
     </package>
 </struts>

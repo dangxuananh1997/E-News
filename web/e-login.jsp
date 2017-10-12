@@ -4,12 +4,12 @@
 		Login
 	</div>
 	<div class="login-form">
-		<form>
+		<form action="login" method="POST">
 			<label>Email:</label><br>
-			<input type="" name="">
+			<input type="text" name="email" value="">
 			<label>Password:</label><br>
-			<input type="password" name="">
-			<button type="submit" class="btn btn-primary">Login</button>
+			<input type="password" name="password" value="">
+            <button type="submit" class="btn btn-primary">Login</button>
 			<a href="register" class="btn btn-success">Register</a>
 		</form>
 		<a href="resetPassword" class="forget-password">Forget password</a>

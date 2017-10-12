@@ -11,7 +11,7 @@
 
 	<section class="container">
 		<h2>Register</h2>
-		<form class="register-form">
+		<form action="registerUser" class="register-form">
 			<div class="form-group">
 				<label for="email">Email:</label>
 				<input class="form-control" type="text" name="email">
