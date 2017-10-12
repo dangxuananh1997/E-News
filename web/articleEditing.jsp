@@ -22,6 +22,41 @@
 			<input type="text" class="form-control" name="title" placeholder="Article title">
 		</div>
 
+		<div class="form-check">
+			<label for="role">Category: </label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Science">Science
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="All">All
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Economy">Economy
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Entertainment">Entertainment
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Politics">Politics
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Sports">Sports
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Education">Education
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Health">Health
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Family">Family
+			</label>
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="category" value="Travel">Travel
+			</label>
+		</div>
+		
+
 		<input type="file" name="feature-picture-upload" class="feature-picture-upload" accept=".jpg, .jpeg, .png">
 		<label class="btn btn-outline-primary" for="feature-picture-upload">Upload New Feature Picture</label>
 

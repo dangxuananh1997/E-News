@@ -14,7 +14,14 @@
 
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a  class="nav-link active" id="pending-tab"
+				<a  class="nav-link active" id="all-tab"
+					href="#all" aria-controls="all"
+					data-toggle="tab" role="tab">
+					All Articles
+				</a>
+			</li>
+			<li class="nav-item">
+				<a  class="nav-link" id="pending-tab"
 					href="#pending" aria-controls="pending"
 					data-toggle="tab" role="tab">
 					Pending Articles
@@ -45,8 +52,49 @@
 
 		<div class="tab-content" id="myTabContent">
 
-			<!-- pending article -->
-			<div class="tab-pane fade show active" id="pending" 
+			<!-- all articles -->
+			<div class="tab-pane fade show active" id="all"
+				role="tabpanel" aria-labelledby="all-tab">
+				<h3>All Articles</h3>
+				<div class="article-list">
+					
+					<div class="article row">
+						<div class="col-1 author-profile-picture">
+							<img src="assets/img/author.jpg" class="img-thumbnail"
+								height="80px" width="80px">
+						</div>
+						<div class="col-11 article-title">
+							<h4>Article Title</h4>
+							<span class="badge badge-primary">
+								Author Name
+							</span>
+							<span class="badge badge-default">
+								Science
+							</span>
+							<span class="badge badge-warning">
+								Today, 16:10
+							</span>
+							<div class="d-flex flex-row">
+								<button class="btn btn-outline-info">
+									<i class="icon ion-eye"></i> View
+								</button>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-outline-danger" type="button">
+											<i class="icon ion-close"></i> Delete
+										</button>
+									</span>
+									<input type="text" class="form-control" placeholder="Reason">
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- pending articles -->
+			<div class="tab-pane fade" id="pending"
 				role="tabpanel" aria-labelledby="pending-tab">
 				<h3>Pending Articles</h3>
 				<div class="article-list">
@@ -58,7 +106,15 @@
 						</div>
 						<div class="col-11 article-title">
 							<h4>Pending Article</h4>
-							<span class="badge badge-info">Author Name</span>
+							<span class="badge badge-primary">
+								Author Name
+							</span>
+							<span class="badge badge-default">
+								Science
+							</span>
+							<span class="badge badge-warning">
+								Today, 16:10
+							</span>
 							<div class="d-flex flex-row">
 								<button class="btn btn-outline-info">
 									<i class="icon ion-eye"></i> View
@@ -100,6 +156,9 @@
 							<p class="comment-content">
 								<span class="badge badge-info">
 									Member Name
+								</span>
+								<span class="badge badge-warning">
+									Today, 16:10
 								</span>
 								<i class="icon ion-ios-play"></i>
 								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -143,6 +202,7 @@
 								<a href="">
 									<span class="badge badge-info">Member Name</span>
 								</a>
+								<span class="badge badge-default">Member</span>
 							</p>
 							<button class="btn btn-outline-info">
 								<i class="icon ion-eye"></i> View Profile
