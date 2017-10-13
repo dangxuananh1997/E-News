@@ -45,6 +45,10 @@
         <action name="registerUser" class="action.RegisterAction">
             <result name="success" type="redirect">index.jsp</result>
             <result name="input" type="redirect">register.jsp</result>
-        </action>        
+        </action> 
+        <action name="editProfile" class="action.EditProfileAction">
+            <result name="success">manageProfile.jsp</result>
+            <result name="fail">manageProfile.jsp</result>
+        </action>       
     </package>
 </struts>

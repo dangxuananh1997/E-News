@@ -42,6 +42,7 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+
     //get user role
     public int getRole(String email)
             throws NamingException, SQLException {
@@ -49,7 +50,7 @@ public class UserDAO implements Serializable {
         PreparedStatement stm = null;
         ResultSet rs = null;
         int role = 0;
-        
+
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
@@ -75,7 +76,7 @@ public class UserDAO implements Serializable {
         }
         return role;
     }
-    
+
     //create new user account
     public boolean createAccount(String email, String password)
             throws NamingException, SQLException {
@@ -95,6 +96,34 @@ public class UserDAO implements Serializable {
                     return true;
                 }
             }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    //change user password
+    public boolean updatePassword(String email, String newPassword)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Update [Users] set Password = ? where Email = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                stm.setString(2, newPassword);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+
         } finally {
             if (stm != null) {
                 stm.close();

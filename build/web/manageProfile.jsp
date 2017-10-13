@@ -15,7 +15,7 @@
 
 	<section class="container">
 		<h2>Edit Profile</h2>
-		<form class="edit-profile-form">
+		<form action="editProfile" class="edit-profile-form">
 			<h3 class="breakline">Information</h3>
 			<div class="row">
 				<div class="col-md-3 profile-pic">

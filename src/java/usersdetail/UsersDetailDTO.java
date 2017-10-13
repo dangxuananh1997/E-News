@@ -5,17 +5,21 @@ import java.io.Serializable;
 public class UsersDetailDTO implements Serializable{
     private String email;
     private String name;
-    private int gender;
-    private String birthdate;
+    private String gender;
+    private int day;
+    private int month;
+    private int year;
     private String address;
     private String phone;
     private String image;
 
-    public UsersDetailDTO(String email, String name, int gender, String birthdate, String address, String phone, String image) {
+    public UsersDetailDTO(String email, String name, String gender, int day, int month, int year, String address, String phone, String image) {
         this.email = email;
         this.name = name;
         this.gender = gender;
-        this.birthdate = birthdate;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.address = address;
         this.phone = phone;
         this.image = image;
@@ -52,30 +56,17 @@ public class UsersDetailDTO implements Serializable{
     /**
      * @return the gender
      */
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 
     /**
      * @param gender the gender to set
      */
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    /**
-     * @return the birthdate
-     */
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    /**
-     * @param birthdate the birthdate to set
-     */
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
 
     /**
      * @return the address
@@ -117,6 +108,48 @@ public class UsersDetailDTO implements Serializable{
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * @return the day
+     */
+    public int getDay() {
+        return day;
+    }
+
+    /**
+     * @param day the day to set
+     */
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    /**
+     * @return the month
+     */
+    public int getMonth() {
+        return month;
+    }
+
+    /**
+     * @param month the month to set
+     */
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    /**
+     * @return the year
+     */
+    public int getYear() {
+        return year;
+    }
+
+    /**
+     * @param year the year to set
+     */
+    public void setYear(int year) {
+        this.year = year;
     }
     
     
