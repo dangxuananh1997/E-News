@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,40 +19,44 @@
 
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a  class="nav-link active"
+                <a  class="nav-link <s:if test="%{tab == 1}">active</s:if>"
 					id="draft-tab"
-					data-toggle="tab"
-					href="#draft"
+					href="authorViewDraft"
 					role="tab"
 					aria-controls="draft"
-					aria-expanded="true">
+                    <s:if test="%{tab == 1}">aria-expanded="true"</s:if>
+                    >
 					Draft Articles
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link"
+				<a  class="nav-link <s:if test="%{tab == 2}">active</s:if>"
 					id="pending-tab"
-					data-toggle="tab"
-					href="#pending"
+					href="authorViewPending"
 					role="tab"
-					aria-controls="pending">
+					aria-controls="pending"
+                    <s:if test="%{tab == 2}">aria-expanded="true"</s:if>
+                    >
 					Pending Articles
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link"
+				<a  class="nav-link <s:if test="%{tab == 3}">active</s:if>"
 					id="approved-tab"
-					data-toggle="tab"
-					href="#approved"
+					href="authorViewApproved"
 					role="tab"
-					aria-controls="approved">
+					aria-controls="approved"
+                    <s:if test="%{tab == 3}">aria-expanded="true"</s:if>
+                    >
 					Approved Articles
 				</a>
 			</li>
 		</ul>
 
 		<div class="tab-content" id="myTabContent">
-			<!-- draft article -->
+            
+            <s:if test="%{tab == 1}">
+			<!-- draft articles -->
 			<div class="tab-pane fade show active" id="draft" role="tabpanel" aria-labelledby="draft-tab">
 				<h3>Draft Articles</h3>
 				<div class="article-list">
@@ -70,9 +76,11 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- pending article -->
-			<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+            </s:if>
+            
+            <s:if test="%{tab == 2}">
+			<!-- pending articles -->
+			<div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				<h3>Pending Articles</h3>
 				<div class="article-list">
 					<div class="article row">
@@ -91,9 +99,11 @@
 					</div>
 				</div>
 			</div>
-
+            </s:if>
+            
+            <s:if test="%{tab == 3}">
 			<!-- approved articles -->
-			<div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+			<div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved-tab">
 				<h3>Approved Articles</h3>
 				<div class="article-list">
 					<!-- approved article -->
@@ -128,6 +138,8 @@
 					</div>
 				</div>
 			</div>
+            </s:if>
+            
 		</div>
 	</section>
 

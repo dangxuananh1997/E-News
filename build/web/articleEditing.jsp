@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>'Action'(New/Edit) Aritcle</title>
+	<title>Edit Article</title>
 	<script type="text/javascript" src="js/config.js"></script>
 
 	<!-- summernote -->
@@ -25,72 +25,49 @@
 		<div class="form-check">
 			<label for="role">Category: </label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Science">Science
+				<input type="radio" class="form-check-input" name="categoryID" value="Science">Science
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="All">All
+				<input type="radio" class="form-check-input" name="categoryID" value="All">All
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Economy">Economy
+				<input type="radio" class="form-check-input" name="categoryID" value="Economy">Economy
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Entertainment">Entertainment
+				<input type="radio" class="form-check-input" name="categoryID" value="Entertainment">Entertainment
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Politics">Politics
+				<input type="radio" class="form-check-input" name="categoryID" value="Politics">Politics
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Sports">Sports
+				<input type="radio" class="form-check-input" name="categoryID" value="Sports">Sports
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Education">Education
+				<input type="radio" class="form-check-input" name="categoryID" value="Education">Education
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Health">Health
+				<input type="radio" class="form-check-input" name="categoryID" value="Health">Health
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Family">Family
+				<input type="radio" class="form-check-input" name="categoryID" value="Family">Family
 			</label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="category" value="Travel">Travel
+				<input type="radio" class="form-check-input" name="categoryID" value="Travel">Travel
 			</label>
 		</div>
 		
 
-		<input type="file" name="feature-picture-upload" class="feature-picture-upload" accept=".jpg, .jpeg, .png">
-		<label class="btn btn-outline-primary" for="feature-picture-upload">Upload New Feature Picture</label>
-
-		<a class="btn btn-outline-primary" data-toggle="modal" data-target="#choosePicture">Choose Existed Feature Picture</a>
-		<input type="hidden" name="existed-feature-picture">
+		<input type="file" name="featureImage" class="feature-picture-upload" accept=".jpg, .jpeg, .png">
+		<label class="btn btn-outline-primary" for="featureImage">Upload New Feature Picture</label>
 
 		<div id="summernote"></div>
 
-		<input type="hidden" name="content" id="content">
-
-		<button class="btn btn-success">Submit</button>
-		<button class="btn btn-info">Back</button>
+		<input type="hidden" name="articleContent" id="content">
+        
+        <button name="btnAction" value="draft" class="btn btn-warning">Save Draft</button>
+        <button name="btnAction" value="submit" class="btn btn-success">Submit</button>
+		<button name="btnAction" value="back" class="btn btn-info">Back</button>
 	</form>
-
-	<!-- Modal -->
-	<div class="modal fade" id="choosePicture" tabindex="-1" role="dialog" aria-labelledby="choosePictureLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="choosePictureLabel">Choose Feature Picture</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					Pictures
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Accept</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	<div class="e-footer"></div>
 </body>

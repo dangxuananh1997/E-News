@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,22 +16,24 @@
 
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a  class="nav-link active"
+				<a  class="nav-link <s:if test="%{tab == 1}">active</s:if>"
 					id="pending-tab"
-					data-toggle="tab"
-					href="#pending"
+					href="editorViewPending"
 					role="tab"
-					aria-controls="pending">
+					aria-controls="pending"
+                    <s:if test="%{tab == 1}">aria-expanded="true"</s:if>
+                    >
 					Pending Articles
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link"
+				<a  class="nav-link <s:if test="%{tab == 2}">active</s:if>"
 					id="manage-comments-tab"
-					data-toggle="tab"
-					href="#manage-comments"
+					href="editorViewComment"
 					role="tab"
-					aria-controls="manage-comments">
+					aria-controls="manage-comments"
+                    <s:if test="%{tab == 2}">aria-expanded="true"</s:if>
+                    >
 					Manage Comments
 				</a>
 			</li>
@@ -37,6 +41,7 @@
 
 		<div class="tab-content" id="myTabContent">
 
+            <s:if test="%{tab == 1}">
 			<!-- pending article -->
 			<div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				<h3>Pending Articles</h3>
@@ -48,7 +53,15 @@
 						</div>
 						<div class="col-11 article-title">
 							<h4>Pending Article</h4>
-							<span class="badge badge-info">Author ajshdfkjshdfkjhd Name</span>
+							<span class="badge badge-primary">
+								Author Name
+							</span>
+							<span class="badge badge-default">
+								Science
+							</span>
+							<span class="badge badge-warning">
+								Today, 16:10
+							</span>
 							<div class="d-flex flex-row">
 								<button class="btn btn-outline-info">
 									<i class="icon ion-eye"></i> View
@@ -70,9 +83,11 @@
 
 				</div>
 			</div>
-
+            </s:if>
+            
+            <s:if test="%{tab == 2}">
 			<!-- manage-comments article -->
-			<div class="tab-pane fade" id="manage-comments" role="tabpanel" aria-labelledby="manage-comments-tab">
+			<div class="tab-pane fade show active" id="manage-comments" role="tabpanel" aria-labelledby="manage-comments-tab">
 				<h3>Comments</h3>
 				<div class="comment-list">
 
@@ -83,7 +98,12 @@
 						<div class="col-11">
 							<h4 class="article-title"><a href="">Random article title</a></h4>
 							<p class="comment-content">
-								<span class="badge badge-info">Member Nasdasdj asdasda asdasd Name</span>
+								<span class="badge badge-info">
+                                    Member Name
+                                </span>
+                                <span class="badge badge-warning">
+                                    Today, 16:10
+                                </span>
 								<i class="icon ion-ios-play"></i>
 								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 								tempor incididunt ut labore et dolore magna aliqua.
@@ -99,7 +119,8 @@
 
 				</div>
 			</div>
-
+            </s:if>
+            
 		</div>
 	</section>
 

@@ -32,23 +32,135 @@
         <action name="resetPassword">
             <result>resetPassword.jsp</result>
         </action>
-        <action name="viewProfile">
-            <result>viewProfile.jsp</result>
-        </action>
         <action name="login" class="action.LoginAction">
-            <result name="successMember" type="redirect">index.jsp</result>
-            <result name="successAuthor" type="redirect">author.jsp</result>
-            <result name="successEditor" type="redirect">editor.jsp</result>
-            <result name="successAdmin" type="redirect">admin.jsp</result>
-            <result name="fail" type="redirect">index.jsp</result>
+            <result name="successMember">index.jsp</result>
+            <result name="successAuthor">author.jsp</result>
+            <result name="successEditor">editor.jsp</result>
+            <result name="successAdmin">admin.jsp</result>
+            <result name="fail">index.jsp</result>
+        </action>
+        <action name="logout" class="action.LogoutAction">
+            <result>index.jsp</result>
         </action>
         <action name="registerUser" class="action.RegisterAction">
             <result name="success" type="redirect">index.jsp</result>
             <result name="input" type="redirect">register.jsp</result>
-        </action> 
-        <action name="editProfile" class="action.EditProfileAction">
-            <result name="success">manageProfile.jsp</result>
-            <result name="fail">manageProfile.jsp</result>
-        </action>       
+        </action>
+        <action name="viewHome" class="action.ViewHomeAction">
+            <result name="success">index.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
+        </action>
+        <action name="searchArticle" class="action.SearchArticleAction">
+            <result name="success">index.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
+        </action>
+        <action name="viewByAuthor" class="action.ViewByAuthorAction">
+            <result name="success">index.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
+        </action>
+        <action name="viewByCategory" class="action.ViewByCategoryAction">
+            <result name="success">index.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
+        </action>
+        <action name="viewArticle" class="action.ViewArticleAction">
+            <result name="success">article.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
+        </action>
+        <action name="comment" class="action.CommentAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">viewArticle</param>
+                <param name="articleID">${articleID}</param>
+            </result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name="viewProfile" class="action.ViewProfileAction">
+            <result name="success">viewProfile.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <!--author-->
+        <action name ="authorViewApproved" class="action.author.ViewApprovedAction">
+            <result name="success">author.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name ="authorViewDraft" class="action.author.ViewDraftAction">
+            <result name="success">author.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name ="authorViewPending" class="action.author.ViewPendingAction">
+            <result name="success">author.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name="authorEditArticle" class="action.author.EditArticleAction">
+            <result name="success">articleEditing.jsp</result>
+        </action>
+        <action name="authorRequestDelete" class="action.author.RequestDeleteAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">authorViewApproved</param>
+                <param name="tab">${tab}</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <!--editor-->
+        <action name="editorViewPending" class="action.editor.ViewPendingAction">
+            <result name="success">editor.jsp</result>
+        </action>
+        <action name="editorViewComment" class="action.editor.ViewCommentAction">
+            <result name="success">editor.jsp</result>
+        </action>
+        <action name="editorApproveArticle" class="action.editor.ApproveArticleAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">editorViewPending</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <action name="editorRejectArticle" class="action.editor.RejectArticleAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">editorViewPending</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <action name="editorDeleteComment" class="action.editor.DeleteCommentAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">editorViewComment</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <!--admin-->
+        <action name="adminViewAllArticle" class="action.admin.ViewAllArticleAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminViewPending" class="action.admin.ViewPendingAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminViewDeleteRequest" class="action.admin.ViewDeleteRequestAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminViewComment" class="action.admin.ViewCommentAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminViewManageUser" class="action.admin.ViewManageUserAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminViewAddUser" class="action.admin.ViewAddUserAction">
+            <result name="success">admin.jsp</result>
+        </action>
+        <action name="adminDeleteArticle" class="action.admin.DeleteArticleAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">${viewActionName}</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <action name="adminSearchUser" class="action.admin.SearchUserAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">adminViewManageUser</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <action name="adminBanUser" class="action.admin.BanUserAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">adminViewManageUser</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
     </package>
 </struts>

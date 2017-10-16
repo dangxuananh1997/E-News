@@ -20,7 +20,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from [Users] where Email = ? and Password = ? ";
+                String sql = "Select * from [User] where Email = ? and Password = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setString(2, password);
@@ -54,7 +54,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select RoleID from [Users] where Email = ?";
+                String sql = "Select RoleID from [User] where Email = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();

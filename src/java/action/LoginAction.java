@@ -9,8 +9,8 @@ import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
 import java.util.Map;
 import user.UserDAO;
-import usersdetail.UsersDetailDAO;
-import usersdetail.UsersDetailDTO;
+import userdetails.UserDetailsDAO;
+import userdetails.UserDetailsDTO;
 
 /**
  *
@@ -18,9 +18,14 @@ import usersdetail.UsersDetailDTO;
  */
 public class LoginAction {
 
+    //Inputs
     private String email;
     private String password;
-    private UsersDetailDTO userDetails;
+    
+    //Outputs
+    private UserDetailsDTO userDetails;
+    
+    //Return
     private final String SUCCESS_MEMBER = "successMember";
     private final String SUCCESS_AUTHOR = "successAuthor";
     private final String SUCCESS_EDITOR = "successEditor";
@@ -52,40 +57,37 @@ public class LoginAction {
                     url = SUCCESS_ADMIN;
                     break;
             }
-            UsersDetailDAO detailDAO = new UsersDetailDAO();
+            UserDetailsDAO detailDAO = new UserDetailsDAO();
             userDetails = detailDAO.getUserDetails(email);
             Map session = ActionContext.getContext().getSession();
             session.put("USERDETAILS", userDetails);
         }
+        
         return url;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
-        return password;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @param password the password to set
-     */
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserDetailsDTO getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetailsDTO userDetails) {
+        this.userDetails = userDetails;
     }
 
 }

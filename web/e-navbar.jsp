@@ -37,14 +37,14 @@
     
     <s:if test="%{#session.USERDETAILS != null}">
         <a href="manageProfile" class="profile-picture">
-            <s:if test="%{#session.USERDETAILS.image != null && #session.USERDETAILS.image != ''}">
+            <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
                 <img src="<s:property value="%{#session.USERDETAILS.image"/>" height="30px" width="30px" class="profile-pic">
             </s:if>
-            <s:if test="%{#session.USERDETAILS.image == null || #session.USERDETAILS.image == ''}">
+            <s:if test="%{#session.USERDETAILS.profilePicture == null || #session.USERDETAILS.profilePicture == ''}">
                 <img src="assets/img/default-user.png" height="30px" width="30px" class="profile-pic">
             </s:if>
         </a>
-        <a href="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.name}"/></span></a>
+        <a href="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.fullName}"/></span></a>
         <a href="logout">Logout</a>
     </s:if>
 </nav>

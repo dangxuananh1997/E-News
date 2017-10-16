@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,37 +16,71 @@
 
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a  class="nav-link active" id="all-tab"
-					href="#all" aria-controls="all"
-					data-toggle="tab" role="tab">
+				<a  class="nav-link <s:if test="%{tab == 1}">active</s:if>" 
+                    id="all-tab"
+					href="adminViewAllArticle"
+					role="tab"
+                    aria-controls="all"
+                    <s:if test="%{tab == 1}">aria-expanded="true"</s:if>
+                    
+                    >
 					All Articles
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link" id="pending-tab"
-					href="#pending" aria-controls="pending"
-					data-toggle="tab" role="tab">
+				<a  class="nav-link <s:if test="%{tab == 2}">active</s:if>" 
+                    id="pending-tab"
+					href="adminViewPending"
+                    role="tab"
+                    aria-controls="pending"
+                    <s:if test="%{tab == 2}">aria-expanded="true"</s:if>
+                    
+                    >
 					Pending Articles
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link" id="manage-comments-tab"
-					href="#manage-comments" aria-controls="manage-comments"
-					data-toggle="tab" role="tab">
+				<a  class="nav-link <s:if test="%{tab == 3}">active</s:if>"
+                    id="manage-comments-tab"
+					href="adminViewDeleteRequest"
+					role="tab"
+                    aria-controls="delete-requests"
+                    <s:if test="%{tab == 3}">aria-expanded="true"</s:if>
+                    >
+					Delete Requests
+				</a>
+			</li>
+			<li class="nav-item">
+				<a  class="nav-link <s:if test="%{tab == 4}">active</s:if>"
+                    id="manage-comments-tab"
+					href="adminViewComment"
+					role="tab"
+                    aria-controls="manage-comments"
+                    <s:if test="%{tab == 4}">aria-expanded="true"</s:if>
+                    >
 					Manage Comments
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link" id="manage-users-tab"
-					href="#manage-users" aria-controls="manage-users"
-					data-toggle="tab" role="tab">
+				<a  class="nav-link <s:if test="%{tab == 5}">active</s:if>"
+                    id="manage-users-tab"
+					href="adminViewManageUser"
+                    role="tab"
+                    aria-controls="manage-users"
+                    <s:if test="%{tab == 5}">aria-expanded="true"</s:if>
+                    
+                    >
 					Manage Users
 				</a>
 			</li>
 			<li class="nav-item">
-				<a  class="nav-link" id="add-user-tab"
-					href="#add-user" aria-controls="add-user"
-					data-toggle="tab" role="tab">
+				<a  class="nav-link <s:if test="%{tab == 6}">active</s:if>"
+                    id="add-user-tab"
+					href="adminViewAddUser"
+                    role="tab"
+                    aria-controls="add-user"
+                    <s:if test="%{tab == 6}">aria-expanded="true"</s:if>
+                    >
 					Add User
 				</a>
 			</li>
@@ -52,6 +88,7 @@
 
 		<div class="tab-content" id="myTabContent">
 
+            <s:if test="%{tab == 1}">
 			<!-- all articles -->
 			<div class="tab-pane fade show active" id="all"
 				role="tabpanel" aria-labelledby="all-tab">
@@ -92,9 +129,11 @@
 
 				</div>
 			</div>
-
+            </s:if>
+            
+            <s:if test="%{tab == 2}">
 			<!-- pending articles -->
-			<div class="tab-pane fade" id="pending"
+			<div class="tab-pane fade show active" id="pending"
 				role="tabpanel" aria-labelledby="pending-tab">
 				<h3>Pending Articles</h3>
 				<div class="article-list">
@@ -136,9 +175,49 @@
 
 				</div>
 			</div>
+            </s:if>
 
+            <s:if test="%{tab == 3}">
+			<!-- all articles -->
+			<div class="tab-pane fade show active" id="all"
+				role="tabpanel" aria-labelledby="delete-requests-tab">
+				<h3>Delete Requests</h3>
+				<div class="article-list">
+					
+					<div class="article row">
+						<div class="col-1 author-profile-picture">
+							<img src="assets/img/author.jpg" class="img-thumbnail"
+								height="80px" width="80px">
+						</div>
+						<div class="col-11 article-title">
+							<h4>Article Title</h4>
+							<span class="badge badge-primary">
+								Author Name
+							</span>
+							<span class="badge badge-default">
+								Science
+							</span>
+							<span class="badge badge-warning">
+								Today, 16:10
+							</span>
+							<div class="d-flex flex-row">
+								<button class="btn btn-outline-info">
+									<i class="icon ion-eye"></i> View
+								</button>
+                                <button class="btn btn-outline-danger" type="button">
+                                    <i class="icon ion-close"></i> Delete
+                                </button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+            </s:if>
+            
+            <s:if test="%{tab == 4}">
 			<!-- manage comments -->
-			<div class="tab-pane fade" id="manage-comments" 
+			<div class="tab-pane fade show active" id="manage-comments" 
 				role="tabpanel" aria-labelledby="manage-comments-tab">
 				<h3>Comments</h3>
 				<div class="comment-list">
@@ -175,9 +254,11 @@
 
 				</div>
 			</div>
-
+            </s:if>
+            
+            <s:if test="%{tab == 5}">
 			<!-- manage user -->
-			<div class="tab-pane fade" id="manage-users"
+			<div class="tab-pane fade show active" id="manage-users"
 				role="tabpanel" aria-labelledby="manage-users-tab">
 				<h3>Manage Users</h3>
 				
@@ -215,9 +296,11 @@
 
 				</div>
 			</div>
-
+            </s:if>
+            
+            <s:if test="%{tab == 6}">
 			<!-- add user -->
-			<div class="tab-pane fade" id="add-user"
+			<div class="tab-pane fade show active" id="add-user"
 				role="tabpanel" aria-labelledby="add-user-tab">
 				<h3>Add Users</h3>
 				<form class="register-form">
@@ -259,7 +342,8 @@
 					<a href="home" class="btn btn-info">Back to Home</a>
 				</form>
 			</div>
-
+            </s:if>
+            
 		</div>
 	</section>
 

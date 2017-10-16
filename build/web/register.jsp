@@ -5,32 +5,34 @@
 	<title>E-News - Register</title>
 	<link rel="stylesheet" type="text/css" href="css/register.css">
 	<script src="js/config.js"></script>
+	<script src="jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="js/formValidation.js"></script>
 </head>
 <body>
 	<div class="e-navbar"></div>
 
 	<section class="container">
 		<h2>Register</h2>
-		<form action="registerUser" class="register-form">
+        <form action="registerUser" class="register-form" id="register">
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<input class="form-control" type="text" name="email">
+				<input class="form-control" type="email" name="email" required>
 			</div>
 			<div class="form-group">
 				<label for="name">Full Name:</label>
-				<input class="form-control" type="text" name="name">
+				<input class="form-control" type="text" name="name" required minlength="3">
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input class="form-control" type="password" name="password">
+				<input class="form-control" type="password" name="password" required minlength="3">
 			</div>
 			<div class="form-group">
 				<label for="passwordConfirm">Confirm Password:</label>
-				<input class="form-control" type="password" name="passwordConfirm">
+				<input class="form-control" type="password" name="passwordConfirm" required minlength="3">
 			</div>
 			<div class="form-group">
 				<label for="code">Security Code:</label>
-				<input class="form-control" type="text" name="code">
+				<input class="form-control" type="text" name="code" required>
 			</div>
 			<div class="security-code">
 				50M3C0D3
@@ -39,7 +41,7 @@
 			</textarea>
 			<div class="form-check">
 				<label class="form-check-label">
-					<input class="form-check-input" type="checkbox" value="">
+					<input class="form-check-input" type="checkbox" value="" required>
 					I have read understand and accept the terms and conditions.
 				</label>
 			</div>

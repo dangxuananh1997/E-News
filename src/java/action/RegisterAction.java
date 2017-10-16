@@ -6,7 +6,7 @@
 package action;
 
 import user.UserDAO;
-import usersdetail.UsersDetailDAO;
+import userdetails.UserDetailsDAO;
 
 /**
  *
@@ -28,7 +28,7 @@ public class RegisterAction {
         UserDAO userDAO = new UserDAO();
         boolean isCreated = userDAO.createAccount(email, password);
         if(isCreated){
-            UsersDetailDAO detailDAO = new UsersDetailDAO();
+            UserDetailsDAO detailDAO = new UserDetailsDAO();
             boolean isInserted = detailDAO.insertEmailAndFullName(email, name);
             if(isInserted){
                 url = SUCCESS;
