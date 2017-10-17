@@ -15,5 +15,6 @@ public class DBUtils implements Serializable{
         DataSource ds = (DataSource) tomcatContext.lookup("ENewsDS");
         Connection con = ds.getConnection();
         return con;
+        //test commit
     }
 }
