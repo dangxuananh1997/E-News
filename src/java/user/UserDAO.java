@@ -10,7 +10,7 @@ import utils.DBUtils;
 
 public class UserDAO implements Serializable {
 
-    //check if user account exists in database
+    //check if user account exists in database (LoginAction)
     public boolean checkLogin(String email, String password)
             throws NamingException, SQLException {
         Connection con = null;
@@ -43,7 +43,7 @@ public class UserDAO implements Serializable {
         return false;
     }
 
-    //get user role
+    //get user role (LoginAction)
     public int getRole(String email)
             throws NamingException, SQLException {
         Connection con = null;
@@ -77,7 +77,7 @@ public class UserDAO implements Serializable {
         return role;
     }
 
-    //create new user account
+    //create new user account (RegisterAction)
     public boolean createAccount(String email, String password)
             throws NamingException, SQLException {
         Connection con = null;
@@ -86,11 +86,12 @@ public class UserDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sqlUsers = "Insert into [Users](Email, Password, RoleID) values(?,?,?)";
+                String sqlUsers = "Insert into [User](Email, Password, RoleID, isActive) values(?,?,?,?)";
                 stm = con.prepareStatement(sqlUsers);
                 stm.setString(1, email);
                 stm.setString(2, password);
                 stm.setInt(3, 1);
+                stm.setBoolean(4, true);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -106,7 +107,7 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
-    //change user password
+    //change user password (UpdateProfileAction)
     public boolean updatePassword(String email, String newPassword)
             throws NamingException, SQLException {
         Connection con = null;
@@ -114,7 +115,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Update [Users] set Password = ? where Email = ? ";
+                String sql = "Update [User] set Password = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setString(2, newPassword);
@@ -134,4 +135,43 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+    
+//    private ArrayList<String> authorNameList;   //List of authors (SearchArticleAction / 
+//                                                                  ViewByCategoryAction /
+//                                                                  ViewHomeAction)
+    
+    //get author by search value or category (SearchArticleAction / ViewByCategoryAction / ViewHomeAction)
+    public String getAuthor(String email)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                    String sql = "Select FullName from UserDetails where Email = ? ";
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1, email);
+                    rs = stm.executeQuery();
+
+                    if (rs.next()) {
+                        String authorName = rs.getString("FullName");
+                        return authorName;
+                    }
+                }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
+    }    
+    
 }

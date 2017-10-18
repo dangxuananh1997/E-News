@@ -17,7 +17,7 @@ import userdetails.UserDetailsDTO;
 public class ViewArticleAction {
     
     //Inputs
-    private String articleID;
+    private int articleID;
     
     //Outputs
     private ArticleDTO article;                         //Article
@@ -38,11 +38,11 @@ public class ViewArticleAction {
         return SUCCESS;
     }
 
-    public String getArticleID() {
+    public int getArticleID() {
         return articleID;
     }
 
-    public void setArticleID(String articleID) {
+    public void setArticleID(int articleID) {
         this.articleID = articleID;
     }
 

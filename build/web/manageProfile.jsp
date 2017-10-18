@@ -40,20 +40,20 @@
 					</div>
 					<div class="form-group">
 						<label for="name">Full Name:</label>
-                        <input class="form-control" type="text" name="name" value="<s:property value="%{#session.USERDETAILS.name}"/>">
+                        <input class="form-control" type="text" name="name" value="<s:property value="%{#session.USERDETAILS.fullName}"/>">
 					</div>
 					<div class="form-check">
 						<label for="gender">Gender: </label>
 						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="gender" value="male">
+							<input class="form-check-input" type="radio" name="gender" value="1">
 							Male
 						</label>
 						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="gender" value="female">
+							<input class="form-check-input" type="radio" name="gender" value="2">
 							Female
 						</label>
 						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="gender" value="other">
+							<input class="form-check-input" type="radio" name="gender" value="3">
 							Other
 						</label>
 					</div>

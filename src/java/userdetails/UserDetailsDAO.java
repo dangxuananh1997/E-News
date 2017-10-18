@@ -21,7 +21,7 @@ import utils.DBUtils;
  */
 public class UserDetailsDAO implements Serializable {
 
-    //get user details
+    //get user details (ViewProfileAction / UpdateProfileAction/ ViewArticleAction)
     public UserDetailsDTO getUserDetails(String email)
             throws NamingException, SQLException {
         Connection con = null;
@@ -62,7 +62,7 @@ public class UserDetailsDAO implements Serializable {
         return null;
     }
 
-    //insert email and fullname into database
+    //insert email and fullname into database (RegisterAction)
     public boolean insertEmailAndFullName(String email, String name)
             throws NamingException, SQLException {
         Connection con = null;
@@ -71,7 +71,7 @@ public class UserDetailsDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Insert into UsersDetail(Email, FullName) values(?,?)";
+                String sql = "Insert into UserDetails(Email, FullName) values(?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setString(2, name);
@@ -91,8 +91,8 @@ public class UserDetailsDAO implements Serializable {
         return false;
     }
 
-    //update user profile
-    public boolean updateProfile(String email, String name, String gender, Date birthdate,
+    //update user profile (UpdateProfileAction)
+    public boolean updateProfile(String email, String name, int gender, Date birthdate,
             String phone, String address)
             throws NamingException, SQLException {
         Connection con = null;
@@ -101,11 +101,11 @@ public class UserDetailsDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Update UsersDetail set FullName = ?, "
+                String sql = "Update UserDetails set FullName = ?, "
                         + "Gender = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, name);
-                stm.setString(2, gender);
+                stm.setInt(2, gender);
                 stm.setDate(3, sqlBirthdate);
                 stm.setString(4, phone);
                 stm.setString(5, address);
