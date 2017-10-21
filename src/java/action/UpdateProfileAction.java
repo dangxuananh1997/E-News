@@ -5,14 +5,24 @@
  */
 package action;
 
+import com.opensymphony.xwork2.ActionSupport;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import javax.imageio.ImageIO;
+import sun.misc.BASE64Encoder;
+
 /**
  *
  * @author Administrator
  */
-public class UpdateProfileAction {
+public class UpdateProfileAction extends ActionSupport {
+    private File profilePicture;
+    private String profilePictureContentType;
+    private String profilePictureFileName;
     private String email;
-    private String name;
-    private int gender;
+    private String fullName;
+    private int genderID;
     private String day;
     private String month;
     private String year;
@@ -25,119 +35,105 @@ public class UpdateProfileAction {
     }
     
     public String execute() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        //get image string
+        BASE64Encoder encoder = new BASE64Encoder(); 
+        BufferedImage bi;
+        bi = ImageIO.read(profilePicture); 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+        ImageIO.write(bi, "jpg", baos); 
+        byte[] bytes = baos.toByteArray(); 
+        String img = encoder.encodeBuffer(bytes).trim(); 
+        
+        System.out.println(img);
+        return SUCCESS;
     }
 
-    /**
-     * @return the email
-     */
+    public File getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(File profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getProfilePictureContentType() {
+        return profilePictureContentType;
+    }
+
+    public void setProfilePictureContentType(String profilePictureContentType) {
+        this.profilePictureContentType = profilePictureContentType;
+    }
+
+    public String getProfilePictureFileName() {
+        return profilePictureFileName;
+    }
+
+    public void setProfilePictureFileName(String profilePictureFileName) {
+        this.profilePictureFileName = profilePictureFileName;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    /**
-     * @return the gender
-     */
-    public int getGender() {
-        return gender;
+    public int getGenderID() {
+        return genderID;
     }
 
-    /**
-     * @param gender the gender to set
-     */
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setGenderID(int genderID) {
+        this.genderID = genderID;
     }
 
-    /**
-     * @return the day
-     */
     public String getDay() {
         return day;
     }
 
-    /**
-     * @param day the day to set
-     */
     public void setDay(String day) {
         this.day = day;
     }
 
-    /**
-     * @return the month
-     */
     public String getMonth() {
         return month;
     }
 
-    /**
-     * @param month the month to set
-     */
     public void setMonth(String month) {
         this.month = month;
     }
 
-    /**
-     * @return the year
-     */
     public String getYear() {
         return year;
     }
 
-    /**
-     * @param year the year to set
-     */
     public void setYear(String year) {
         this.year = year;
     }
 
-    /**
-     * @return the phone
-     */
     public String getPhone() {
         return phone;
     }
 
-    /**
-     * @param phone the phone to set
-     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    /**
-     * @return the address
-     */
     public String getAddress() {
         return address;
     }
 
-    /**
-     * @param address the address to set
-     */
     public void setAddress(String address) {
         this.address = address;
     }
-    
 }

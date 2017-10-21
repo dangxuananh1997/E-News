@@ -77,6 +77,10 @@
             <result name="success">viewProfile.jsp</result>
             <result name="fail">oops.html</result>
         </action>
+        <action name="updateProfile" class="action.UpdateProfileAction">
+            <result name="success">manageProfile.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
         <!--author-->
         <action name ="authorViewApproved" class="action.author.ViewApprovedAction">
             <result name="success">author.jsp</result>
@@ -111,7 +115,7 @@
             <result name="success" type="redirectAction">
                 <param name="actionName">editorViewPending</param>
                 <param name="pageNumber">${pageNumber}</param>
-            </result>
+            </result>   
         </action>
         <action name="editorRejectArticle" class="action.editor.RejectArticleAction">
             <result name="success" type="redirectAction">
