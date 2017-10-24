@@ -41,7 +41,7 @@ public class ViewHomeAction {
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles
 
         if (articles != null) {
-            numberOfPages = articles.size() / 10;    //get number of pages
+            numberOfPages = articles.size() / 10 + 1;    //get number of pages
 
             UserDetailsDAO userDAO = new UserDetailsDAO();
             ArrayList<String> names = new ArrayList<>();
@@ -53,12 +53,13 @@ public class ViewHomeAction {
                 }
             }
 
-            for (int i = numberOfPages * 10 - 10; i < numberOfPages * 10; i++) {
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));
                 this.authorNameList.add(names.get(i));
-                if(i == articles.size())
-                    break;                    
+                System.out.println(articles.get(i));
             }
+            
+            System.out.println(numberOfPages);
 
             url = SUCCESS;
         }

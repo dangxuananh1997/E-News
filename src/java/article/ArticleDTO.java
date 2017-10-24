@@ -14,6 +14,7 @@ import java.sql.Timestamp;
  */
 public class ArticleDTO implements Serializable {
     
+    private int articleID;
     private String authorEmail;
     private String featureImage;
     private int categoryID;
@@ -24,7 +25,8 @@ public class ArticleDTO implements Serializable {
     private String statusDescription;
     private int viewCount;
 
-    public ArticleDTO(String authorEmail, String featureImage, int categoryID, String title, String articleContent, Timestamp publishTime, int statusID, String statusDescription, int viewCount) {
+    public ArticleDTO(int articleID, String authorEmail, String featureImage, int categoryID, String title, String articleContent, Timestamp publishTime, int statusID, String statusDescription, int viewCount) {
+        this.articleID = articleID;
         this.authorEmail = authorEmail;
         this.featureImage = featureImage;
         this.categoryID = categoryID;
@@ -34,6 +36,14 @@ public class ArticleDTO implements Serializable {
         this.statusID = statusID;
         this.statusDescription = statusDescription;
         this.viewCount = viewCount;
+    }
+
+    public int getArticleID() {
+        return articleID;
+    }
+
+    public void setArticleID(int articleID) {
+        this.articleID = articleID;
     }
 
     public String getAuthorEmail() {
@@ -110,7 +120,7 @@ public class ArticleDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ArticleDTO{" + "authorEmail=" + authorEmail + ", featureImage=" + featureImage + ", categoryID=" + categoryID + ", title=" + title + ", articleContent=" + articleContent + ", publishTime=" + publishTime + ", statusID=" + statusID + ", statusDescription=" + statusDescription + ", viewCount=" + viewCount + '}';
+        return "ArticleDTO{" + "articleID=" + articleID + ", authorEmail=" + authorEmail + ", featureImage=" + featureImage + ", categoryID=" + categoryID + ", title=" + title + ", articleContent=" + articleContent + ", publishTime=" + publishTime + ", statusID=" + statusID + ", statusDescription=" + statusDescription + ", viewCount=" + viewCount + '}';
     }
     
 }

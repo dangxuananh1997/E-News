@@ -5,8 +5,9 @@
 <struts>
     <!-- Configuration for the default package. -->
     <package name="config" extends="struts-default" namespace="/">
-        <action name="home">
-            <result>index.jsp</result>
+        <action name="" class="action.ViewHomeAction">
+            <result name="success">index.jsp</result>
+            <result name="fail" type="redirect">oops.html</result>
         </action>
         <action name="admin">
             <result>admin.jsp</result>

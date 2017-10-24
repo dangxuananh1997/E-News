@@ -15,28 +15,30 @@
 	<div class="e-login"></div>
 
 	<section class="container main">
-		<div class="article"><!-- repeat -->
+        
+        <s:iterator var="articleDTO" value="articleList" status="counter">
+		<div class="article">
 			<div class="feature-pic">
 				<a href="article">
-					<img src="assets/img/Author-NguyenVanAuthor/P0000001.jpg">
+					<img src="data:image/jpeg;base64,<s:property value="%{#articleDTO.featureImage}"/>">
 				</a>
 			</div>
 			<div class="article-info">
-				<h3 class="article-title"><a href="article">Random Title</a></h3>
-				<a href="article" class="article-preview">
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur.
-					</p>
-				</a>
-				<span class="badge badge-primary author"><a href="">Author Name</a></span>
-				<span class="publish-time">Today, 16:30</span>
-				<i class="icon ion-eye views">&nbsp;1000</i>
+                <h3 class="article-title"><a href="article"><s:property value="%{#articleDTO.title}"/></a></h3>
+                <s:url var="articleLink" value="viewArticle">
+                    <s:param name="articleID" value="%{#articleDTO.articleID}" />
+                </s:url>
+                <s:a cssClass="article-preview" href="%{articleLink}">
+                    <p>
+                        <s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>
+                    </p>
+				</s:a>
+				<span class="badge badge-primary author"><a href=""><s:property value="%{authorNameList[#counter.count - 1]}"/></a></span>
+                <span class="publish-time"><s:date name="%{#articleDTO.publishTime}" format="dd/MM/yyyy" /></span>
+				<i class="icon ion-eye views"><s:property value="%{#articleDTO.viewCount}"/></i>
 			</div>
 		</div>
+        </s:iterator>
 
 		<nav class="pagination">
 			<ul class="pagination">
@@ -46,9 +48,19 @@
 						<span class="sr-only">Previous</span>
 					</a>
 				</li>
-				<li class="page-item active"><a class="page-link" href="#!">1</a></li>
-				<li class="page-item"><a class="page-link" href="#!">2</a></li>
-				<li class="page-item"><a class="page-link" href="#!">3</a></li>
+                
+                
+                <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                    <s:url var="pageLink" value="viewHome">
+                        <s:param name="pageNumber" value="%{#counter.count}" />
+                    </s:url>
+                    <s:a cssClass="page-link" href="%{pageLink}">
+                        <s:property value="%{#counter.count}"/>
+                    </s:a>
+                </li>
+                </s:iterator>
+                
 				<li class="page-item">
 					<a class="page-link" href="#!" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
