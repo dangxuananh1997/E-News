@@ -6,7 +6,6 @@
 package action;
 
 import com.opensymphony.xwork2.ActionContext;
-import java.util.List;
 import java.util.Map;
 import user.UserDAO;
 import userdetails.UserDetailsDAO;
@@ -21,10 +20,10 @@ public class LoginAction {
     //Inputs
     private String email;
     private String password;
-    
+
     //Outputs
     private UserDetailsDTO userDetails;
-    
+
     //Return
     private final String SUCCESS_MEMBER = "successMember";
     private final String SUCCESS_AUTHOR = "successAuthor";
@@ -40,29 +39,31 @@ public class LoginAction {
 
         UserDAO userDao = new UserDAO();
         boolean result = userDao.checkLogin(email, password);
-
+        
         if (result) {
-            int role = userDao.getRole(email);
-            switch (role) {
-                case 1:
-                    url = SUCCESS_MEMBER;
-                    break;
-                case 2:
-                    url = SUCCESS_AUTHOR;
-                    break;
-                case 3:
-                    url = SUCCESS_EDITOR;
-                    break;
-                case 4:
-                    url = SUCCESS_ADMIN;
-                    break;
+            boolean isActive = userDao.isActive(email);
+            if (isActive) {
+                int role = userDao.getRole(email);
+                switch (role) {
+                    case 1:
+                        url = SUCCESS_MEMBER;
+                        break;
+                    case 2:
+                        url = SUCCESS_AUTHOR;
+                        break;
+                    case 3:
+                        url = SUCCESS_EDITOR;
+                        break;
+                    case 4:
+                        url = SUCCESS_ADMIN;
+                        break;
+                }
             }
             UserDetailsDAO detailDAO = new UserDetailsDAO();
             userDetails = detailDAO.getUserDetails(email);
             Map session = ActionContext.getContext().getSession();
             session.put("USERDETAILS", userDetails);
         }
-        
         return url;
     }
 

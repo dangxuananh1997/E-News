@@ -21,7 +21,6 @@ public class ViewByAuthorAction {
     //Outputs
     private int numberOfPages;                  //Number of pagination page
     private ArrayList<ArticleDTO> articleList;  //List of articles to show on view
-    private ArrayList<String> authorNameList;   //List of authors
     
     //Return
     private final String SUCCESS = "success";
@@ -66,13 +65,4 @@ public class ViewByAuthorAction {
     public void setArticleList(ArrayList<ArticleDTO> articleList) {
         this.articleList = articleList;
     }
-
-    public ArrayList<String> getAuthorNameList() {
-        return authorNameList;
-    }
-
-    public void setAuthorNameList(ArrayList<String> authorNameList) {
-        this.authorNameList = authorNameList;
-    }
-
 }

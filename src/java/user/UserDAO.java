@@ -76,7 +76,40 @@ public class UserDAO implements Serializable {
         }
         return role;
     }
-
+    
+    //get user status (LoginAction)
+    public boolean isActive(String email)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Select IsActive from [User] where Email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    boolean isActive = rs.getBoolean("IsActive");
+                    return isActive;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    
     //create new user account (RegisterAction)
     public boolean createAccount(String email, String password)
             throws NamingException, SQLException {
@@ -138,40 +171,5 @@ public class UserDAO implements Serializable {
     
 //    private ArrayList<String> authorNameList;   //List of authors (SearchArticleAction / 
 //                                                                  ViewByCategoryAction /
-//                                                                  ViewHomeAction)
-    
-    //get author by search value or category (SearchArticleAction / ViewByCategoryAction / ViewHomeAction)
-    public String getAuthor(String email)
-            throws NamingException, SQLException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            con = DBUtils.makeConnection();
-            if (con != null) {
-                    String sql = "Select FullName from UserDetails where Email = ? ";
-                    stm = con.prepareStatement(sql);
-                    stm.setString(1, email);
-                    rs = stm.executeQuery();
-
-                    if (rs.next()) {
-                        String authorName = rs.getString("FullName");
-                        return authorName;
-                    }
-                }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return null;
-    }    
-    
+//                                                                  ViewHomeAction)       
 }

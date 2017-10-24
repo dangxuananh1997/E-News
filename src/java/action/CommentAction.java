@@ -5,6 +5,8 @@
  */
 package action;
 
+import comment.CommentDAO;
+
 /**
  *
  * @author dangxuananh1997
@@ -24,9 +26,14 @@ public class CommentAction {
     }
     
     public String execute() throws Exception {
+        String url = FAIL;
         
-        
-        return SUCCESS;
+        CommentDAO dao = new CommentDAO();
+        boolean result = dao.insertComment(commenterEmail, articleID, commentContent);
+        if(result){
+            url = SUCCESS;
+        }
+        return url;
     }
 
     public String getCommenterEmail() {

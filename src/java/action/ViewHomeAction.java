@@ -5,34 +5,64 @@
  */
 package action;
 
+import article.ArticleDAO;
 import java.util.ArrayList;
 import article.ArticleDTO;
+import userdetails.UserDetailsDAO;
 
 /**
  *
  * @author dangxuananh1997
  */
 public class ViewHomeAction {
-    
+
     //Inputs
     private int pageNumber = 1;  //Display 10 article in this page | Default: 1
-    
+
     //Outputs
     private int numberOfPages;                  //Number of pagination page
     private ArrayList<ArticleDTO> articleList;  //List of articles to show on view
     private ArrayList<String> authorNameList;   //List of authors
-    
+
     //Return
     private final String SUCCESS = "success";
     private final String FAIL = "fail";
-    
+
     public ViewHomeAction() {
+        this.articleList = new ArrayList<>();
+        this.authorNameList = new ArrayList<>();
     }
-    
+
     public String execute() throws Exception {
-        
-        
-        return SUCCESS;
+        String url = FAIL;
+
+        ArticleDAO articleDAO = new ArticleDAO();
+        articleDAO.getArticlesByStatus(3);
+        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles
+
+        if (articles != null) {
+            numberOfPages = articles.size() / 10;    //get number of pages
+
+            UserDetailsDAO userDAO = new UserDetailsDAO();
+            ArrayList<String> names = new ArrayList<>();
+
+            for (ArticleDTO articleDTO : articles) {
+                String authorName = userDAO.getFullName(articleDTO.getAuthorEmail());
+                if (!authorName.isEmpty()) {
+                    names.add(authorName);    //get list of author names
+                }
+            }
+
+            for (int i = numberOfPages * 10 - 10; i < numberOfPages * 10; i++) {
+                this.articleList.add(articles.get(i));
+                this.authorNameList.add(names.get(i));
+                if(i == articles.size())
+                    break;                    
+            }
+
+            url = SUCCESS;
+        }
+        return url;
     }
 
     public int getPageNumber() {
@@ -66,5 +96,5 @@ public class ViewHomeAction {
     public void setAuthorNameList(ArrayList<String> authorNameList) {
         this.authorNameList = authorNameList;
     }
-    
+
 }

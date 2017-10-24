@@ -35,7 +35,7 @@ public class UserDetailsDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
-                
+
                 if (rs.next()) {
                     String name = rs.getString("FullName");
                     int genderID = rs.getInt("GenderID");
@@ -43,7 +43,7 @@ public class UserDetailsDAO implements Serializable {
                     String phone = rs.getString("Phone");
                     String address = rs.getString("Address");
                     String profilePicture = rs.getString("ProfilePicture");
-                    
+
                     UserDetailsDTO user = new UserDetailsDTO(email, name, genderID, birthDate, phone, address, profilePicture);
                     return user;
                 }
@@ -125,5 +125,39 @@ public class UserDetailsDAO implements Serializable {
             }
         }
         return false;
+    }
+    
+    //get user fullname (SearchArticleAction / ViewByCategoryAction / ViewHomeAction)
+    public String getFullName(String email)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Select FullName from UserDetails where Email = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    String authorName = rs.getString("FullName");
+                    return authorName;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
     }
 }

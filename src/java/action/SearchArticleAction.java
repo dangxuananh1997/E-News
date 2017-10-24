@@ -31,6 +31,7 @@ public class SearchArticleAction {
     }
     
     public String execute() throws Exception {
+        String url = FAIL;
         
         
         return SUCCESS;

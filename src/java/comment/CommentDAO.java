@@ -98,7 +98,9 @@ public class CommentDAO implements Serializable {
     }    
     
     private ArrayList<CommentDTO> articleCommentList;  //list of CommentDTO (ViewArticleAction)
-    
+    public ArrayList<CommentDTO> getArticleCommentList(){   //return list of CommentDTO (ViewArticleAction)
+        return articleCommentList;
+    }
    //get list of CommentDTO (ViewArticleAction)
     public void getCommentsOfArticle(int articleID)
             throws NamingException, SQLException {

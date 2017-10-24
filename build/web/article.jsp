@@ -59,7 +59,7 @@
 				</p>
 			</div>
 
-			<form class="comment new-comment">
+			<form class="comment new-comment" action="comment">
 				<div class="member-info">
 					<a href="manageProfile">
 						<img src="assets/img/member.jpg" class="member-profile-pic img-thumbnail" width="60px" height="60px">
@@ -69,9 +69,9 @@
 					</span>
 				</div>
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Comment" name="comment">
+					<input type="text" class="form-control" placeholder="Comment" name="commentContent">
 					<span class="input-group-btn">
-						<button class="btn btn-outline-primary" type="button">
+						<button class="btn btn-outline-primary" type="submit">
 							Submit
 						</button>
 					</span>

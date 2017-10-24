@@ -61,8 +61,11 @@ public class ArticleDAO implements Serializable {
         }
     }
 
-    private ArrayList<ArticleDTO> searchArticleList; // list of all articles matched search value (SearchArticleAction)
-
+    private ArrayList<ArticleDTO> searchArticleList; // list of all search articles (SearchArticleAction)
+    
+    public ArrayList<ArticleDTO> getsearchArticleList(){  //return list of all search articles (SearchArticleAction)
+        return searchArticleList;
+    }
     //search article by search value (SearchArticleAction)
     public void searchByValue(String searchValue)
             throws NamingException, SQLException {
@@ -110,7 +113,7 @@ public class ArticleDAO implements Serializable {
         }
     }
 
-    //get article details (EditArticleAction)
+    //get article details (EditArticleAction / ViewArticleAction)
     public ArticleDTO getArticleDetails(int articleID)
             throws NamingException, SQLException {
         Connection con = null;
@@ -156,7 +159,10 @@ public class ArticleDAO implements Serializable {
     }
 
     private ArrayList<ArticleDTO> articleListByAuthor; //list of articles by author (ViewByAuthorAction)
-
+    
+    public ArrayList<ArticleDTO> getArticleListByAuthor(){  //return list of articles by author (ViewByAuthorAction)
+        return articleListByAuthor;
+    }
     //get articles by author (ViewByAuthorAction)
     public void getArticlesByAuthor(String email)
             throws NamingException, SQLException {
@@ -204,7 +210,7 @@ public class ArticleDAO implements Serializable {
     }
 
     private ArrayList<ArticleDTO> articleListByCategory; // list of all articles by category (ViewByCategoryAction)
-
+    
     //search article by category (ViewByCategoryAction)
     public void searchByCategory(int categoryID)
             throws NamingException, SQLException {
@@ -251,7 +257,7 @@ public class ArticleDAO implements Serializable {
         }
     }
 
-    //update draft
+    //update draft (EditArticalAction)
     public boolean updateDraft(String authorEmail, String featureImage, int categoryID,
             String title, String articleContent)
             throws NamingException, SQLException {
@@ -285,7 +291,7 @@ public class ArticleDAO implements Serializable {
         return false;
     }
 
-    //update article status to request delete
+    //update article status to request delete (RequestDeleteAction)
     public boolean updateRequestDelete(int articleID)
             throws NamingException, SQLException {
         Connection con = null;
@@ -317,6 +323,10 @@ public class ArticleDAO implements Serializable {
     private ArrayList<ArticleDTO> articleListByStatus; //list of  articles by status (ViewApprovedAction/ ViewDraftAction/ 
                                                                                         //ViewPendingAction / ViewHomeAction)
     
+    public ArrayList<ArticleDTO> getArticleListByStatus(){ //return list of articles by status(ViewApprovedAction/ ViewDraftAction/ 
+                                                                                        //ViewPendingAction / ViewHomeAction)
+        return articleListByStatus;
+    }
     //get all articles by status (ViewApprovedAction/ ViewDraftAction/ ViewPendingAction/ ViewHomeAction)
     public void getArticlesByStatus(int statusID)
             throws NamingException, SQLException {
