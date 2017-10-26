@@ -210,7 +210,7 @@ public class UserDAO implements Serializable {
 
     private ArrayList<Integer> roleIDList;
 
-    public void getRoleName(String email) throws SQLException, NamingException {
+    public void getRoleID(String email) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;

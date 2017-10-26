@@ -7,8 +7,11 @@ package action.admin;
 
 import java.util.ArrayList;
 
+import article.ArticleDTO;
+import user.UserDAO;
 import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
+import role.RoleDAO;
 
 /**
  *
@@ -37,10 +40,23 @@ public class SearchUserAction {
     public String execute() throws Exception {
 
         UserDetailsDAO dao = new UserDetailsDAO();
-        userList = dao.searchUser(searchValue);
-        for (UserDetailsDTO userDetailsDTO : userList) {
-            System.out.println(userDetailsDTO);
+        RoleDAO roleDao = new RoleDAO();
+        ArrayList<UserDetailsDTO> tempUserList = dao.searchUser(searchValue);
+
+        //get pageOfNumber
+        numberOfPages = tempUserList.size() / 10 + 1;
+
+        //get userList
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempUserList.size(); i++) {
+            this.userList.add(userList.get(i));
         }
+
+        //get roleList
+        roleList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            roleList.add(roleDao.getRoleName(userList.get(i).getEmail()));
+        }
+
         return SUCCESS;
     }
 
