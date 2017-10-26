@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
 //import java.util.StringTokenizer;
 import javax.naming.NamingException;
 import utils.DBUtils;
@@ -159,5 +160,88 @@ public class UserDetailsDAO implements Serializable {
             }
         }
         return null;
+    }
+
+    private ArrayList<UserDetailsDTO> searchUserDetailsList;
+
+    public void searchUser(String searchValue) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "SELECT * FROM UserDetails WHERE Email LIKE ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchValue + "%");
+                rs = stm.executeQuery();
+                while(rs.next()) {
+                    String email = rs.getString("Email");
+                    String fullName = rs.getString("FullName");
+                    int genderID = rs.getInt("GenderID");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String phone = rs.getString("Phone");
+                    String address = rs.getString("Address");
+                    String profilePicture = rs.getString("ProfilePicture");
+                    if(this.searchUserDetailsList == null) {
+                        this.searchUserDetailsList = new ArrayList<>();
+                    }
+                    UserDetailsDTO dto = new UserDetailsDTO(email, fullName, genderID, birthDate, phone, address, profilePicture);
+                    this.searchUserDetailsList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    /* get all user */
+    private ArrayList<UserDetailsDTO> userList;
+
+    public ArrayList<UserDetailsDTO> viewAllUsers() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM UserDetails";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String email = rs.getString("Email");
+                    String fullName = rs.getString("FullName");
+                    int genderID = rs.getInt("GenderID");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String phone = rs.getString("Phone");
+                    String address = rs.getString("Address");
+                    String profilePicture = rs.getString("ProfilePicture");
+                    if (this.userList == null) {
+                        this.userList = new ArrayList<>();
+                    }
+                    UserDetailsDTO dto = new UserDetailsDTO(email, fullName, genderID, birthDate, phone, address, profilePicture);
+                    userList.add(dto);
+                }
+            }
+            return userList;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }

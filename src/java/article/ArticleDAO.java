@@ -374,4 +374,320 @@ public class ArticleDAO implements Serializable {
             }
         }
     }
+
+    /* Remove article*/
+    public boolean deleteArticle(int articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "DELETE FROM Article WHERE ArticleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, articleID);
+                int row = stm.executeUpdate();
+                if(row > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<ArticleDTO> listArticle;
+
+
+    //get all article list
+    public ArrayList<ArticleDTO> viewAllArticle() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Article";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int articleID = rs.getInt("ArticleID");
+                    String authorEmail = rs.getString("AuthorEmail");
+                    String featureImage = rs.getString("FeatureImage");
+                    int categoryID = rs.getInt("CategoryID");
+                    String title = rs.getString("Title");
+                    String articleContent = rs.getString("ArticleContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    int statusID = rs.getInt("StatusID");
+                    String statusDescription = rs.getString("StatusDescription");
+                    int viewCount = rs.getInt("ViewCount");
+                    if (this.listArticle == null) {
+                        this.listArticle = new ArrayList<>();
+                    }
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    listArticle.add(dto);
+                }
+            }
+            return listArticle;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    //get name author
+    public String getAuthorName(String articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String authorName = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT FullName FROM UserDetails, Article WHERE Email = AuthorEmail AND ArticleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, articleID);
+                rs = stm.executeQuery();
+                while(rs.next()) {
+                    authorName = rs.getString(1);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return authorName;
+    }
+
+    //get list name author
+//    public ArrayList<String> getAuthorNameList(ArrayList<String> authorEmails) throws SQLException, NamingException {
+//        ArrayList<String> authorNameList = new ArrayList<>();
+//
+//        for (int i = 0; i < authorEmails.size(); i++) {
+//            authorNameList.add(getAuthorName(authorEmails.get(i)));
+//        }
+//
+//        return authorNameList;
+//    }
+
+    //get name of category
+    public String getCategoryName(int categoryID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String categoryName = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT CategoryName FROM Category WHERE CategoryID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, categoryID);
+                rs = stm.executeQuery();
+                while(rs.next()) {
+                    categoryName = rs.getString(1);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return categoryName;
+    }
+
+    //get list name category
+    public ArrayList<String> getCategoryNameList(ArrayList<Integer> categories) throws SQLException, NamingException {
+        ArrayList<String> categoryNameList = new ArrayList<>();
+
+        for (int i = 0; i < categories.size(); i++) {
+            categoryNameList.add(getCategoryName(categories.get(i)));
+        }
+
+        return categoryNameList;
+    }
+
+    /* get all article by status (request delete) */
+
+    private ArrayList<ArticleDTO> listArticleRequestedToDelete;
+
+    public ArrayList<ArticleDTO> viewArticleRequestedToDelete() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Article WHERE StatusID = 4";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int articleID = rs.getInt("ArticleID");
+                    String authorEmail = rs.getString("AuthorEmail");
+                    String featureImage = rs.getString("FeatureImage");
+                    int categoryID = rs.getInt("CategoryID");
+                    String title = rs.getString("Title");
+                    String articleContent = rs.getString("ArticleContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    int statusID = rs.getInt("StatusID");
+                    String statusDescription = rs.getString("StatusDescription");
+                    int viewCount = rs.getInt("ViewCount");
+                    if (this.listArticleRequestedToDelete == null) {
+                        this.listArticleRequestedToDelete = new ArrayList<>();
+                    }
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    listArticleRequestedToDelete.add(dto);
+                }
+            }
+            return listArticleRequestedToDelete;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    /* Approve article */
+    public boolean approveArticle(String articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE Article SET StatusID = ?, StatusDescription = ? WHERE ArticleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, 3);
+                stm.setString(2, "Approved");
+                stm.setString(3, articleID);
+                int row = stm.executeUpdate();
+                if(row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    /* Reject article: where reject ?*/
+    public boolean rejectArticle(String articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE Article SET StatusID = ?, StatusDescription = ? WHERE ArticleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, 1);
+                stm.setString(2, "Reject");
+                stm.setString(3, articleID);
+                int row = stm.executeUpdate();
+                if(row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    /* view pending article */
+    private ArrayList<ArticleDTO> pendingList;
+
+    public ArrayList<ArticleDTO> getPendingList() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Article WHERE StatusID = 2";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int articleID = rs.getInt("ArticleID");
+                    String authorEmail = rs.getString("AuthorEmail");
+                    String featureImage = rs.getString("FeatureImage");
+                    int categoryID = rs.getInt("CategoryID");
+                    String title = rs.getString("Title");
+                    String articleContent = rs.getString("ArticleContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    int statusID = rs.getInt("StatusID");
+                    String statusDescription = rs.getString("StatusDescription");
+                    int viewCount = rs.getInt("ViewCount");
+                    if (this.pendingList == null) {
+                        this.pendingList = new ArrayList<>();
+                    }
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    pendingList.add(dto);
+                }
+            }
+            return pendingList;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

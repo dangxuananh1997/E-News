@@ -6,6 +6,8 @@
 package action.admin;
 
 import java.util.ArrayList;
+
+import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -33,8 +35,10 @@ public class SearchUserAction {
     }
     
     public String execute() throws Exception {
-        
-        
+
+        UserDetailsDAO dao = new UserDetailsDAO();
+        dao.searchUser(searchValue);
+
         return SUCCESS;
     }
 

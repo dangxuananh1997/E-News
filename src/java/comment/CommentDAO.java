@@ -141,5 +141,190 @@ public class CommentDAO implements Serializable {
                 con.close();
             }
         }
-    } 
+    }
+
+    /* Delete comment by editor */
+    public boolean deleteComment(int commentID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "DELETE FROM Comment WHERE CommentID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, commentID);
+                int row = stm.executeUpdate();
+                if(row > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    /* get all article by id */
+    private ArrayList<String> articleIDList;
+
+    public ArrayList<String> getAllArticleID() throws  SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "SELECT ArticleID FROM Article";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("ArtcileID");
+                    if(this.articleIDList == null) {
+                        this.articleIDList = new ArrayList<>();
+                    }
+                    articleIDList.add(id);
+                }
+            }
+            return articleIDList;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    /* get all article by title */
+    private ArrayList<String> articleTitle;
+
+    public ArrayList<String> getArticleTitle() throws  SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "SELECT Title FROM Article";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("Title");
+                    if(this.articleTitle == null) {
+                        this.articleTitle = new ArrayList<>();
+                    }
+                    articleTitle.add(id);
+                }
+            }
+            return articleTitle;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    /* get content comment by article ID */
+    public String getCommentContent(int articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String commentContent = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT CommentContent FROM Comment WHERE articleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, articleID);
+                rs = stm.executeQuery();
+                while(rs.next()) {
+                    commentContent = rs.getString(1);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return commentContent;
+    }
+
+    /* get list content comment */
+    public ArrayList<String> getCommentList(ArrayList<Integer> articles) throws SQLException, NamingException {
+        ArrayList<String> commentList = new ArrayList<>();
+
+        for(int i = 0; i < articles.size(); i++) {
+            commentList.add(getCommentContent(articles.get(i)));
+        }
+
+        return commentList;
+    }
+
+    /* get commenter by articleID */
+    public String getCommenter(int articleID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String commenter = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT UserEmail FROM Comment WHERE articleID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, articleID);
+                rs = stm.executeQuery();
+                while(rs.next()) {
+                    commenter = rs.getString(1);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return commenter;
+    }
+
+    /* get list commenter */
+    public ArrayList<String> getCommenterList(ArrayList<Integer> articles) throws SQLException, NamingException {
+        ArrayList<String> commenterList = new ArrayList<>();
+
+        for(int i = 0; i < articles.size(); i++) {
+            commenterList.add(getCommenter(articles.get(i)));
+        }
+
+        return commenterList;
+    }
 }

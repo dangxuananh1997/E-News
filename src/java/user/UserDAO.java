@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.naming.NamingException;
 import utils.DBUtils;
 
@@ -171,5 +172,73 @@ public class UserDAO implements Serializable {
     
 //    private ArrayList<String> authorNameList;   //List of authors (SearchArticleAction / 
 //                                                                  ViewByCategoryAction /
-//                                                                  ViewHomeAction)       
+//                                                                  ViewHomeAction)
+
+    /* Ban users */
+    public boolean banUser(String email) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if(con != null) {
+                String sql = "UPDATE User SET IsActive = ? WHERE Email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, false);
+                stm.setString(2, email);
+                int row = stm.executeUpdate();
+                if(row > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    /* get role id by email */
+
+    private ArrayList<Integer> roleIDList;
+
+    public void getRoleName(String email) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT RoleID FROM User WHERE Email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int roleID = rs.getInt("RoleID");
+                    if (this.roleIDList == null) {
+                        this.roleIDList = new ArrayList<>();
+                    }
+                    roleIDList.add(roleID);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

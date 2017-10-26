@@ -5,6 +5,8 @@
  */
 package action.admin;
 
+import user.UserDAO;
+
 /**
  *
  * @author dangxuananh1997
@@ -13,7 +15,7 @@ public class BanUserAction {
     
     //Inputs
     private String userID;
-    private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
+    private int pageNumber = 1;     //Display 10 articles in this page | Default: 1
     
     //Return
     private final String SUCCESS = "success";
@@ -23,7 +25,9 @@ public class BanUserAction {
     }
     
     public String execute() throws Exception {
-        
+
+        UserDAO dao = new UserDAO();
+        dao.banUser(userID);
         
         return SUCCESS;
     }
