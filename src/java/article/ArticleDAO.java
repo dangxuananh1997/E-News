@@ -341,7 +341,7 @@ public class ArticleDAO implements Serializable {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String articleID = rs.getString("ArticleID");
+                    int articleID = rs.getInt("ArticleID");
                     String authorEmail = rs.getString("AuthorEmail");
                     String featureImage = rs.getString("FeatureImage");
                     int ID = rs.getInt("CategoryID");
@@ -355,7 +355,7 @@ public class ArticleDAO implements Serializable {
                     if (this.articleListByStatus == null) {
                         this.articleListByStatus = new ArrayList<>();
                     }
-                    ArticleDTO dto = new ArticleDTO(statusID, authorEmail, featureImage, statusID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, statusID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
                     this.articleListByStatus.add(dto);
                 }
             }

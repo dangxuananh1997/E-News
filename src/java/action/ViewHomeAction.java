@@ -56,10 +56,7 @@ public class ViewHomeAction {
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));
                 this.authorNameList.add(names.get(i));
-                System.out.println(articles.get(i));
             }
-            
-            System.out.println(numberOfPages);
 
             url = SUCCESS;
         }

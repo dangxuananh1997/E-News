@@ -1,3 +1,6 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,56 +19,66 @@
 		<div class="article-content">
 			
 			<h2 class="article-title">
-				Article Title Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                <s:property value="%{article.title}" />
 			</h2>
 
 			<div class="author-info">
-				<a href="home">
-					<img src="assets/img/author.jpg" class="author-profile-pic img-thumbnail"
-					width="60px" height="60px">
+				<a href="">
+                    <s:if test="%{author.profilePicture != null && author.profilePicture != ''}">
+					<img src="data:image/jpeg;base64,<s:property value="%{author.profilePicture}"/>" class="author-profile-pic img-thumbnail"
+                        width="60px" height="60px" alt="profilePicture">
+                    </s:if>
+                    <s:if test="%{author.profilePicture == null || author.profilePicture == ''}">
+					<img src="assets/img/default-user.png" class="author-profile-pic img-thumbnail"
+                        width="60px" height="60px" alt="profilePicture">
+                    </s:if>
 				</a>
 				<span class="badge badge-primary author-name">
-					<a href="home">Author Name</a>
+					<a href="">
+                        <s:property value="%{author.fullName}" />
+                    </a>
 				</span>
-				<span class="article-publish-time">Today, 16:30</span>
+				<span class="article-publish-time"><s:date name="%{article.publishTime}" format="dd/MM/yyyy" /></span>
 			</div>
 
 			<div class="content">
 				<script type="text/javascript">
 					// load from database
-					document.write('<div class="content-image"><img src="assets/img/Author-NguyenVanAuthor/P0000002.jpg" width="100%"></div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><div class="content-image"><img src="assets/img/Author-NguyenVanAuthor/P0000003.jpg" width="100%"></div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>');
+					document.write('<s:property value="%{article.articleContent}" escapeHtml="false"/>');
 				</script>
 			</div>
-
-			<span class="badge badge-success article-statistic">Comments: 1</span>
-			<span class="badge badge-success article-statistic">Read: 1</span>
+            <span class="badge badge-success article-statistic">Comments: <s:property value="%{commentList.size}"/></span>
+            <span class="badge badge-success article-statistic">Read: <s:property value="%{article.viewCount}"/></span>
 		</div>
 
 		<div class="comment-section">
 			
-			<div class="comment"><!-- repeat -->
+            <s:iterator var="commentDTO" value="commentList" status="counter">
+			<div class="comment">
 				<div class="member-info">
 					<a href="viewProfile">
-						<img src="assets/img/member.jpg" class="member-profile-pic img-thumbnail" width="60px" height="60px">
+                        <img src="data:image/jpeg;base64,<s:property value="%{commenterList.get(counter - 1).profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
 					</a>
 					<span class="badge badge-default member-name">
-						<a href="viewProfile">Member Name</a>
+						<a href="viewProfile"><s:property value="%{commenterList.get(counter - 1).fullName}"/></a>
 					</span>
-					<span class="comment-time">Today, 16:31</span>
+                        <span class="comment-time"><s:date name="%{#commentDTO.publishTime}"/></span>
 				</div>
 				<p class="comment-content">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua.
+                    <s:property value="%{#commentDTO.commentContent}"/>
 				</p>
 			</div>
-
-			<form class="comment new-comment" action="comment">
+            </s:iterator>
+            
+            
+            <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
+            <form class="comment new-comment" action="comment">
 				<div class="member-info">
 					<a href="manageProfile">
-						<img src="assets/img/member.jpg" class="member-profile-pic img-thumbnail" width="60px" height="60px">
+                        <img src="data:image/jpeg;base64,<s:property value="%{#session.USERDETAILS.profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
 					</a>
 					<span class="badge badge-info member-name">
-						<a href="manageProfile">Member Name</a>
+                        <a href="manageProfile"><s:property value="%{#session.USERDETAILS.fullName}"/></a>
 					</span>
 				</div>
 				<div class="input-group">
@@ -77,6 +90,8 @@
 					</span>
 				</div>
 			</form>
+            </s:if>
+			
 
 		</div>
 	</section>
