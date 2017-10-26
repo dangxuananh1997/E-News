@@ -12,9 +12,6 @@
         <action name="admin">
             <result>admin.jsp</result>
         </action>
-        <action name="article">
-            <result>article.jsp</result>
-        </action>
         <action name="articleEditing">
             <result>articleEditing.jsp</result>
         </action>
@@ -34,14 +31,18 @@
             <result>resetPassword.jsp</result>
         </action>
         <action name="login" class="action.LoginAction">
-            <result name="successMember">index.jsp</result>
+            <result name="successMember" type="redirectAction">
+                <param name="actionName">viewHome</param>
+            </result>
             <result name="successAuthor">author.jsp</result>
             <result name="successEditor">editor.jsp</result>
             <result name="successAdmin">admin.jsp</result>
             <result name="fail">index.jsp</result>
         </action>
         <action name="logout" class="action.LogoutAction">
-            <result>index.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">viewHome</param>
+            </result>
         </action>
         <action name="registerUser" class="action.RegisterAction">
             <result name="success" type="redirect">index.jsp</result>

@@ -12,7 +12,7 @@
 		aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<a class="navbar-brand" href="home">
+	<a class="navbar-brand" href="viewHome">
 		<img src="assets/img/logo.png" height="30px" width="50px">
 	</a>
 	<div class="collapse navbar-collapse" id="navbarToggler">
@@ -38,7 +38,7 @@
     <s:if test="%{#session.USERDETAILS != null}">
         <a href="manageProfile" class="profile-picture">
             <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
-                <img src="<s:property value="%{#session.USERDETAILS.image"/>" height="30px" width="30px" class="profile-pic">
+                <img src="data:image/jpeg;base64,<s:property value="%{#session.USERDETAILS.profilePicture}"/>" height="30px" width="30px" class="profile-pic">
             </s:if>
             <s:if test="%{#session.USERDETAILS.profilePicture == null || #session.USERDETAILS.profilePicture == ''}">
                 <img src="assets/img/default-user.png" height="30px" width="30px" class="profile-pic">
