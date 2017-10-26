@@ -40,8 +40,8 @@ public class ViewArticleAction {
     public String execute() throws NamingException, SQLException {
         String url = FAIL;
 
-        ArticleDAO articleDao = new ArticleDAO();
-        article = articleDao.getArticleDetails(articleID);  //get article details
+        ArticleDAO articleDAO = new ArticleDAO();
+        article = articleDAO.getArticleDetails(articleID);  //get article details
 
         if (article != null) {  //article details not null
 
@@ -51,7 +51,7 @@ public class ViewArticleAction {
             CommentDAO commentDAO = new CommentDAO();
             commentDAO.getCommentsOfArticle(articleID);
             commentList = commentDAO.getArticleCommentList();   //get comments
-
+            
             if (commentList != null) {  //comment list not null
                 for (CommentDTO commentDTO : commentList) {
                     String commenterEmail = commentDTO.getUserEmail();
@@ -59,8 +59,11 @@ public class ViewArticleAction {
                     if (this.commentList == null) {
                         this.commenterList = new ArrayList<>();
                     }
+                    System.out.println(userDTO);
                     this.commenterList.add(userDTO);    //get list of commenter details
                 }
+            } else {
+                commentList = new ArrayList<>();
             }
             url = SUCCESS;
         }

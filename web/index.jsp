@@ -17,17 +17,21 @@
 	<section class="container main">
         
         <s:iterator var="articleDTO" value="articleList" status="counter">
+        <s:url var="articleLink" value="viewArticle">
+            <s:param name="articleID" value="%{#articleDTO.articleID}" />
+        </s:url>
 		<div class="article">
 			<div class="feature-pic">
-				<a href="article">
+                <s:a href="%{articleLink}" value="">
 					<img src="data:image/jpeg;base64,<s:property value="%{#articleDTO.featureImage}"/>">
-				</a>
+                </s:a>
 			</div>
 			<div class="article-info">
-                <h3 class="article-title"><a href="article"><s:property value="%{#articleDTO.title}"/></a></h3>
-                <s:url var="articleLink" value="viewArticle">
-                    <s:param name="articleID" value="%{#articleDTO.articleID}" />
-                </s:url>
+                <h3 class="article-title">
+                    <s:a href="%{articleLink}" value="">
+                        <s:property value="%{#articleDTO.title}"/>
+                    </s:a>
+                </h3>
                 <s:a cssClass="article-preview" href="%{articleLink}">
                     <p>
                         <s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>
