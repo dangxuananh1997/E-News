@@ -5,9 +5,15 @@
  */
 package action.admin;
 
+import java.sql.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import article.ArticleDAO;
 import article.ArticleDTO;
 import userdetails.UserDetailsDTO;
+
+import javax.naming.NamingException;
 
 /**
  *
@@ -33,8 +39,16 @@ public class ViewAllArticleAction {
     }
     
     public String execute() throws Exception {
-        
-        
+
+        articleList = new ArrayList<>();
+        ArticleDAO dao = new ArticleDAO();
+        ArrayList<ArticleDTO> allArticleList = dao.viewAllArticle();
+        for(int i = (pageNumber - 1 ) * 10; i <= allArticleList.size(); i++) {
+            articleList.add(allArticleList.get(i));
+        }
+
+        //authorList
+
         return SUCCESS;
     }
 

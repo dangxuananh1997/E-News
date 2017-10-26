@@ -5,6 +5,8 @@
  */
 package action.admin;
 
+import article.ArticleDAO;
+
 /**
  *
  * @author dangxuananh1997
@@ -27,8 +29,9 @@ public class DeleteArticleAction {
     }
     
     public String execute() throws Exception {
-        
-        
+
+        ArticleDAO dao = new ArticleDAO();
+        dao.deleteArticle(articleID);
         return SUCCESS;
     }
 
