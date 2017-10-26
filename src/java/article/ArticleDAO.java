@@ -453,7 +453,7 @@ public class ArticleDAO implements Serializable {
     }
 
     //get name author
-    public String getAuthorName(String articleID) throws SQLException, NamingException {
+    public String getAuthorName(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -461,9 +461,9 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "SELECT FullName FROM UserDetails, Article WHERE Email = AuthorEmail AND ArticleID = ?";
+                String sql = "SELECT FullName FROM UserDetails u, Article a WHERE u.Email = a.AuthorEmail AND a.ArticleID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, articleID);
+                stm.setInt(1, articleID);
                 rs = stm.executeQuery();
                 while(rs.next()) {
                     authorName = rs.getString(1);
@@ -482,17 +482,6 @@ public class ArticleDAO implements Serializable {
         }
         return authorName;
     }
-
-    //get list name author
-//    public ArrayList<String> getAuthorNameList(ArrayList<String> authorEmails) throws SQLException, NamingException {
-//        ArrayList<String> authorNameList = new ArrayList<>();
-//
-//        for (int i = 0; i < authorEmails.size(); i++) {
-//            authorNameList.add(getAuthorName(authorEmails.get(i)));
-//        }
-//
-//        return authorNameList;
-//    }
 
     //get name of category
     public String getCategoryName(int categoryID) throws SQLException, NamingException {

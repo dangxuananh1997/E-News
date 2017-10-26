@@ -37,8 +37,10 @@ public class SearchUserAction {
     public String execute() throws Exception {
 
         UserDetailsDAO dao = new UserDetailsDAO();
-        dao.searchUser(searchValue);
-
+        userList = dao.searchUser(searchValue);
+        for (UserDetailsDTO userDetailsDTO : userList) {
+            System.out.println(userDetailsDTO);
+        }
         return SUCCESS;
     }
 
