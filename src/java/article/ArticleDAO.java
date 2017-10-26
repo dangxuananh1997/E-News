@@ -210,6 +210,9 @@ public class ArticleDAO implements Serializable {
 
     private ArrayList<ArticleDTO> articleListByCategory; // list of all articles by category (ViewByCategoryAction)
     
+    public ArrayList<ArticleDTO> getArticleListByCategory(){
+        return articleListByCategory;
+    }
     //search article by category (ViewByCategoryAction)
     public void searchByCategory(int categoryID)
             throws NamingException, SQLException {
