@@ -9,14 +9,14 @@ $(document).ready(function() {
 			['color', ['color']],
             ['insert', ['picture', 'link', 'table']],
 			['para', ['ul', 'ol', 'paragraph']],
-			['height', ['height']]
+			['height', ['height']],
+			['misc', ['codeview']]
 		]
 	});
 
-	$('button.btn-success').click(function() {
+	$('button.btn').click(function() {
 		var markupStr = $('#summernote').summernote('code');
 		$('#content').val(markupStr);
-		alert(markupStr);
 	});
 
     $('input[type="file"].feature-picture-upload').change(function(e){

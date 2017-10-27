@@ -14,7 +14,7 @@
 
 	<section class="container manage-container">
 		<div class="new">
-			<button class="btn btn-outline-success"><i class="icon ion-plus"></i> New Article</button>
+			<a class="btn btn-outline-success" href="authorAddNewArticle" role="button"><i class="icon ion-plus"></i> New Article</a>
 		</div>
 
 		<ul class="nav nav-tabs">
@@ -49,6 +49,17 @@
                     <s:if test="%{tab == 3}">aria-expanded="true"</s:if>
                     >
 					Approved Articles
+				</a>
+			</li>
+			<li class="nav-item">
+				<a  class="nav-link <s:if test="%{tab == 3}">active</s:if>"
+					id="approved-tab"
+					href="authorViewApproved"
+					role="tab"
+					aria-controls="approved"
+                    <s:if test="%{tab == 3}">aria-expanded="true"</s:if>
+                    >
+					Rejected Articles
 				</a>
 			</li>
 		</ul>

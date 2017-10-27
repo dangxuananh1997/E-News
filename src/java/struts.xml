@@ -12,9 +12,6 @@
         <action name="admin">
             <result>admin.jsp</result>
         </action>
-        <action name="articleEditing">
-            <result>articleEditing.jsp</result>
-        </action>
         <action name="author">
             <result>author.jsp</result>
         </action>
@@ -34,10 +31,18 @@
             <result name="successMember" type="redirectAction">
                 <param name="actionName">viewHome</param>
             </result>
-            <result name="successAuthor">author.jsp</result>
-            <result name="successEditor">editor.jsp</result>
-            <result name="successAdmin">admin.jsp</result>
-            <result name="fail">index.jsp</result>
+            <result name="successAuthor" type="redirectAction">
+                <param name="actionName">authorViewDraft</param>
+            </result>
+            <result name="successEditor" type="redirectAction">
+                <param name="actionName">editorViewPending</param>
+            </result>
+            <result name="successAdmin" type="redirectAction">
+                <param name="actionName">adminViewAllArticle</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">viewHome</param>
+            </result>
         </action>
         <action name="logout" class="action.LogoutAction">
             <result name="success" type="redirectAction">
@@ -96,8 +101,20 @@
             <result name="success">author.jsp</result>
             <result name="fail">oops.html</result>
         </action>
-        <action name="authorEditArticle" class="action.author.EditArticleAction">
+        <action name="authorViewArticleEditing" class="action.author.ViewArticleEditingAction">
             <result name="success">articleEditing.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name="authorEditArticle" class="action.author.EditArticleAction">
+            <result name="successPending" type="redirectAction">
+                <param name="actionName">authorViewPending</param>
+            </result>
+            <result name="successDraft" type="redirectAction">
+                <param name="actionName">authorViewDraft</param>
+            </result>
+        </action>
+        <action name="authorAddNewArticle">
+            <result>articleEditing.jsp</result>
         </action>
         <action name="authorRequestDelete" class="action.author.RequestDeleteAction">
             <result name="success" type="redirectAction">

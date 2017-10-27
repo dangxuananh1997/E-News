@@ -2,6 +2,6 @@
 <Context path="/E-News">
     <Resource name="ENewsDS" type="javax.sql.DataSource" auth="Container"
         driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        url="jdbc:sqlserver://localhost:1433;databaseName=database"
-        username="sa" password=""/>
+        url="jdbc:sqlserver://localhost:1433;databaseName=ENewsDB"
+        username="sa" password="123"/>
 </Context>

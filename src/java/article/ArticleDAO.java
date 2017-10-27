@@ -690,4 +690,83 @@ public class ArticleDAO implements Serializable {
             }
         }
     }
+    
+    public boolean addNewArticle(String authorEmail, String featureImage, int categoryID, String title, String articleContent, int statusID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "INSERT INTO Article VALUES(?,?,?,?,?,?,?,?,?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, authorEmail);
+                stm.setString(2, featureImage);
+                stm.setInt(3, categoryID);
+                stm.setString(4, title);
+                stm.setString(5, articleContent);
+                stm.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
+                stm.setInt(7, statusID);
+                stm.setString(8, null);
+                stm.setInt(9, 0);
+                return (stm.executeUpdate() > 0);
+            }
+            return false;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    
+    public boolean updateArticle(int articleID, String featureImage, int categoryID, String title, String articleContent, int statusID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                if (!featureImage.isEmpty()) {
+                    String sql = "UPDATE Article SET Title = ?, FeatureImage = ?, CategoryID = ?, ArticleContent = ?, PublishTime = ?, StatusID = ? WHERE ArticleID = ?";
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1, title);
+                    stm.setString(2, featureImage);
+                    stm.setInt(3, categoryID);
+                    stm.setString(4, articleContent);
+                    stm.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
+                    stm.setInt(6, statusID);
+                    stm.setInt(7, articleID);
+                    return (stm.executeUpdate() > 0);
+                } else {
+                    String sql = "UPDATE Article SET Title = ?, CategoryID = ?, ArticleContent = ?, PublishTime = ?, StatusID = ? WHERE ArticleID = ?";
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1, title);
+                    stm.setInt(2, categoryID);
+                    stm.setString(3, articleContent);
+                    stm.setTimestamp(4, new Timestamp(new java.util.Date().getTime()));
+                    stm.setInt(5, statusID);
+                    stm.setInt(6, articleID);
+                    return (stm.executeUpdate() > 0);
+                }
+            }
+            return false;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

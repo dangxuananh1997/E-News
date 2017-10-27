@@ -45,14 +45,6 @@
 
 		<nav class="pagination">
 			<ul class="pagination">
-				<li class="page-item">
-					<a class="page-link" href="#!" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-						<span class="sr-only">Previous</span>
-					</a>
-				</li>
-                
-                
                 <s:iterator begin="1" end="%{numberOfPages}" status="counter">
                 <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
                     <s:url var="pageLink" value="viewHome">
@@ -63,13 +55,6 @@
                     </s:a>
                 </li>
                 </s:iterator>
-                
-				<li class="page-item">
-					<a class="page-link" href="#!" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-						<span class="sr-only">Next</span>
-					</a>
-				</li>
 			</ul>
 		</nav>
 

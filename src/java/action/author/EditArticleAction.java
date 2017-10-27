@@ -7,18 +7,20 @@ package action.author;
 
 import article.ArticleDAO;
 import article.ArticleDTO;
-import java.io.File;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
 import sun.misc.BASE64Encoder;
+import userdetails.UserDetailsDTO;
 
 /**
  *
  * @author dangxuananh1997
  */
-public class EditArticleAction {
+public class EditArticleAction extends ActionSupport  {
     
     //Inputs
     private int articleID;   //optional
@@ -29,33 +31,48 @@ public class EditArticleAction {
     private int categoryID;
     private String title;
     private String articleContent;
-    private ArticleDTO article;
-    
-    //Outputs
+    private String btnAction;
     
     //Return
-    private final String SUCCESS = "success";
+    private final String SUCCESSDRAFT = "successDraft";
+    private final String SUCCESSPENDING = "successPending";
+    private final String FAIL = "fail";
     
     public EditArticleAction() {
     }
     
     public String execute() throws Exception {
-        
-        //get image string
-        BASE64Encoder encoder = new BASE64Encoder(); 
-        BufferedImage bi;
-        bi = ImageIO.read(featureImage); 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-        ImageIO.write(bi, "jpg", baos); 
-        byte[] bytes = baos.toByteArray(); 
-        String img = encoder.encodeBuffer(bytes).trim(); 
-        
+        String url = FAIL;
         
         ArticleDAO dao = new ArticleDAO();
-        article = dao.getArticleDetails(articleID);
         
-        dao.updateDraft(authorEmail, img, categoryID, title, articleContent);
-        return SUCCESS;
+        String img = "";
+        //get image string
+        if (featureImage != null) {
+            BASE64Encoder encoder = new BASE64Encoder();
+            BufferedImage bi;
+            bi = ImageIO.read(featureImage);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bi, "jpg", baos);
+            byte[] bytes = baos.toByteArray();
+            img = encoder.encodeBuffer(bytes).trim();
+        }
+        
+        UserDetailsDTO author = (UserDetailsDTO) ActionContext.getContext().getSession().get("USERDETAILS");
+        authorEmail = author.getEmail();
+        
+        int statusID = btnAction.equals("draft") ? 1 : 2;
+        
+        if (articleID != 0) {
+            if (!dao.updateArticle(articleID, img, categoryID, title, articleContent, statusID))
+                return FAIL;
+
+        } else {
+            if (!dao.addNewArticle(authorEmail, img, categoryID, title, articleContent, statusID))
+                return FAIL;
+        }
+        
+        return SUCCESSPENDING;
     }
 
     public int getArticleID() {
@@ -122,12 +139,11 @@ public class EditArticleAction {
         this.articleContent = articleContent;
     }
 
-    public ArticleDTO getArticle() {
-        return article;
+    public String getBtnAction() {
+        return btnAction;
     }
 
-    public void setArticle(ArticleDTO article) {
-        this.article = article;
+    public void setBtnAction(String btnAction) {
+        this.btnAction = btnAction;
     }
-    
 }

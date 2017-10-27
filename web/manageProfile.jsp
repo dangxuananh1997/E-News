@@ -28,7 +28,7 @@
                         <img src="assets/img/default-user.png" width="100%">
                     </s:if>
 
-                    <input type="file" name="profilePicture" class="profile-pic-upload">
+                    <input type="file" name="profilePicture" class="profile-pic-upload" accept=".jpg, .jpeg, .png">
                     <label class="btn btn-outline-primary" for="profilePicture">Upload picture</label>
                 </div>
                 <div class="col-md-9 info">
