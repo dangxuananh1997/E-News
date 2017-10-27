@@ -9,6 +9,7 @@
 	<title>E-News</title>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<script src="js/config.js"></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
 	<div class="e-navbar"></div>
@@ -33,9 +34,7 @@
                     </s:a>
                 </h3>
                 <s:a cssClass="article-preview" href="%{articleLink}">
-                    <p>
-                        <s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>
-                    </p>
+					<s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>
 				</s:a>
 				<span class="badge badge-primary author"><a href=""><s:property value="%{authorNameList[#counter.count - 1]}"/></a></span>
                 <span class="publish-time"><s:date name="%{#articleDTO.publishTime}" format="dd/MM/yyyy" /></span>

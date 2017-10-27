@@ -14,6 +14,7 @@ import article.ArticleDTO;
 import userdetails.UserDetailsDTO;
 
 import javax.naming.NamingException;
+import userdetails.UserDetailsDAO;
 
 /**
  *
@@ -22,7 +23,7 @@ import javax.naming.NamingException;
 public class ViewAllArticleAction {
     
     //Inputs
-    private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
+    private int pageNumber = 1;     //Display 10 articles in this page | Default: 1
     
     //Outputs
     private ArrayList<ArticleDTO> articleList;
@@ -39,16 +40,32 @@ public class ViewAllArticleAction {
     }
     
     public String execute() throws Exception {
-
-        articleList = new ArrayList<>();
+        
+        //list article
         ArticleDAO dao = new ArticleDAO();
-        ArrayList<ArticleDTO> allArticleList = dao.viewAllArticle();
-        for(int i = (pageNumber - 1 ) * 10; i <= allArticleList.size(); i++) {
-            articleList.add(allArticleList.get(i));
+        UserDetailsDAO udDao = new UserDetailsDAO();
+        articleList = new ArrayList<>();
+        authorList = new ArrayList<>();
+        categoryList = new ArrayList<>();
+        ArrayList<ArticleDTO> tempArticleList = dao.viewAllArticle();        
+        
+        //get numberOfPage
+        numberOfPages = tempArticleList.size() / 10 + 1;
+        
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
+            this.articleList.add(tempArticleList.get(i));
         }
+        
+        //list authors & categories
 
-        //authorList
-
+        for (int i = 0; i < 10; i++) {
+            this.authorList.add(udDao.getUserDetails(articleList.get(i).getAuthorEmail()));
+            this.categoryList.add(dao.getCategoryName(articleList.get(i).getCategoryID()));
+            System.out.println(articleList.get(i));
+            System.out.println(authorList.get(i));
+            System.out.println(categoryList.get(i));
+        }
+                
         return SUCCESS;
     }
 

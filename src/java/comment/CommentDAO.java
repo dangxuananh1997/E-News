@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.naming.NamingException;
+
+import article.ArticleDTO;
 import utils.DBUtils;
 
 /**
@@ -158,10 +160,11 @@ public class CommentDAO implements Serializable {
         ResultSet rs = null;
         try {
             con = DBUtils.makeConnection();
-            if (con != null) {
-                String sql = "DELETE FROM Comment WHERE CommentID = ?";
+            if(con != null) {
+                String sql = "UPDATE Comment SET IsActive = ? WHERE CommentID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, commentID);
+                stm.setBoolean(1, false);
+                stm.setInt(2, commentID);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -231,11 +234,11 @@ public class CommentDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    String id = rs.getString("Title");
-                    if (this.articleTitle == null) {
+                    String content = rs.getString("Title");
+                    if(this.articleTitle == null) {
                         this.articleTitle = new ArrayList<>();
                     }
-                    articleTitle.add(id);
+                    articleTitle.add(content);
                 }
             }
             return articleTitle;
@@ -251,51 +254,9 @@ public class CommentDAO implements Serializable {
             }
         }
     }
-
-    /* get content comment by article ID */
-    public String getCommentContent(int articleID) throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        String commentContent = null;
-        try {
-            con = DBUtils.makeConnection();
-            if (con != null) {
-                String sql = "SELECT CommentContent FROM Comment WHERE articleID = ?";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    commentContent = rs.getString(1);
-                }
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return commentContent;
-    }
-
-    /* get list content comment */
-    public ArrayList<String> getCommentList(ArrayList<Integer> articles) throws SQLException, NamingException {
-        ArrayList<String> commentList = new ArrayList<>();
-
-        for (int i = 0; i < articles.size(); i++) {
-            commentList.add(getCommentContent(articles.get(i)));
-        }
-
-        return commentList;
-    }
-
+    
     /* get commenter by articleID */
-    public String getCommenter(int articleID) throws SQLException, NamingException {
+    public String getCommenter(String title) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -303,11 +264,11 @@ public class CommentDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "SELECT UserEmail FROM Comment WHERE articleID = ?";
+                String sql = "SELECT FullName FROM c.Comment, u.UserDetails WHERE Title = ? AND c.Email = u.Email";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
+                stm.setString(1, title);
                 rs = stm.executeQuery();
-                while (rs.next()) {
+                while(rs.next()) {
                     commenter = rs.getString(1);
                 }
             }
@@ -325,14 +286,42 @@ public class CommentDAO implements Serializable {
         return commenter;
     }
 
-    /* get list commenter */
-    public ArrayList<String> getCommenterList(ArrayList<Integer> articles) throws SQLException, NamingException {
-        ArrayList<String> commenterList = new ArrayList<>();
-
-        for (int i = 0; i < articles.size(); i++) {
-            commenterList.add(getCommenter(articles.get(i)));
+    /* get all comment isActive */
+    
+    public ArrayList<CommentDTO> getCommentActive() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<CommentDTO> commentActiveList = new ArrayList<>();
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Comment WHERE IsActive = ? ORDER BY PublishTime DESC";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, true);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int commentID = rs.getInt("CommentID");
+                    String authorEmail = rs.getString("UserEmail");
+                    int articleID = rs.getInt("ArticleID");
+                    String commentContent = rs.getString("CommentContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    boolean isActive = rs.getBoolean("IsActive");                    
+                    CommentDTO dto = new CommentDTO(authorEmail, articleID, commentContent, publishTime, isActive);
+                    commentActiveList.add(dto);
+                }
+            }
+            return commentActiveList;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         }
-
-        return commenterList;
     }
 }
