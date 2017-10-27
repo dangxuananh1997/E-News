@@ -5,8 +5,12 @@
  */
 package action;
 
+import article.ArticleDAO;
+import article.ArticleDTO;
+import comment.CommentDAO;
 import java.util.ArrayList;
 import comment.CommentDTO;
+import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -14,29 +18,55 @@ import userdetails.UserDetailsDTO;
  * @author dangxuananh1997
  */
 public class ViewProfileAction {
-    
+
     //Inputs
     private String userEmail;
     private int pageNumber = 1;  //Display 10 comments in this page | Default: 1
-    
+
     //Outputs
     private int numberOfPages;
     private UserDetailsDTO userDetails;
     private ArrayList<CommentDTO> commentList;
     private ArrayList<String> articleTitleList;
-    
+
     //Return
     private final String SUCCESS = "success";
     private final String FAIL = "fail";
-    
-    
+
     public ViewProfileAction() {
     }
-    
+
     public String execute() throws Exception {
+        String url = FAIL;
+
+        UserDetailsDAO userDAO = new UserDetailsDAO();
+        userDetails = userDAO.getUserDetails(userEmail);    //user details
         
-        
-        return SUCCESS;
+        if (userDetails != null) {
+
+            CommentDAO commentDAO = new CommentDAO();
+            commentDAO.getCommentsOfProfile(userEmail);
+            ArrayList<CommentDTO> comments = commentDAO.getCommentProfileList();
+
+            if (comments != null) {
+                numberOfPages = comments.size() / 10 + 1;   //get number of pages
+                this.articleTitleList = new ArrayList<>();
+                this.commentList = new ArrayList<>();
+
+                for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < comments.size(); i++) {
+                    this.commentList.add(comments.get(i));  //get 10 comments per page
+                    CommentDTO commentDTO = comments.get(i);
+                    int articleID = commentDTO.getArticleID();
+                    
+                    ArticleDAO articleDAO = new ArticleDAO();
+                    ArticleDTO dto = articleDAO.getArticleDetails(articleID);
+                    
+                    this.articleTitleList.add(dto.getTitle());      //get 10 article title per page
+                }
+            }
+            url = SUCCESS;
+        }
+        return url;
     }
 
     public String getUserEmail() {
@@ -86,5 +116,5 @@ public class ViewProfileAction {
     public void setArticleTitleList(ArrayList<String> articleTitleList) {
         this.articleTitleList = articleTitleList;
     }
-    
+
 }

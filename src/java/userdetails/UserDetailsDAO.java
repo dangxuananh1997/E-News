@@ -94,7 +94,7 @@ public class UserDetailsDAO implements Serializable {
 
     //update user profile (UpdateProfileAction)
     public boolean updateProfile(String email, String name, int gender, Date birthdate,
-            String phone, String address)
+            String phone, String address, String profilePicture)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -103,13 +103,14 @@ public class UserDetailsDAO implements Serializable {
             con = DBUtils.makeConnection();
             if (con != null) {
                 String sql = "Update UserDetails set FullName = ?, "
-                        + "Gender = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
+                        + "Gender = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, name);
                 stm.setInt(2, gender);
                 stm.setDate(3, sqlBirthdate);
                 stm.setString(4, phone);
                 stm.setString(5, address);
+                stm.setString(5, profilePicture);
                 stm.setString(6, email);
                 int row = stm.executeUpdate();
                 if (row > 0) {

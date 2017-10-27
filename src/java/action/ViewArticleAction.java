@@ -45,25 +45,26 @@ public class ViewArticleAction {
 
         if (article != null) {  //article details not null
 
+            articleDAO.updateViewCount(articleID, article.getViewCount() + 1);  //update view count
+
             UserDetailsDAO userDAO = new UserDetailsDAO();
             author = userDAO.getUserDetails(article.getAuthorEmail());  //get author email
 
             CommentDAO commentDAO = new CommentDAO();
             commentDAO.getCommentsOfArticle(articleID);
             commentList = commentDAO.getArticleCommentList();   //get comments
-            
+
             if (commentList != null) {  //comment list not null
                 for (CommentDTO commentDTO : commentList) {
                     String commenterEmail = commentDTO.getUserEmail();
                     UserDetailsDTO userDTO = userDAO.getUserDetails(commenterEmail);
-                    if (this.commentList == null) {
-                        this.commenterList = new ArrayList<>();
+                    if (userDTO != null) {
+                        if (this.commenterList == null) {
+                            this.commenterList = new ArrayList<>();
+                        }
+                        this.commenterList.add(userDTO);    //get list of commenter details                       
                     }
-                    System.out.println(userDTO);
-                    this.commenterList.add(userDTO);    //get list of commenter details
                 }
-            } else {
-                commentList = new ArrayList<>();
             }
             url = SUCCESS;
         }
