@@ -5,7 +5,11 @@
  */
 package action.admin;
 
+import article.ArticleDAO;
+import article.ArticleDTO;
 import java.util.ArrayList;
+import role.RoleDAO;
+import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -15,7 +19,7 @@ import userdetails.UserDetailsDTO;
 public class ViewManageUserAction {
     
     //Inputs
-    private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
+    private int pageNumber = 1;     //Display 10 articles in this page | Default: 1
     
     //Outputs
     private ArrayList<UserDetailsDTO> userList;
@@ -32,6 +36,27 @@ public class ViewManageUserAction {
     
     public String execute() throws Exception {
         
+        //list user
+        UserDetailsDAO dao = new UserDetailsDAO();
+        RoleDAO rDao = new RoleDAO();
+        userList = new ArrayList<>();
+        roleList = new ArrayList<>();
+        ArrayList<UserDetailsDTO> tempArticleList = dao.viewAllUsers();        
+        
+        //get numberOfPage
+        numberOfPages = tempArticleList.size() / 10 + 1;
+        
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
+            this.userList.add(tempArticleList.get(i));
+        }
+        
+        //list role
+
+        for (int i = 0; i < 10; i++) {
+            roleList.add(rDao.getRoleName(userList.get(i).getEmail()));
+            System.out.println(userList.get(i));
+            System.out.println(roleList.get(i));
+        }
         
         return SUCCESS;
     }

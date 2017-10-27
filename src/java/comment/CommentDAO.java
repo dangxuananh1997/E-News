@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.naming.NamingException;
 
 import article.ArticleDTO;
+import userdetails.UserDetailsDTO;
 import utils.DBUtils;
 
 /**
@@ -221,27 +222,24 @@ public class CommentDAO implements Serializable {
     }
 
     /* get all article by title */
-    private ArrayList<String> articleTitle;
 
-    public ArrayList<String> getArticleTitle() throws SQLException, NamingException {
+    public String getArticleTitle(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        String title = null;
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "SELECT Title FROM Article";
+                String sql = "SELECT Title FROM Article WHERE ArticleID = ?";
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, articleID);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    String content = rs.getString("Title");
-                    if(this.articleTitle == null) {
-                        this.articleTitle = new ArrayList<>();
-                    }
-                    articleTitle.add(content);
+                    title = rs.getString("Title");                                        
                 }
             }
-            return articleTitle;
+            return title;
         } finally {
             if (rs != null) {
                 rs.close();
@@ -255,37 +253,6 @@ public class CommentDAO implements Serializable {
         }
     }
     
-    /* get commenter by articleID */
-    public String getCommenter(String title) throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        String commenter = null;
-        try {
-            con = DBUtils.makeConnection();
-            if (con != null) {
-                String sql = "SELECT FullName FROM c.Comment, u.UserDetails WHERE Title = ? AND c.Email = u.Email";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, title);
-                rs = stm.executeQuery();
-                while(rs.next()) {
-                    commenter = rs.getString(1);
-                }
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return commenter;
-    }
-
     /* get all comment isActive */
     
     public ArrayList<CommentDTO> getCommentActive() throws SQLException, NamingException {

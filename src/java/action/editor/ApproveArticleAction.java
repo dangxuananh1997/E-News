@@ -35,7 +35,7 @@ public class ApproveArticleAction {
         ArrayList<ArticleDTO> pendingList;
         ArticleDAO dao = new ArticleDAO();
         dao.approveArticle(articleID);
-        pendingList = dao.getPendingList();
+        pendingList = dao.viewPendingList();
         
         //get numberOfPage
         numberOfPages = pendingList.size() / 10 + 1;

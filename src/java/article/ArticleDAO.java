@@ -666,7 +666,7 @@ public class ArticleDAO implements Serializable {
     /* view pending article */
     private ArrayList<ArticleDTO> pendingList;
 
-    public ArrayList<ArticleDTO> getPendingList() throws SQLException, NamingException {
+    public ArrayList<ArticleDTO> viewPendingList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;

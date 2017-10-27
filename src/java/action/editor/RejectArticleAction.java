@@ -36,7 +36,7 @@ public class RejectArticleAction {
 
         //reject article
         dao.rejectArticle(articleID);
-        pendingList = dao.getPendingList();
+        pendingList = dao.viewPendingList();
 
         //numberOfPage
         numberOfPages = pendingList.size() / 10 + 1;

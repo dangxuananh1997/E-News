@@ -5,8 +5,10 @@
  */
 package action.editor;
 
+import article.ArticleDAO;
 import java.util.ArrayList;
 import article.ArticleDTO;
+import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -33,7 +35,30 @@ public class ViewPendingAction {
     }
     
     public String execute() throws Exception {
+        //list article
+        ArticleDAO dao = new ArticleDAO();
+        UserDetailsDAO udDao = new UserDetailsDAO();
+        pendingList = new ArrayList<>();
+        authorList = new ArrayList<>();
+        categoryList = new ArrayList<>();
+        ArrayList<ArticleDTO> tempArticleList = dao.viewPendingList();        
         
+        //get numberOfPage
+        numberOfPages = tempArticleList.size() / 10 + 1;
+        
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
+            this.pendingList.add(tempArticleList.get(i));
+        }
+        
+        //list authors & categories
+
+        for (int i = 0; i < 10; i++) {
+            this.authorList.add(udDao.getUserDetails(pendingList.get(i).getAuthorEmail()));
+            this.categoryList.add(dao.getCategoryName(pendingList.get(i).getCategoryID()));
+            System.out.println(pendingList.get(i));
+            System.out.println(authorList.get(i));
+            System.out.println(categoryList.get(i));
+        }
         
         return SUCCESS;
     }

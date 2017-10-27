@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import comment.CommentDAO;
 import comment.CommentDTO;
+import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -37,8 +38,11 @@ public class ViewCommentAction {
     public String execute() throws Exception {
 
         CommentDAO dao = new CommentDAO();
+        UserDetailsDAO udDao = new UserDetailsDAO();
         ArrayList<CommentDTO> tempCommentList = dao.getCommentActive();
         commentList = new ArrayList<>();
+        commenterList = new ArrayList<>();
+        articleTitle = new ArrayList<>();
 
         //get numberOfPage
         numberOfPages = tempCommentList.size() / 10 + 1;
@@ -48,10 +52,13 @@ public class ViewCommentAction {
             this.commentList.add(tempCommentList.get(i));
         }
 
-        //get artivcleTitle & commenterList
+        //get articleTitle & commenterList
         for (int i = 0; i < 10; i++) {
-//            this.commentList.add(dao.getCommentContent(articleTitle.get(i)));
-//            this.commenterList.add(dao.getCommenter(commentList.get(i)));
+            this.commenterList.add(udDao.getUserDetails(commentList.get(i).getUserEmail()));
+            this.articleTitle.add(dao.getArticleTitle(commentList.get(i).getArticleID()));
+            System.out.println(commentList.get(i));
+            System.out.println(commenterList.get(i));
+            System.out.println(articleTitle.get(i));
         }
 
         return SUCCESS;

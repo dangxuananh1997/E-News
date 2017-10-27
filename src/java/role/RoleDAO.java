@@ -21,7 +21,7 @@ public class RoleDAO {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select RoleName from a.Role, b.User where a.RoleID = b.RoleID AND b.Email = ?";
+                String sql = "Select RoleName FROM Role r, [User] u where r.RoleID = u.RoleID AND u.Email = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();

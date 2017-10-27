@@ -5,15 +5,10 @@
  */
 package action.admin;
 
-import java.sql.Array;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
 import article.ArticleDAO;
 import article.ArticleDTO;
 import userdetails.UserDetailsDTO;
-
-import javax.naming.NamingException;
 import userdetails.UserDetailsDAO;
 
 /**
