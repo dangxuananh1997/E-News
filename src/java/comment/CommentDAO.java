@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.naming.NamingException;
+
+import article.ArticleDTO;
 import utils.DBUtils;
 
 /**
@@ -20,9 +22,12 @@ import utils.DBUtils;
  * @author dangxuananh1997
  */
 public class CommentDAO implements Serializable {
-    
+
     private ArrayList<CommentDTO> commentProfileList;  //list of user comments (ViewProfileAction)
     
+    public ArrayList<CommentDTO> getCommentProfileList(){
+        return commentProfileList;
+    }
     //get user comments to display in profile page (ViewProfileAction)
     public void getCommentsOfProfile(String email)
             throws NamingException, SQLException {
@@ -37,16 +42,16 @@ public class CommentDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
-                
+
                 while (rs.next()) {
                     String userEmail = rs.getString("UserEmail");
                     int articleID = rs.getInt("ArticleID");
                     String commentContent = rs.getString("CommentContent");
                     Timestamp publishTime = rs.getTimestamp("PublishTime");
                     boolean isActive = rs.getBoolean("IsActive");
-                    
+
                     CommentDTO dto = new CommentDTO(userEmail, articleID, commentContent, publishTime, isActive);
-                    if(this.commentProfileList == null){
+                    if (this.commentProfileList == null) {
                         this.commentProfileList = new ArrayList<>();
                     }
                     this.commentProfileList.add(dto);
@@ -63,8 +68,8 @@ public class CommentDAO implements Serializable {
                 con.close();
             }
         }
-    } 
-    
+    }
+
     //insert user comment into database (CommentAction)
     public boolean insertComment(String email, int articleID, String commentContent)
             throws NamingException, SQLException {
@@ -74,13 +79,13 @@ public class CommentDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Insert into Comment(UserEmail, ArticleID, CommentContent, PublishTime, IsActive) values(?,?,?,?,?)";
+                String sql = "Insert into Comment(UserEmail, ArticleID, CommentContent, PublishTime, IsActive) "
+                        + "values(?,?,?,CURRENT_TIMESTAMP,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setInt(2, articleID);
                 stm.setString(3, commentContent);
-                stm.setString(4, "current_timestamp");
-                stm.setBoolean(5, true);
+                stm.setBoolean(4, true);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -95,18 +100,21 @@ public class CommentDAO implements Serializable {
             }
         }
         return false;
-    }    
-    
+    }
+
     private ArrayList<CommentDTO> articleCommentList;  //list of CommentDTO (ViewArticleAction)
-    public ArrayList<CommentDTO> getArticleCommentList(){   //return list of CommentDTO (ViewArticleAction)
+
+    public ArrayList<CommentDTO> getArticleCommentList() {   //return list of CommentDTO (ViewArticleAction)
         return articleCommentList;
     }
-   //get list of CommentDTO (ViewArticleAction)
+    //get list of CommentDTO (ViewArticleAction)
+
     public void getCommentsOfArticle(int articleID)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        CommentDTO dto;
 
         try {
             con = DBUtils.makeConnection();
@@ -115,19 +123,21 @@ public class CommentDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, articleID);
                 rs = stm.executeQuery();
-                
+
                 while (rs.next()) {
                     String userEmail = rs.getString("UserEmail");
                     int ID = rs.getInt("ArticleID");
                     String commentContent = rs.getString("CommentContent");
                     Timestamp publishTime = rs.getTimestamp("PublishTime");
                     boolean isActive = rs.getBoolean("IsActive");
-                    
-                    CommentDTO dto = new CommentDTO(userEmail, ID, commentContent, publishTime, isActive);
-                    if(this.articleCommentList == null){
-                        this.articleCommentList = new ArrayList<>();
+
+                    if (isActive) {
+                        dto = new CommentDTO(userEmail, ID, commentContent, publishTime, isActive);
+                        if (this.articleCommentList == null) {
+                            this.articleCommentList = new ArrayList<>();
+                        }
+                        this.articleCommentList.add(dto);
                     }
-                    this.articleCommentList.add(dto);
                 }
             }
         } finally {
@@ -151,11 +161,12 @@ public class CommentDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if(con != null) {
-                String sql = "DELETE FROM Comment WHERE CommentID = ?";
+                String sql = "UPDATE Comment SET IsActive = ? WHERE CommentID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, commentID);
+                stm.setBoolean(1, false);
+                stm.setInt(2, commentID);
                 int row = stm.executeUpdate();
-                if(row > 0) {
+                if (row > 0) {
                     return true;
                 }
             }
@@ -177,19 +188,19 @@ public class CommentDAO implements Serializable {
     /* get all article by id */
     private ArrayList<String> articleIDList;
 
-    public ArrayList<String> getAllArticleID() throws  SQLException, NamingException {
+    public ArrayList<String> getAllArticleID() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             con = DBUtils.makeConnection();
-            if(con != null) {
+            if (con != null) {
                 String sql = "SELECT ArticleID FROM Article";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String id = rs.getString("ArtcileID");
-                    if(this.articleIDList == null) {
+                    if (this.articleIDList == null) {
                         this.articleIDList = new ArrayList<>();
                     }
                     articleIDList.add(id);
@@ -212,22 +223,22 @@ public class CommentDAO implements Serializable {
     /* get all article by title */
     private ArrayList<String> articleTitle;
 
-    public ArrayList<String> getArticleTitle() throws  SQLException, NamingException {
+    public ArrayList<String> getArticleTitle() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             con = DBUtils.makeConnection();
-            if(con != null) {
+            if (con != null) {
                 String sql = "SELECT Title FROM Article";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    String id = rs.getString("Title");
+                    String content = rs.getString("Title");
                     if(this.articleTitle == null) {
                         this.articleTitle = new ArrayList<>();
                     }
-                    articleTitle.add(id);
+                    articleTitle.add(content);
                 }
             }
             return articleTitle;
@@ -243,51 +254,9 @@ public class CommentDAO implements Serializable {
             }
         }
     }
-
-    /* get content comment by article ID */
-    public String getCommentContent(int articleID) throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        String commentContent = null;
-        try {
-            con = DBUtils.makeConnection();
-            if (con != null) {
-                String sql = "SELECT CommentContent FROM Comment WHERE articleID = ?";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
-                rs = stm.executeQuery();
-                while(rs.next()) {
-                    commentContent = rs.getString(1);
-                }
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return commentContent;
-    }
-
-    /* get list content comment */
-    public ArrayList<String> getCommentList(ArrayList<Integer> articles) throws SQLException, NamingException {
-        ArrayList<String> commentList = new ArrayList<>();
-
-        for(int i = 0; i < articles.size(); i++) {
-            commentList.add(getCommentContent(articles.get(i)));
-        }
-
-        return commentList;
-    }
-
+    
     /* get commenter by articleID */
-    public String getCommenter(int articleID) throws SQLException, NamingException {
+    public String getCommenter(String title) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -295,9 +264,9 @@ public class CommentDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "SELECT UserEmail FROM Comment WHERE articleID = ?";
+                String sql = "SELECT FullName FROM c.Comment, u.UserDetails WHERE Title = ? AND c.Email = u.Email";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
+                stm.setString(1, title);
                 rs = stm.executeQuery();
                 while(rs.next()) {
                     commenter = rs.getString(1);
@@ -317,14 +286,42 @@ public class CommentDAO implements Serializable {
         return commenter;
     }
 
-    /* get list commenter */
-    public ArrayList<String> getCommenterList(ArrayList<Integer> articles) throws SQLException, NamingException {
-        ArrayList<String> commenterList = new ArrayList<>();
-
-        for(int i = 0; i < articles.size(); i++) {
-            commenterList.add(getCommenter(articles.get(i)));
+    /* get all comment isActive */
+    
+    public ArrayList<CommentDTO> getCommentActive() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<CommentDTO> commentActiveList = new ArrayList<>();
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Comment WHERE IsActive = ? ORDER BY PublishTime DESC";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, true);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int commentID = rs.getInt("CommentID");
+                    String authorEmail = rs.getString("UserEmail");
+                    int articleID = rs.getInt("ArticleID");
+                    String commentContent = rs.getString("CommentContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    boolean isActive = rs.getBoolean("IsActive");                    
+                    CommentDTO dto = new CommentDTO(authorEmail, articleID, commentContent, publishTime, isActive);
+                    commentActiveList.add(dto);
+                }
+            }
+            return commentActiveList;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         }
-
-        return commenterList;
     }
 }

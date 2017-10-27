@@ -57,7 +57,6 @@ public class ViewHomeAction {
                 this.articleList.add(articles.get(i));
                 this.authorNameList.add(names.get(i));
             }
-
             url = SUCCESS;
         }
         return url;

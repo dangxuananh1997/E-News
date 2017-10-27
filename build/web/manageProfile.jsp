@@ -62,7 +62,7 @@
                             <span class="input-group-addon">Month</span>
                             <input type="number" class="form-control" name="month" value="">
                             <span class="input-group-addon">Year</span>
-                            <input type="number" class="form-control" name="yeah" value="">
+                            <input type="number" class="form-control" name="year" value="">
                         </div>
                     </div>
                     <div class="form-group">

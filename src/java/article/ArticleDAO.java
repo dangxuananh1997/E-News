@@ -82,7 +82,7 @@ public class ArticleDAO implements Serializable {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String articleID = rs.getString("ArticleID");
+                    int articleID = rs.getInt("ArticleID");
                     String authorEmail = rs.getString("AuthorEmail");
                     String featureImage = rs.getString("FeatureImage");
                     int categoryID = rs.getInt("CategoryID");
@@ -96,7 +96,7 @@ public class ArticleDAO implements Serializable {
                     if (this.searchArticleList == null) {
                         this.searchArticleList = new ArrayList<>();
                     }
-                    ArticleDTO dto = new ArticleDTO(statusID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
                     this.searchArticleList.add(dto);
                 }
             }
@@ -157,6 +157,33 @@ public class ArticleDAO implements Serializable {
         return null;
     }
 
+    //update view count (ViewArticleAction)
+    public boolean updateViewCount(int articleID, int viewCount)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Update Article set ViewCount = ? where ArticleID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, viewCount);
+                stm.setInt(2, articleID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }    
     private ArrayList<ArticleDTO> articleListByAuthor; //list of articles by author (ViewByAuthorAction)
     
     public ArrayList<ArticleDTO> getArticleListByAuthor(){  //return list of articles by author (ViewByAuthorAction)
@@ -171,13 +198,13 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where Email = ? ";
+                String sql = "Select * from Article where AuthorEmail = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String articleID = rs.getString("ArticleID");
+                    int articleID = rs.getInt("ArticleID");
                     String authorEmail = rs.getString("AuthorEmail");
                     String featureImage = rs.getString("FeatureImage");
                     int categoryID = rs.getInt("CategoryID");
@@ -191,7 +218,7 @@ public class ArticleDAO implements Serializable {
                     if (this.articleListByAuthor == null) {
                         this.articleListByAuthor = new ArrayList<>();
                     }
-                    ArticleDTO dto = new ArticleDTO(statusID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
                     this.articleListByAuthor.add(dto);
                 }
             }
@@ -228,7 +255,7 @@ public class ArticleDAO implements Serializable {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String articleID = rs.getString("ArticleID");
+                    int articleID = rs.getInt("ArticleID");
                     String authorEmail = rs.getString("AuthorEmail");
                     String featureImage = rs.getString("FeatureImage");
                     int ID = rs.getInt("CategoryID");
@@ -242,7 +269,7 @@ public class ArticleDAO implements Serializable {
                     if (this.articleListByCategory == null) {
                         this.articleListByCategory = new ArrayList<>();
                     }
-                    ArticleDTO dto = new ArticleDTO(statusID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
                     this.articleListByCategory.add(dto);
                 }
             }
@@ -383,9 +410,10 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if(con != null) {
-                String sql = "DELETE FROM Article WHERE ArticleID = ?";
+                String sql = "UPDATE Article SET StatusID = ? WHERE ArticleID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
+                stm.setInt(1, 5);
+                stm.setInt(2, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;
@@ -453,7 +481,7 @@ public class ArticleDAO implements Serializable {
     }
 
     //get name author
-    public String getAuthorName(String articleID) throws SQLException, NamingException {
+    public String getAuthorName(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -461,9 +489,9 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "SELECT FullName FROM UserDetails, Article WHERE Email = AuthorEmail AND ArticleID = ?";
+                String sql = "SELECT FullName FROM UserDetails u, Article a WHERE u.Email = a.AuthorEmail AND a.ArticleID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, articleID);
+                stm.setInt(1, articleID);
                 rs = stm.executeQuery();
                 while(rs.next()) {
                     authorName = rs.getString(1);
@@ -482,17 +510,6 @@ public class ArticleDAO implements Serializable {
         }
         return authorName;
     }
-
-    //get list name author
-//    public ArrayList<String> getAuthorNameList(ArrayList<String> authorEmails) throws SQLException, NamingException {
-//        ArrayList<String> authorNameList = new ArrayList<>();
-//
-//        for (int i = 0; i < authorEmails.size(); i++) {
-//            authorNameList.add(getAuthorName(authorEmails.get(i)));
-//        }
-//
-//        return authorNameList;
-//    }
 
     //get name of category
     public String getCategoryName(int categoryID) throws SQLException, NamingException {
@@ -583,7 +600,7 @@ public class ArticleDAO implements Serializable {
     }
 
     /* Approve article */
-    public boolean approveArticle(String articleID) throws SQLException, NamingException {
+    public boolean approveArticle(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -594,7 +611,7 @@ public class ArticleDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 3);
                 stm.setString(2, "Approved");
-                stm.setString(3, articleID);
+                stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;
@@ -615,7 +632,7 @@ public class ArticleDAO implements Serializable {
     }
 
     /* Reject article: where reject ?*/
-    public boolean rejectArticle(String articleID) throws SQLException, NamingException {
+    public boolean rejectArticle(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -626,7 +643,7 @@ public class ArticleDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 1);
                 stm.setString(2, "Reject");
-                stm.setString(3, articleID);
+                stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;

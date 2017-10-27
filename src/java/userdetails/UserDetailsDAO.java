@@ -94,7 +94,7 @@ public class UserDetailsDAO implements Serializable {
 
     //update user profile (UpdateProfileAction)
     public boolean updateProfile(String email, String name, int gender, Date birthdate,
-            String phone, String address)
+            String phone, String address, String profilePicture)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -103,13 +103,14 @@ public class UserDetailsDAO implements Serializable {
             con = DBUtils.makeConnection();
             if (con != null) {
                 String sql = "Update UserDetails set FullName = ?, "
-                        + "Gender = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
+                        + "Gender = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, name);
                 stm.setInt(2, gender);
                 stm.setDate(3, sqlBirthdate);
                 stm.setString(4, phone);
                 stm.setString(5, address);
+                stm.setString(5, profilePicture);
                 stm.setString(6, email);
                 int row = stm.executeUpdate();
                 if (row > 0) {
@@ -127,7 +128,7 @@ public class UserDetailsDAO implements Serializable {
         }
         return false;
     }
-    
+
     //get user fullname (SearchArticleAction / ViewByCategoryAction / ViewHomeAction)
     public String getFullName(String email)
             throws NamingException, SQLException {
@@ -162,20 +163,20 @@ public class UserDetailsDAO implements Serializable {
         return null;
     }
 
-    private ArrayList<UserDetailsDTO> searchUserDetailsList;
-
-    public void searchUser(String searchValue) throws SQLException, NamingException {
+    public ArrayList<UserDetailsDTO> searchUser(String searchValue) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        ArrayList<UserDetailsDTO> searchUserDetailsList = new ArrayList<>();
+
         try {
             con = DBUtils.makeConnection();
-            if(con != null) {
+            if (con != null) {
                 String sql = "SELECT * FROM UserDetails WHERE Email LIKE ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 rs = stm.executeQuery();
-                while(rs.next()) {
+                while (rs.next()) {
                     String email = rs.getString("Email");
                     String fullName = rs.getString("FullName");
                     int genderID = rs.getInt("GenderID");
@@ -183,13 +184,14 @@ public class UserDetailsDAO implements Serializable {
                     String phone = rs.getString("Phone");
                     String address = rs.getString("Address");
                     String profilePicture = rs.getString("ProfilePicture");
-                    if(this.searchUserDetailsList == null) {
-                        this.searchUserDetailsList = new ArrayList<>();
+                    if (searchUserDetailsList == null) {
+                        searchUserDetailsList = new ArrayList<>();
                     }
                     UserDetailsDTO dto = new UserDetailsDTO(email, fullName, genderID, birthDate, phone, address, profilePicture);
-                    this.searchUserDetailsList.add(dto);
+                    searchUserDetailsList.add(dto);
                 }
             }
+            return searchUserDetailsList;
         } finally {
             if (rs != null) {
                 rs.close();

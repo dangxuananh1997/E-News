@@ -6,6 +6,8 @@
 package action.admin;
 
 import java.util.ArrayList;
+
+import comment.CommentDAO;
 import comment.CommentDTO;
 import userdetails.UserDetailsDTO;
 
@@ -16,12 +18,12 @@ import userdetails.UserDetailsDTO;
 public class ViewCommentAction {
     
     //Inputs
-    private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
+    private int pageNumber = 1;     //Display 10 articles in this page | Default: 1
     
     //Outputs
+    private ArrayList<CommentDTO> commentList; 
+    private ArrayList<UserDetailsDTO> commenterList; 
     private ArrayList<String> articleTitle;
-    private ArrayList<CommentDTO> commentList;
-    private ArrayList<UserDetailsDTO> commenterList;
     private int numberOfPages;      //Number of pagination page
     private final int tab = 4;            //Tab number
     
@@ -33,8 +35,25 @@ public class ViewCommentAction {
     }
     
     public String execute() throws Exception {
-        
-        
+
+        CommentDAO dao = new CommentDAO();
+        ArrayList<CommentDTO> tempCommentList = dao.getCommentActive();
+        commentList = new ArrayList<>();
+
+        //get numberOfPage
+        numberOfPages = tempCommentList.size() / 10 + 1;
+
+        //get commentList
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempCommentList.size(); i++) {
+            this.commentList.add(tempCommentList.get(i));
+        }
+
+        //get artivcleTitle & commenterList
+        for (int i = 0; i < 10; i++) {
+//            this.commentList.add(dao.getCommentContent(articleTitle.get(i)));
+//            this.commenterList.add(dao.getCommenter(commentList.get(i)));
+        }
+
         return SUCCESS;
     }
 

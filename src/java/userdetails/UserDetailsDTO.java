@@ -21,7 +21,7 @@ public class UserDetailsDTO implements Serializable {
         this.address = address;
         this.profilePicture = profilePicture;
     }
-
+    
     public String getEmail() {
         return email;
     }

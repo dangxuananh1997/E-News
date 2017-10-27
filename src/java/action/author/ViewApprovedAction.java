@@ -5,8 +5,10 @@
  */
 package action.author;
 
+import article.ArticleDAO;
 import java.util.ArrayList;
 import article.ArticleDTO;
+import userdetails.UserDetailsDAO;
 
 /**
  *
@@ -30,9 +32,21 @@ public class ViewApprovedAction {
     }
     
     public String execute() throws Exception {
-        
-        
-        return SUCCESS;
+        String url = FAIL;
+
+        ArticleDAO articleDAO = new ArticleDAO();
+        articleDAO.getArticlesByStatus(3);
+        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles
+
+        if (articles != null) {
+            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+            this.approvedList = new ArrayList<>();
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
+                this.approvedList.add(articles.get(i));
+            }
+            url = SUCCESS;
+        }
+        return url;        
     }
 
     public int getPageNumber() {

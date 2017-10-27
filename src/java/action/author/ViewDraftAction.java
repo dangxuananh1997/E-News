@@ -5,6 +5,7 @@
  */
 package action.author;
 
+import article.ArticleDAO;
 import java.util.ArrayList;
 import article.ArticleDTO;
 
@@ -30,9 +31,21 @@ public class ViewDraftAction {
     }
     
     public String execute() throws Exception {
-        
-        
-        return SUCCESS;
+       String url = FAIL;
+
+        ArticleDAO articleDAO = new ArticleDAO();
+        articleDAO.getArticlesByStatus(1);
+        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of draft
+
+        if (articles != null) {
+            this.draftList = new ArrayList<>();
+            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
+                this.draftList.add(articles.get(i));    //get 10 articles per page
+            }
+            url = SUCCESS;
+        }
+        return url;                 
     }
 
     public int getPageNumber() {

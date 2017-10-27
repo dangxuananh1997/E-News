@@ -5,6 +5,8 @@
  */
 package action.author;
 
+import article.ArticleDAO;
+
 /**
  *
  * @author dangxuananh1997
@@ -21,14 +23,19 @@ public class RequestDeleteAction {
     
     //Return
     private final String SUCCESS = "success";
+    private final String FAIL = "fail";
     
     public RequestDeleteAction() {
     }
     
     public String execute() throws Exception {
+        String url = FAIL;
         
-        
-        return SUCCESS;
+        ArticleDAO dao = new ArticleDAO();
+        boolean result = dao.updateRequestDelete(articleID);
+        if(result)
+            url = SUCCESS;
+        return url;
     }
 
     public int getArticleID() {
