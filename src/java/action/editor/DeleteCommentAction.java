@@ -5,6 +5,10 @@
  */
 package action.editor;
 
+import comment.CommentDAO;
+import comment.CommentDTO;
+import java.util.ArrayList;
+
 /**
  *
  * @author dangxuananh1997
@@ -26,6 +30,16 @@ public class DeleteCommentAction {
     }
     
     public String execute() throws Exception {
+        
+        CommentDAO dao = new CommentDAO();
+        ArrayList<CommentDTO> listCommentActive;
+        
+        //Delete comment        
+        dao.deleteComment(commentID);
+        listCommentActive = dao.getArticleCommentList();
+        
+        //numberOfPage
+        numberOfPages = listCommentActive.size() / 10 + 1;
         
         return SUCCESS;
     }

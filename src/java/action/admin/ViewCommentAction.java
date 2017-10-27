@@ -8,6 +8,8 @@ package action.admin;
 import java.util.ArrayList;
 
 import comment.CommentDAO;
+import comment.CommentDTO;
+import userdetails.UserDetailsDTO;
 
 /**
  *
@@ -19,9 +21,9 @@ public class ViewCommentAction {
     private int pageNumber = 1;     //Display 10 articles in this page | Default: 1
     
     //Outputs
+    private ArrayList<CommentDTO> commentList; 
+    private ArrayList<UserDetailsDTO> commenterList; 
     private ArrayList<String> articleTitle;
-    private ArrayList<String> commentList;
-    private ArrayList<String> commenterList;
     private int numberOfPages;      //Number of pagination page
     private final int tab = 4;            //Tab number
     
@@ -35,21 +37,21 @@ public class ViewCommentAction {
     public String execute() throws Exception {
 
         CommentDAO dao = new CommentDAO();
-        ArrayList<String> tempArticleTitle = dao.getArticleTitle();
-        articleTitle = new ArrayList<>();
+        ArrayList<CommentDTO> tempCommentList = dao.getCommentActive();
+        commentList = new ArrayList<>();
 
         //get numberOfPage
-        numberOfPages = tempArticleTitle.size() / 10 + 1;
+        numberOfPages = tempCommentList.size() / 10 + 1;
 
-        //get articleTitle
-        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleTitle.size(); i++) {
-            this.articleTitle.add(tempArticleTitle.get(i));
+        //get commentList
+        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempCommentList.size(); i++) {
+            this.commentList.add(tempCommentList.get(i));
         }
 
-        //get commentList & commenterList
+        //get artivcleTitle & commenterList
         for (int i = 0; i < 10; i++) {
-            this.commentList.add(dao.getCommentContent(articleTitle.get(i)));
-            this.commenterList.add(dao.getCommenter(commentList.get(i)));
+//            this.commentList.add(dao.getCommentContent(articleTitle.get(i)));
+//            this.commenterList.add(dao.getCommenter(commentList.get(i)));
         }
 
         return SUCCESS;
@@ -71,19 +73,19 @@ public class ViewCommentAction {
         this.articleTitle = articleTitle;
     }
 
-    public ArrayList<String> getCommentList() {
+    public ArrayList<CommentDTO> getCommentList() {
         return commentList;
     }
 
-    public void setCommentList(ArrayList<String> commentList) {
+    public void setCommentList(ArrayList<CommentDTO> commentList) {
         this.commentList = commentList;
     }
 
-    public ArrayList<String> getCommenterList() {
+    public ArrayList<UserDetailsDTO> getCommenterList() {
         return commenterList;
     }
 
-    public void setCommenterList(ArrayList<String> commenterList) {
+    public void setCommenterList(ArrayList<UserDetailsDTO> commenterList) {
         this.commenterList = commenterList;
     }
 

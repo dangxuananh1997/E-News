@@ -383,9 +383,10 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if(con != null) {
-                String sql = "DELETE FROM Article WHERE ArticleID = ?";
+                String sql = "UPDATE Article SET StatusID = ? WHERE ArticleID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, articleID);
+                stm.setInt(1, 5);
+                stm.setInt(2, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;
@@ -572,7 +573,7 @@ public class ArticleDAO implements Serializable {
     }
 
     /* Approve article */
-    public boolean approveArticle(String articleID) throws SQLException, NamingException {
+    public boolean approveArticle(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -583,7 +584,7 @@ public class ArticleDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 3);
                 stm.setString(2, "Approved");
-                stm.setString(3, articleID);
+                stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;
@@ -604,7 +605,7 @@ public class ArticleDAO implements Serializable {
     }
 
     /* Reject article: where reject ?*/
-    public boolean rejectArticle(String articleID) throws SQLException, NamingException {
+    public boolean rejectArticle(int articleID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -615,7 +616,7 @@ public class ArticleDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 1);
                 stm.setString(2, "Reject");
-                stm.setString(3, articleID);
+                stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if(row > 0) {
                     return true;

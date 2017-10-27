@@ -5,6 +5,10 @@
  */
 package action.editor;
 
+import article.ArticleDAO;
+import article.ArticleDTO;
+import java.util.ArrayList;
+
 /**
  *
  * @author dangxuananh1997
@@ -26,8 +30,16 @@ public class ApproveArticleAction {
     }
     
     public String execute() throws Exception {
+
+        //approve article
+        ArrayList<ArticleDTO> pendingList;
+        ArticleDAO dao = new ArticleDAO();
+        dao.approveArticle(articleID);
+        pendingList = dao.getPendingList();
         
-        
+        //get numberOfPage
+        numberOfPages = pendingList.size() / 10 + 1;
+
         return SUCCESS;
     }
 
