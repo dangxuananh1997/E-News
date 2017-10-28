@@ -8,7 +8,10 @@ package action.author;
 import article.ArticleDAO;
 import java.util.ArrayList;
 import article.ArticleDTO;
+import com.opensymphony.xwork2.ActionContext;
+import java.util.Map;
 import userdetails.UserDetailsDAO;
+import userdetails.UserDetailsDTO;
 
 /**
  *
@@ -18,7 +21,7 @@ public class ViewApprovedAction {
     
     //Inputs
     private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
-    
+    private String email;
     //Outputs
     private ArrayList<ArticleDTO> approvedList;
     private int numberOfPages;      //Number of pagination page
@@ -33,12 +36,19 @@ public class ViewApprovedAction {
     
     public String execute() throws Exception {
         String url = FAIL;
-
+        
+        Map session = ActionContext.getContext().getSession();
+        UserDetailsDTO dto = (UserDetailsDTO) session.get("USERDETAILS");
+        email = dto.getEmail(); //get email from session
+        
         ArticleDAO articleDAO = new ArticleDAO();
-        articleDAO.getArticlesByStatus(3);
-        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles
+        articleDAO.getArticlesByStatusAndAuthor(3, email);
+        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatusAndAuthor(); //list of all approved articles
 
         if (articles != null) {
+            for (ArticleDTO article : articles) {
+                System.out.println("ViewApprovedAction" + article.getTitle());
+            }
             numberOfPages = articles.size() / 10 + 1;    //get number of pages
             this.approvedList = new ArrayList<>();
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
@@ -47,6 +57,14 @@ public class ViewApprovedAction {
             url = SUCCESS;
         }
         return url;        
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getPageNumber() {

@@ -37,8 +37,7 @@ public class ViewHomeAction {
         this.articleList = new ArrayList<>();
         this.authorNameList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
-        articleDAO.getArticlesByStatus(3);
-        ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles
+        ArrayList<ArticleDTO> articles = articleDAO.getArticlesByStatus(3); //list of all approved articles
 
         if (articles != null) {
             numberOfPages = articles.size() / 10 + 1;    //get number of pages

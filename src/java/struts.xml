@@ -105,6 +105,10 @@
             <result name="success">author.jsp</result>
             <result name="fail">oops.html</result>
         </action>
+        <action name ="authorViewRejected" class="action.author.ViewRejectedAction">
+            <result name="success">author.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>        
         <action name="authorViewArticleEditing" class="action.author.ViewArticleEditingAction">
             <result name="success">articleEditing.jsp</result>
             <result name="fail">oops.html</result>

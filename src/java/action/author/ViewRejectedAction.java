@@ -6,17 +6,17 @@
 package action.author;
 
 import article.ArticleDAO;
-import java.util.ArrayList;
 import article.ArticleDTO;
 import com.opensymphony.xwork2.ActionContext;
+import java.util.ArrayList;
 import java.util.Map;
 import userdetails.UserDetailsDTO;
 
 /**
  *
- * @author dangxuananh1997
+ * @author Administrator
  */
-public class ViewPendingAction {
+public class ViewRejectedAction {
 
     //Inputs
     private int pageNumber = 1;     //Display 20 articles in this page | Default: 1
@@ -31,7 +31,7 @@ public class ViewPendingAction {
     private final String SUCCESS = "success";
     private final String FAIL = "fail";
 
-    public ViewPendingAction() {
+    public ViewRejectedAction() {
     }
 
     public String execute() throws Exception {
@@ -42,12 +42,12 @@ public class ViewPendingAction {
         email = dto.getEmail(); //get email from session
         
         ArticleDAO articleDAO = new ArticleDAO();
-        articleDAO.getArticlesByStatusAndAuthor(2, email);
+        articleDAO.getArticlesByStatusAndAuthor(6, email);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatusAndAuthor(); //list of all rejected articles
 
         if (articles != null) {
             for (ArticleDTO article : articles) {
-                System.out.println("ViewPendingAction" + article.getTitle());
+                System.out.println("ViewRejectedAction " + article.getTitle());
             }
             this.pendingList = new ArrayList<>();
             numberOfPages = articles.size() / 10 + 1;    //get number of pages
@@ -89,10 +89,6 @@ public class ViewPendingAction {
 
     public void setNumberOfPages(int numberOfPages) {
         this.numberOfPages = numberOfPages;
-    }
-
-    public int getTab() {
-        return tab;
     }
 
 }
