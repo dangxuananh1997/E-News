@@ -18,17 +18,89 @@
 	<div class="collapse navbar-collapse" id="navbarToggler">
 		<ul class="navbar-nav ml-auto mt-2 mt-md-0">
             
-			<li class="nav-item"><a href="home" class="nav-link">All</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Economy</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Entertainment</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Politics</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Sports</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Education</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Health</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Family</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Travel</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">Science</a></li>
-			<li class="nav-item"><a href="home" class="nav-link">World</a></li>
+			<li class="nav-item">
+				<a href="viewHome" class="nav-link">All</a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="1" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Economy
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="2" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Entertainment
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="3" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Politics
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="4" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Sports
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="5" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Education
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="6" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Health
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="7" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Family
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="8" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Travel
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="9" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    Science
+                </s:a>
+			</li>
+			<li class="nav-item">
+                <s:url var="categoryLink" value="viewByCategory">
+                    <s:param name="categoryID" value="10" />
+                </s:url>
+                <s:a cssClass="nav-link" href="%{categoryLink}">
+                    World
+                </s:a>
+			</li>
 		</ul>
 	</div>
 	<input type="" name="" placeholder="Search" class="search">
@@ -44,7 +116,7 @@
                 <img src="assets/img/default-user.png" height="30px" width="30px" class="profile-pic">
             </s:if>
         </a>
-        <a href="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.fullName}"/></span></a>
-        <a href="logout">Logout</a>
+        <a href="manageProfile" class="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.fullName}"/></span></a>
+        <a href="logout" class="btn btn-danger logout" role="button">Log Out</a>
     </s:if>
 </nav>

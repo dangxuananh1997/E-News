@@ -29,13 +29,13 @@ public class ViewHomeAction {
     private final String FAIL = "fail";
 
     public ViewHomeAction() {
-        this.articleList = new ArrayList<>();
-        this.authorNameList = new ArrayList<>();
     }
 
     public String execute() throws Exception {
         String url = FAIL;
 
+        this.articleList = new ArrayList<>();
+        this.authorNameList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.getArticlesByStatus(3);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatus(); //list of all approved articles

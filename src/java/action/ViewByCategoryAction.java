@@ -35,33 +35,28 @@ public class ViewByCategoryAction {
     public String execute() throws Exception {
         String url = FAIL;
         
+        this.articleList = new ArrayList<>();
+        this.authorNameList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.searchByCategory(categoryID);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByCategory(); //list of all approved articles
 
         if (articles != null) {
-            numberOfPages = articles.size() / 10;    //get number of pages
+            numberOfPages = articles.size() / 10 + 1;    //get number of pages
 
             UserDetailsDAO userDAO = new UserDetailsDAO();
             ArrayList<String> names = new ArrayList<>();
 
             for (ArticleDTO articleDTO : articles) {
-                System.out.println(articleDTO);
                 String authorName = userDAO.getFullName(articleDTO.getAuthorEmail());
                 if (!authorName.isEmpty()) {
                     names.add(authorName);    //get list of author names
                 }
             }
-            if(this.articleList == null)
-                this.articleList = new ArrayList<>();
-            if(this.authorNameList == null)
-                this.authorNameList = new ArrayList<>();
             
-            for (int i = numberOfPages * 10 - 10; i < numberOfPages * 10; i++) {
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));  //get 10 articles for each page
-                this.authorNameList.add(names.get(i));  //get 10 author name for each page
-                if(i == articles.size())
-                    break;                    
+                this.authorNameList.add(names.get(i));  //get 10 author name for each page           
             }
             url = SUCCESS;
         }        

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import article.ArticleDTO;
 import java.sql.SQLException;
 import javax.naming.NamingException;
+import userdetails.UserDetailsDAO;
 
 /**
  *
@@ -24,6 +25,7 @@ public class ViewByAuthorAction {
     //Outputs
     private int numberOfPages;                  //Number of pagination page
     private ArrayList<ArticleDTO> articleList;  //List of articles to show on view
+    private String authorName;
 
     //Return
     private final String SUCCESS = "success";
@@ -35,24 +37,30 @@ public class ViewByAuthorAction {
     public String execute() throws NamingException, SQLException {
         String url = FAIL;
 
+        this.articleList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.getArticlesByAuthor(authorEmail);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByAuthor(); //list of articles by author
 
         if (articles != null) {
-            if (this.articleList == null) {
-                this.articleList = new ArrayList<>();
-            }
-            numberOfPages = articles.size() / 10;    //get number of pages
-            for (int i = numberOfPages * 10 - 10; i < numberOfPages * 10; i++) {
+            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));  //10 articles per page
-                if (i == articles.size()) {
-                    break;
-                }
             }
+            
+            UserDetailsDAO userDetailsDAO = new UserDetailsDAO();
+            authorName = userDetailsDAO.getFullName(authorEmail);
             url = SUCCESS;
         }
         return url;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public String getAuthorEmail() {
