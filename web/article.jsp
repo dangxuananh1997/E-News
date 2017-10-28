@@ -57,10 +57,10 @@
 			<div class="comment">
 				<div class="member-info">
 					<a href="viewProfile">
-                        <img src="data:image/jpeg;base64,<s:property value="%{commenterList.get(counter - 1).profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
+                        <img src="data:image/jpeg;base64,<s:property value="%{commenterList[#counter.count - 1].profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
 					</a>
 					<span class="badge badge-default member-name">
-						<a href="viewProfile"><s:property value="%{commenterList.get(counter - 1).fullName}"/></a>
+						<a href="viewProfile"><s:property value="%{commenterList[#counter.count - 1].fullName}"/></a>
 					</span>
                         <span class="comment-time"><s:date name="%{#commentDTO.publishTime}"/></span>
 				</div>
@@ -72,7 +72,7 @@
             
             
             <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
-            <form class="comment new-comment" action="comment">
+            <form class="comment new-comment" action="comment" method="POST">
 				<div class="member-info">
 					<a href="manageProfile">
                         <img src="data:image/jpeg;base64,<s:property value="%{#session.USERDETAILS.profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
@@ -82,6 +82,8 @@
 					</span>
 				</div>
 				<div class="input-group">
+                    <input type="hidden" name="articleID" value="<s:property value="%{articleID}"/>"/>
+                    <input type="hidden" name="commenterEmail" value="<s:property value="%{#session.USERDETAILS.email}"/>"/>
 					<input type="text" class="form-control" placeholder="Comment" name="commentContent">
 					<span class="input-group-btn">
 						<button class="btn btn-outline-primary" type="submit">

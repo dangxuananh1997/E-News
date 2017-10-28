@@ -55,15 +55,11 @@ public class ViewArticleAction {
             commentList = commentDAO.getArticleCommentList();   //get comments
 
             if (commentList != null) {  //comment list not null
+                this.commenterList = new ArrayList<>();
                 for (CommentDTO commentDTO : commentList) {
                     String commenterEmail = commentDTO.getUserEmail();
                     UserDetailsDTO userDTO = userDAO.getUserDetails(commenterEmail);
-                    if (userDTO != null) {
-                        if (this.commenterList == null) {
-                            this.commenterList = new ArrayList<>();
-                        }
-                        this.commenterList.add(userDTO);    //get list of commenter details                       
-                    }
+                    this.commenterList.add(userDTO);    //get list of commenter details
                 }
             }
             url = SUCCESS;
