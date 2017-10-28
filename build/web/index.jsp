@@ -55,7 +55,7 @@
 		</div>
         </s:iterator>
 
-        <s:if test="%{authorNameList != null && categoryID == null}"> <!-- home pagination -->
+        <s:if test="%{authorNameList != null && categoryID == null && searchValue == null}"> <!-- home pagination -->
 		<nav class="pagination">
 			<ul class="pagination">
                 <s:iterator begin="1" end="%{numberOfPages}" status="counter">
@@ -72,7 +72,7 @@
 		</nav>
         </s:if>
 
-        <s:if test="%{categoryID != null}"> <!-- viewByCategory pagination -->
+        <s:if test="%{categoryID != null && searchValue == null}"> <!-- viewByCategory pagination -->
 		<nav class="pagination">
 			<ul class="pagination">
                 <s:iterator begin="1" end="%{numberOfPages}" status="counter">
@@ -90,7 +90,7 @@
 		</nav>
         </s:if>
         
-        <s:if test="%{authorNameList == null && categoryID == null}"> <!-- viewByAuthor pagination -->
+        <s:if test="%{authorNameList == null && categoryID == null && searchValue == null}"> <!-- viewByAuthor pagination -->
 		<nav class="pagination">
 			<ul class="pagination">
                 <s:iterator begin="1" end="%{numberOfPages}" status="counter">
@@ -98,6 +98,24 @@
                     <s:url var="pageLink" value="viewByAuthor">
                         <s:param name="pageNumber" value="%{#counter.count}" />
                         <s:param name="authorEmail" value="%{authorEmail}" />
+                    </s:url>
+                    <s:a cssClass="page-link" href="%{pageLink}">
+                        <s:property value="%{#counter.count}"/>
+                    </s:a>
+                </li>
+                </s:iterator>
+			</ul>
+		</nav>
+        </s:if>
+        
+        <s:if test="%{searchValue != null && searchValue != ''}"> <!-- search pagination -->
+        <nav class="pagination">
+			<ul class="pagination">
+                <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                    <s:url var="pageLink" value="searchArticle">
+                        <s:param name="pageNumber" value="%{#counter.count}" />
+                        <s:param name="searchValue" value="%{searchValue}" />
                     </s:url>
                     <s:a cssClass="page-link" href="%{pageLink}">
                         <s:property value="%{#counter.count}"/>

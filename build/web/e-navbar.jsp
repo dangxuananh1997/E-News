@@ -103,7 +103,10 @@
 			</li>
 		</ul>
 	</div>
-	<input type="" name="" placeholder="Search" class="search">
+    <form action="searchArticle" method="POST">
+        <input type="" name="searchValue" placeholder="Search" class="search">
+        <button type="submit" style="display: none"></button>
+    </form>
 
     
     

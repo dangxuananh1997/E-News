@@ -20,14 +20,12 @@
             <form action="updateProfile" method="POST" enctype="multipart/form-data" class="row">
                 <div class="col-md-3 profile-pic">
                     <label>Profile Picture</label>
-
                     <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
-                        <img src="<s:property value="%{#session.USERDETAILS.profilePicture"/>" width="100%">
+                        <img src="data:image/jpeg;base64,<s:property value="%{#session.USERDETAILS.profilePicture}"/>" width="100%">
                     </s:if>
                     <s:if test="%{#session.USERDETAILS.profilePicture == null || #session.USERDETAILS.profilePicture == ''}">
                         <img src="assets/img/default-user.png" width="100%">
                     </s:if>
-
                     <input type="file" name="profilePicture" class="profile-pic-upload" accept=".jpg, .jpeg, .png">
                     <label class="btn btn-outline-primary" for="profilePicture">Upload picture</label>
                 </div>

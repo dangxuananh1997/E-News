@@ -88,6 +88,10 @@
             <result name="success">manageProfile.jsp</result>
             <result name="fail">oops.html</result>
         </action>
+        <action name="updatePassword" class="action.UpdatePasswordAction">
+            <result name="success">manageProfile.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
         <!--author-->
         <action name ="authorViewApproved" class="action.author.ViewApprovedAction">
             <result name="success">author.jsp</result>
