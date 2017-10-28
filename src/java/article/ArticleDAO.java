@@ -34,7 +34,7 @@ public class ArticleDAO implements Serializable {
             con = DBUtils.makeConnection();
             if (con != null) {
                 for (int ID : articleID) {
-                    String sql = "Select * from Article where ArticleID = ? ";
+                    String sql = "Select * from Article where ArticleID = ? order by PublishTime DESC";
                     stm = con.prepareStatement(sql);
                     stm.setInt(1, ID);
                     rs = stm.executeQuery();
@@ -75,7 +75,7 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where Title like ? or ArticleContent like ? ";
+                String sql = "Select * from Article where Title like ? or ArticleContent like ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 stm.setString(2, "%" + searchValue + "%");
@@ -198,7 +198,7 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where AuthorEmail = ? ";
+                String sql = "Select * from Article where AuthorEmail = ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
@@ -249,7 +249,7 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where CategoryID = ? ";
+                String sql = "Select * from Article where CategoryID = ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, categoryID);
                 rs = stm.executeQuery();
@@ -365,7 +365,7 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where StatusID = ? ";
+                String sql = "Select * from Article where StatusID = ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, statusID);
                 rs = stm.executeQuery();

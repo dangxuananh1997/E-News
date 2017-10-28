@@ -77,14 +77,14 @@ public class UserDAO implements Serializable {
         }
         return role;
     }
-    
+
     //get user status (LoginAction)
     public boolean isActive(String email)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        
+
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
@@ -110,7 +110,7 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
-    
+
     //create new user account (RegisterAction)
     public boolean createAccount(String email, String password)
             throws NamingException, SQLException {
@@ -141,6 +141,7 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+
     //change user password (UpdateProfileAction)
     public boolean updatePassword(String email, String newPassword)
             throws NamingException, SQLException {
@@ -151,14 +152,13 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 String sql = "Update [User] set Password = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, email);
-                stm.setString(2, newPassword);
+                stm.setString(1, newPassword);
+                stm.setString(2, email);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
                 }
             }
-
         } finally {
             if (stm != null) {
                 stm.close();
@@ -169,7 +169,7 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
-    
+
 //    private ArrayList<String> authorNameList;   //List of authors (SearchArticleAction / 
 //                                                                  ViewByCategoryAction /
 //                                                                  ViewHomeAction)
@@ -181,13 +181,13 @@ public class UserDAO implements Serializable {
         ResultSet rs = null;
         try {
             con = DBUtils.makeConnection();
-            if(con != null) {
+            if (con != null) {
                 String sql = "UPDATE User SET IsActive = ? WHERE Email = ?";
                 stm = con.prepareStatement(sql);
                 stm.setBoolean(1, false);
                 stm.setString(2, email);
                 int row = stm.executeUpdate();
-                if(row > 0) {
+                if (row > 0) {
                     return true;
                 }
             }
@@ -207,7 +207,6 @@ public class UserDAO implements Serializable {
     }
 
     /* get role id by email */
-
     private ArrayList<Integer> roleIDList;
 
     public void getRoleID(String email) throws SQLException, NamingException {

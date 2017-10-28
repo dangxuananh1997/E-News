@@ -5,6 +5,7 @@
  */
 package action;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -12,9 +13,11 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import sun.misc.BASE64Encoder;
 import userdetails.UserDetailsDAO;
+import userdetails.UserDetailsDTO;
 
 /**
  *
@@ -28,9 +31,9 @@ public class UpdateProfileAction extends ActionSupport {
     private String email;
     private String fullName;
     private int genderID;
-    private String day;
-    private String month;
-    private String year;
+    private int day;
+    private int month;
+    private int year;
     private String phone;
     private String address;
     private final String SUCCESS = "success";
@@ -49,23 +52,21 @@ public class UpdateProfileAction extends ActionSupport {
         ImageIO.write(bi, "jpg", baos);
         byte[] bytes = baos.toByteArray();
         String img = encoder.encodeBuffer(bytes).trim();
-
+        Map session = ActionContext.getContext().getSession();
+        
+        UserDetailsDTO member = (UserDetailsDTO) session.get("USERDETAILS");
+        email = member.getEmail();  //get email from session
+        
         //get birthdate
-        java.sql.Date sqlBirthDate = new java.sql.Date(getBirthDate().getTime());
-
+        java.sql.Date date = new java.sql.Date(year, month, day);
         UserDetailsDAO dao = new UserDetailsDAO();
-        boolean result = dao.updateProfile(email, fullName, genderID, sqlBirthDate, phone, address, img);
+        boolean result = dao.updateProfile(email, fullName, genderID, date, phone, address, img);
         if (result) {
             url = SUCCESS;
+            member = dao.getUserDetails(email);
+            session.put("USERDETAILS", member); //set new member details to attribute
         }
         return url;
-    }
-
-    public Date getBirthDate() throws ParseException {
-        String date = year + month + day;
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Date parsed = format.parse(date);
-        return parsed;
     }
 
     public File getProfilePicture() {
@@ -116,27 +117,27 @@ public class UpdateProfileAction extends ActionSupport {
         this.genderID = genderID;
     }
 
-    public String getDay() {
+    public int getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(int day) {
         this.day = day;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(int month) {
         this.month = month;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

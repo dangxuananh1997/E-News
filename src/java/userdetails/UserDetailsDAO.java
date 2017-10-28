@@ -103,15 +103,15 @@ public class UserDetailsDAO implements Serializable {
             con = DBUtils.makeConnection();
             if (con != null) {
                 String sql = "Update UserDetails set FullName = ?, "
-                        + "Gender = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
+                        + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, name);
                 stm.setInt(2, gender);
                 stm.setDate(3, sqlBirthdate);
                 stm.setString(4, phone);
                 stm.setString(5, address);
-                stm.setString(5, profilePicture);
-                stm.setString(6, email);
+                stm.setString(6, profilePicture);
+                stm.setString(7, email);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -128,7 +128,7 @@ public class UserDetailsDAO implements Serializable {
         }
         return false;
     }
-
+    
     //get user fullname (SearchArticleAction / ViewByCategoryAction / ViewHomeAction)
     public String getFullName(String email)
             throws NamingException, SQLException {
@@ -162,7 +162,8 @@ public class UserDetailsDAO implements Serializable {
         }
         return null;
     }
-
+    
+    //search user
     public ArrayList<UserDetailsDTO> searchUser(String searchValue) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
