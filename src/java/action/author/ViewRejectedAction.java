@@ -23,40 +23,39 @@ public class ViewRejectedAction {
     private String email;
     
     //Outputs
-    private ArrayList<ArticleDTO> pendingList;
+    private ArrayList<ArticleDTO> rejectedList;
     private int numberOfPages;      //Number of pagination page
-    private final int tab = 2;            //Tab number
+    private final int tab = 4;            //Tab number
 
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
 
     public ViewRejectedAction() {
     }
 
     public String execute() throws Exception {
-        String url = FAIL;
         
         Map session = ActionContext.getContext().getSession();
         UserDetailsDTO dto = (UserDetailsDTO) session.get("USERDETAILS");
         email = dto.getEmail(); //get email from session
         
+        this.rejectedList = new ArrayList<>();
+        
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.getArticlesByStatusAndAuthor(6, email);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatusAndAuthor(); //list of all rejected articles
 
-        if (articles != null) {
-            for (ArticleDTO article : articles) {
-                System.out.println("ViewRejectedAction " + article.getTitle());
-            }
-            this.pendingList = new ArrayList<>();
-            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        if (articles == null) {
+            articles = new ArrayList<>();
+        } else {
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
-                this.pendingList.add(articles.get(i));  //get 10 article per page
+                this.rejectedList.add(articles.get(i));  //get 10 article per page
             }
-            url = SUCCESS;
         }
-        return url;
+        
+        numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        
+        return SUCCESS;
     }
 
     public String getEmail() {
@@ -75,12 +74,12 @@ public class ViewRejectedAction {
         this.pageNumber = pageNumber;
     }
 
-    public ArrayList<ArticleDTO> getPendingList() {
-        return pendingList;
+    public ArrayList<ArticleDTO> getRejectedList() {
+        return rejectedList;
     }
 
-    public void setPendingList(ArrayList<ArticleDTO> pendingList) {
-        this.pendingList = pendingList;
+    public void setRejectedList(ArrayList<ArticleDTO> rejectedList) {
+        this.rejectedList = rejectedList;
     }
 
     public int getNumberOfPages() {
@@ -89,6 +88,10 @@ public class ViewRejectedAction {
 
     public void setNumberOfPages(int numberOfPages) {
         this.numberOfPages = numberOfPages;
+    }
+
+    public int getTab() {
+        return tab;
     }
 
 }

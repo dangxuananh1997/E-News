@@ -18,9 +18,7 @@ public class DeleteCommentAction {
     //Inputs
     private int commentID;
     private int pageNumber;         //Current Page Number
-    
-    //Outputs
-    private int numberOfPages;      //Number of pagination page
+    private String actionName;
     
     //Return
     private final String SUCCESS = "success";
@@ -32,14 +30,9 @@ public class DeleteCommentAction {
     public String execute() throws Exception {
         
         CommentDAO dao = new CommentDAO();
-        ArrayList<CommentDTO> listCommentActive;
         
         //Delete comment        
         dao.deleteComment(commentID);
-        listCommentActive = dao.getArticleCommentList();
-        
-        //numberOfPage
-        numberOfPages = listCommentActive.size() / 10 + 1;
         
         return SUCCESS;
     }
@@ -60,12 +53,12 @@ public class DeleteCommentAction {
         this.pageNumber = pageNumber;
     }
 
-    public int getNumberOfPages() {
-        return numberOfPages;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
     
 }

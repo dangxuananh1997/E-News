@@ -14,18 +14,28 @@ import java.sql.Timestamp;
  */
 public class CommentDTO implements Serializable {
     
+    private int commentID;
     private String userEmail;
     private int articleID;
     private String commentContent;
     private Timestamp publishTime;
     private boolean isActive;
 
-    public CommentDTO(String userEmail, int articleID, String commentContent, Timestamp publishTime, boolean isActive) {
+    public CommentDTO(int commentID, String userEmail, int articleID, String commentContent, Timestamp publishTime, boolean isActive) {
+        this.commentID = commentID;
         this.userEmail = userEmail;
         this.articleID = articleID;
         this.commentContent = commentContent;
         this.publishTime = publishTime;
         this.isActive = isActive;
+    }
+
+    public int getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(int commentID) {
+        this.commentID = commentID;
     }
 
     public String getUserEmail() {
@@ -70,7 +80,7 @@ public class CommentDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "CommentDTO{" + "userEmail=" + userEmail + ", articleID=" + articleID + ", commentContent=" + commentContent + ", publishTime=" + publishTime + ", isActive=" + isActive + '}';
+        return "CommentDTO{" + "commentID=" + commentID + ", userEmail=" + userEmail + ", articleID=" + articleID + ", commentContent=" + commentContent + ", publishTime=" + publishTime + ", isActive=" + isActive + '}';
     }
     
 }

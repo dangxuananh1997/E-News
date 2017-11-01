@@ -5,10 +5,9 @@
  */
 package action.admin;
 
-import article.ArticleDAO;
-import article.ArticleDTO;
 import java.util.ArrayList;
 import role.RoleDAO;
+import user.UserDAO;
 import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
@@ -24,12 +23,13 @@ public class ViewManageUserAction {
     //Outputs
     private ArrayList<UserDetailsDTO> userList;
     private ArrayList<String> roleList;
+    private ArrayList<Boolean> isActive;
     private int numberOfPages;      //Number of pagination page
     private final int tab = 5;      //Tab number
+    private final String actionName = "adminViewManageUser";
     
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
     
     public ViewManageUserAction() {
     }
@@ -37,26 +37,31 @@ public class ViewManageUserAction {
     public String execute() throws Exception {
         
         //list user
-        UserDetailsDAO dao = new UserDetailsDAO();
-        RoleDAO rDao = new RoleDAO();
+        UserDetailsDAO userDetailsDAO = new UserDetailsDAO();
+        RoleDAO roleDAO = new RoleDAO();
+        UserDAO userDAO = new UserDAO();
+        
         userList = new ArrayList<>();
         roleList = new ArrayList<>();
-        ArrayList<UserDetailsDTO> tempArticleList = dao.viewAllUsers();        
+        isActive = new ArrayList<>();
+        
+        ArrayList<UserDetailsDTO> tempUserList = userDetailsDAO.viewAllUsers();
+        if (tempUserList == null)
+            tempUserList = new ArrayList<>();
+        else {
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempUserList.size(); i++) {
+                this.userList.add(tempUserList.get(i));
+            }
+
+            //list role
+            for (int i = 0; i < 10 && i < userList.size(); i++) {
+                roleList.add(roleDAO.getRoleName(userList.get(i).getEmail()));
+                isActive.add(userDAO.isActive(userList.get(i).getEmail()));
+            }
+        }
         
         //get numberOfPage
-        numberOfPages = tempArticleList.size() / 10 + 1;
-        
-        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
-            this.userList.add(tempArticleList.get(i));
-        }
-        
-        //list role
-
-        for (int i = 0; i < 10; i++) {
-            roleList.add(rDao.getRoleName(userList.get(i).getEmail()));
-            System.out.println(userList.get(i));
-            System.out.println(roleList.get(i));
-        }
+        numberOfPages = tempUserList.size() / 10 + 1;
         
         return SUCCESS;
     }
@@ -95,6 +100,18 @@ public class ViewManageUserAction {
 
     public int getTab() {
         return tab;
+    }
+
+    public ArrayList<Boolean> getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(ArrayList<Boolean> isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getActionName() {
+        return actionName;
     }
     
 }

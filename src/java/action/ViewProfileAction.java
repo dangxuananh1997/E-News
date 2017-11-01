@@ -48,11 +48,12 @@ public class ViewProfileAction {
             commentDAO.getCommentsOfProfile(userEmail);
             ArrayList<CommentDTO> comments = commentDAO.getCommentProfileList();
 
-            if (comments != null) {
-                numberOfPages = comments.size() / 10 + 1;   //get number of pages
-                this.articleTitleList = new ArrayList<>();
-                this.commentList = new ArrayList<>();
-
+            this.articleTitleList = new ArrayList<>();
+            this.commentList = new ArrayList<>();
+                
+            if (comments == null) {
+                comments = new ArrayList<>();
+            } else {
                 for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < comments.size(); i++) {
                     this.commentList.add(comments.get(i));  //get 10 comments per page
                     CommentDTO commentDTO = comments.get(i);
@@ -64,6 +65,9 @@ public class ViewProfileAction {
                     this.articleTitleList.add(dto.getTitle());      //get 10 article title per page
                 }
             }
+            
+            numberOfPages = comments.size() / 10 + 1;   //get number of pages
+            
             url = SUCCESS;
         }
         return url;

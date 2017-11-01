@@ -29,34 +29,32 @@ public class ViewPendingAction {
 
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
 
     public ViewPendingAction() {
     }
 
     public String execute() throws Exception {
-        String url = FAIL;
         
         Map session = ActionContext.getContext().getSession();
         UserDetailsDTO dto = (UserDetailsDTO) session.get("USERDETAILS");
         email = dto.getEmail(); //get email from session
         
+        pendingList = new ArrayList<>();
+        
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.getArticlesByStatusAndAuthor(2, email);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByStatusAndAuthor(); //list of all rejected articles
-
-        if (articles != null) {
-            for (ArticleDTO article : articles) {
-                System.out.println("ViewPendingAction" + article.getTitle());
-            }
-            this.pendingList = new ArrayList<>();
-            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        if (articles == null)
+            articles = new ArrayList<>();
+        else {
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.pendingList.add(articles.get(i));  //get 10 article per page
             }
-            url = SUCCESS;
         }
-        return url;
+        
+        numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        
+        return SUCCESS;
     }
 
     public String getEmail() {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package action.admin;
+package action.author;
 
 import article.ArticleDAO;
 
@@ -11,27 +11,31 @@ import article.ArticleDAO;
  *
  * @author dangxuananh1997
  */
-public class DeleteArticleAction {
+public class CancelDeleteRequestAction {
     
     //Inputs
     private int articleID;
-    private int pageNumber;             //Current Page Number
-    private String actionName;      //All Article or Delete Request
+    private int pageNumber;         //Current Page Number
     
     //Outputs
-    private int numberOfPages;      //Number of pagination page
+    private int tab = 1;            //Tab number
     
     //Return
     private final String SUCCESS = "success";
+    private final String FAIL = "fail";
     
-    public DeleteArticleAction() {
+    public CancelDeleteRequestAction() {
     }
     
     public String execute() throws Exception {
-
+        
+        String url = FAIL;
+        
         ArticleDAO dao = new ArticleDAO();
-        dao.deleteArticle(articleID);
-        return SUCCESS;
+        boolean result = dao.cancelRequestDelete(articleID);
+        if(result)
+            url = SUCCESS;
+        return url;
     }
 
     public int getArticleID() {
@@ -50,20 +54,12 @@ public class DeleteArticleAction {
         this.pageNumber = pageNumber;
     }
 
-    public int getNumberOfPages() {
-        return numberOfPages;
+    public int getTab() {
+        return tab;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public String getActionName() {
-        return actionName;
-    }
-
-    public void setActionName(String actionName) {
-        this.actionName = actionName;
+    public void setTab(int tab) {
+        this.tab = tab;
     }
     
 }

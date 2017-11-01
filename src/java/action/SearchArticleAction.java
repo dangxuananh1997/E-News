@@ -38,31 +38,32 @@ public class SearchArticleAction {
         this.articleList = new ArrayList<>();
         this.authorNameList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
+        
         articleDAO.searchByValue(searchValue);
+        
         ArrayList<ArticleDTO> articles = articleDAO.getsearchArticleList(); //list of articles by searching
         
-        if (articles != null) {
-            numberOfPages = articles.size() / 10 + 1;    //get number of pages
-
+        if (articles == null) {
+            articles = new ArrayList<>();
+        } else {
             UserDetailsDAO userDAO = new UserDetailsDAO();
             ArrayList<String> names = new ArrayList<>();
 
             for (ArticleDTO articleDTO : articles) {
                 System.out.println(articleDTO);
                 String authorName = userDAO.getFullName(articleDTO.getAuthorEmail());
-                if (!authorName.isEmpty()) {
-                    names.add(authorName);    //get list of author names
-                }
+                names.add(authorName);    //get list of author names
             }
-            System.out.println("SearchArticleAction " + names);
             
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));  //get 10 article for each page
                 this.authorNameList.add(names.get(i));  //get 10 author name for each page      
             }
-            url = SUCCESS;
         }
-        return url;
+        
+        numberOfPages = articles.size() / 10 + 1;    //get number of pages
+            
+        return SUCCESS;
     }
 
     public String getSearchValue() {

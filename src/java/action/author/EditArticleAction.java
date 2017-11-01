@@ -6,14 +6,13 @@
 package action.author;
 
 import article.ArticleDAO;
-import article.ArticleDTO;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -42,20 +41,18 @@ public class EditArticleAction extends ActionSupport  {
     }
     
     public String execute() throws Exception {
-        String url = FAIL;
         
         ArticleDAO dao = new ArticleDAO();
         
         String img = "";
         //get image string
         if (featureImage != null) {
-            BASE64Encoder encoder = new BASE64Encoder();
             BufferedImage bi;
             bi = ImageIO.read(featureImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(bi, "jpg", baos);
             byte[] bytes = baos.toByteArray();
-            img = encoder.encodeBuffer(bytes).trim();
+            img = new String(Base64.getEncoder().encode(baos.toByteArray()));
         }
         
         UserDetailsDTO author = (UserDetailsDTO) ActionContext.getContext().getSession().get("USERDETAILS");
@@ -72,7 +69,10 @@ public class EditArticleAction extends ActionSupport  {
                 return FAIL;
         }
         
-        return SUCCESSPENDING;
+        if (statusID == 1) 
+            return SUCCESSDRAFT;
+        else
+            return SUCCESSPENDING;
     }
 
     public int getArticleID() {

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
@@ -44,16 +44,19 @@ public class UpdateProfileAction extends ActionSupport {
 
     public String execute() throws Exception {
         String url = FAIL;
-        //get image string
-        BASE64Encoder encoder = new BASE64Encoder();
-        BufferedImage bi;
-        bi = ImageIO.read(profilePicture);  //error
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bi, "jpg", baos);
-        byte[] bytes = baos.toByteArray();
-        String img = encoder.encodeBuffer(bytes).trim();
-        Map session = ActionContext.getContext().getSession();
         
+        //get image string
+        String img = "";
+        if (profilePicture != null) {
+            BufferedImage bi;
+            bi = ImageIO.read(profilePicture);  //error
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bi, "jpg", baos);
+            byte[] bytes = baos.toByteArray();
+            img = new String(Base64.getEncoder().encode(baos.toByteArray()));
+        }
+        
+        Map session = ActionContext.getContext().getSession();
         UserDetailsDTO member = (UserDetailsDTO) session.get("USERDETAILS");
         email = member.getEmail();  //get email from session
         

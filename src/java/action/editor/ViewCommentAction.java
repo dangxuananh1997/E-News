@@ -31,36 +31,38 @@ public class ViewCommentAction {
     
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
     
     public ViewCommentAction() throws SQLException, NamingException {
-        CommentDAO dao = new CommentDAO();
-        UserDetailsDAO udDao = new UserDetailsDAO();
-        ArrayList<CommentDTO> tempCommentList = dao.getCommentActive();
-        commentList = new ArrayList<>();
-        commenterList = new ArrayList<>();
-        articleTitle = new ArrayList<>();
-
-        //get numberOfPage
-        numberOfPages = tempCommentList.size() / 10 + 1;
-
-        //get commentList
-        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempCommentList.size(); i++) {
-            this.commentList.add(tempCommentList.get(i));
-        }
-
-        //get articleTitle & commenterList
-        for (int i = 0; i < 10; i++) {
-            this.commenterList.add(udDao.getUserDetails(commentList.get(i).getUserEmail()));
-            this.articleTitle.add(dao.getArticleTitle(commentList.get(i).getArticleID()));
-            System.out.println(commentList.get(i));
-            System.out.println(commenterList.get(i));
-            System.out.println(articleTitle.get(i));
-        }
     }
     
     public String execute() throws Exception {
         
+        CommentDAO dao = new CommentDAO();
+        UserDetailsDAO udDao = new UserDetailsDAO();
+        
+        commentList = new ArrayList<>();
+        commenterList = new ArrayList<>();
+        articleTitle = new ArrayList<>();
+        
+        ArrayList<CommentDTO> tempCommentList = dao.getCommentActive();
+        
+        if (tempCommentList == null)
+            tempCommentList = new ArrayList<>();
+        else {
+            //get commentList
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempCommentList.size(); i++) {
+                this.commentList.add(tempCommentList.get(i));
+            }
+
+            //get articleTitle & commenterList
+            for (int i = 0; i < 10 && i < commentList.size(); i++) {
+                this.commenterList.add(udDao.getUserDetails(commentList.get(i).getUserEmail()));
+                this.articleTitle.add(dao.getArticleTitle(commentList.get(i).getArticleID()));
+            }
+        }
+
+        //get numberOfPage
+        numberOfPages = tempCommentList.size() / 10 + 1;
         
         return SUCCESS;
     }

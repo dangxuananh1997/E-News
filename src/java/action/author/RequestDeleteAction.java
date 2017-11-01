@@ -19,7 +19,6 @@ public class RequestDeleteAction {
     
     //Outputs
     private int tab = 1;            //Tab number
-    private int numberOfPages;      //Number of pagination page
     
     //Return
     private final String SUCCESS = "success";
@@ -60,14 +59,6 @@ public class RequestDeleteAction {
 
     public void setTab(int tab) {
         this.tab = tab;
-    }
-
-    public int getNumberOfPages() {
-        return numberOfPages;
-    }
-
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
     }
     
 }

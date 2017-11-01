@@ -9,15 +9,6 @@
             <result name="success">index.jsp</result>
             <result name="fail" type="redirect">oops.html</result>
         </action>
-        <action name="admin">
-            <result>admin.jsp</result>
-        </action>
-        <action name="author">
-            <result>author.jsp</result>
-        </action>
-        <action name="editor">
-            <result>editor.jsp</result>
-        </action>
         <action name="manageProfile">
             <result>manageProfile.jsp</result>
         </action>
@@ -55,7 +46,6 @@
         </action>
         <action name="viewHome" class="action.ViewHomeAction">
             <result name="success">index.jsp</result>
-            <result name="fail" type="redirect">oops.html</result>
         </action>
         <action name="searchArticle" class="action.SearchArticleAction">
             <result name="success">index.jsp</result>
@@ -88,16 +78,24 @@
             <result name="success">manageProfile.jsp</result>
             <result name="fail">oops.html</result>
         </action>
+        <action name="updatePassword" class="action.UpdatePasswordAction">
+            <result name="success">manageProfile.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
         <!--author-->
-        <action name ="authorViewApproved" class="action.author.ViewApprovedAction">
+        <action name="authorViewApproved" class="action.author.ViewApprovedAction">
             <result name="success">author.jsp</result>
             <result name="fail">oops.html</result>
         </action>
-        <action name ="authorViewDraft" class="action.author.ViewDraftAction">
+        <action name="authorViewDraft" class="action.author.ViewDraftAction">
             <result name="success">author.jsp</result>
             <result name="fail">oops.html</result>
         </action>
-        <action name ="authorViewPending" class="action.author.ViewPendingAction">
+        <action name="authorViewPending" class="action.author.ViewPendingAction">
+            <result name="success">author.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name="authorViewRejected" class="action.author.ViewRejectedAction">
             <result name="success">author.jsp</result>
             <result name="fail">oops.html</result>
         </action>
@@ -123,6 +121,13 @@
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>
+        <action name="authorCancelRequestDelete" class="action.author.CancelDeleteRequestAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">authorViewApproved</param>
+                <param name="tab">${tab}</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
         <!--editor-->
         <action name="editorViewPending" class="action.editor.ViewPendingAction">
             <result name="success">editor.jsp</result>
@@ -132,19 +137,19 @@
         </action>
         <action name="editorApproveArticle" class="action.editor.ApproveArticleAction">
             <result name="success" type="redirectAction">
-                <param name="actionName">editorViewPending</param>
+                <param name="actionName">${actionName}</param>
                 <param name="pageNumber">${pageNumber}</param>
             </result>   
         </action>
         <action name="editorRejectArticle" class="action.editor.RejectArticleAction">
             <result name="success" type="redirectAction">
-                <param name="actionName">editorViewPending</param>
+                <param name="actionName">${actionName}</param>
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>
         <action name="editorDeleteComment" class="action.editor.DeleteCommentAction">
             <result name="success" type="redirectAction">
-                <param name="actionName">editorViewComment</param>
+                <param name="actionName">${actionName}</param>
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>
@@ -169,19 +174,17 @@
         </action>
         <action name="adminDeleteArticle" class="action.admin.DeleteArticleAction">
             <result name="success" type="redirectAction">
-                <param name="actionName">${viewActionName}</param>
+                <param name="actionName">${actionName}</param>
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>
         <action name="adminSearchUser" class="action.admin.SearchUserAction">
-            <result name="success" type="redirectAction">
-                <param name="actionName">adminViewManageUser</param>
-                <param name="pageNumber">${pageNumber}</param>
-            </result>
+            <result name="success">admin.jsp</result>
         </action>
         <action name="adminBanUser" class="action.admin.BanUserAction">
             <result name="success" type="redirectAction">
-                <param name="actionName">adminViewManageUser</param>
+                <param name="actionName">${actionName}</param>
+                <param name="searchValue">${searchValue}</param>
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>

@@ -29,7 +29,6 @@ public class ViewDeleteRequestAction {
     
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
     
     public ViewDeleteRequestAction() {
     }
@@ -39,27 +38,30 @@ public class ViewDeleteRequestAction {
         //list article
         ArticleDAO dao = new ArticleDAO();
         UserDetailsDAO udDao = new UserDetailsDAO();
+        
         articleList = new ArrayList<>();
         authorList = new ArrayList<>();
         categoryList = new ArrayList<>();
-        ArrayList<ArticleDTO> tempArticleList = dao.viewArticleRequestedToDelete();        
+        
+        ArrayList<ArticleDTO> tempArticleList = dao.viewArticleRequestedToDelete();
+        
+        if (tempArticleList == null) 
+            tempArticleList = new ArrayList<>();
+        else {
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
+                this.articleList.add(tempArticleList.get(i));
+            }
+
+            //list authors & categories
+            for (int i = 0; i < 10 && i < articleList.size(); i++) {
+                this.authorList.add(udDao.getUserDetails(articleList.get(i).getAuthorEmail()));
+                this.categoryList.add(dao.getCategoryName(articleList.get(i).getCategoryID()));
+            }
+        }
         
         //get numberOfPage
         numberOfPages = tempArticleList.size() / 10 + 1;
         
-        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempArticleList.size(); i++) {
-            this.articleList.add(tempArticleList.get(i));
-        }
-        
-        //list authors & categories
-
-        for (int i = 0; i < 10; i++) {
-            this.authorList.add(udDao.getUserDetails(articleList.get(i).getAuthorEmail()));
-            this.categoryList.add(dao.getCategoryName(articleList.get(i).getCategoryID()));
-            System.out.println(articleList.get(i));
-            System.out.println(authorList.get(i));
-            System.out.println(categoryList.get(i));
-        }
         return SUCCESS;
     }
 

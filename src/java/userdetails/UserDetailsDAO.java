@@ -102,16 +102,29 @@ public class UserDetailsDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Update UserDetails set FullName = ?, "
+                if (profilePicture != "") {
+                    String sql = "Update UserDetails set FullName = ?, "
+                        + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1, name);
+                    stm.setInt(2, gender);
+                    stm.setDate(3, sqlBirthdate);
+                    stm.setString(4, phone);
+                    stm.setString(5, address);
+                    stm.setString(6, email);
+                } else {
+                    String sql = "Update UserDetails set FullName = ?, "
                         + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, name);
-                stm.setInt(2, gender);
-                stm.setDate(3, sqlBirthdate);
-                stm.setString(4, phone);
-                stm.setString(5, address);
-                stm.setString(6, profilePicture);
-                stm.setString(7, email);
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1, name);
+                    stm.setInt(2, gender);
+                    stm.setDate(3, sqlBirthdate);
+                    stm.setString(4, phone);
+                    stm.setString(5, address);
+                    stm.setString(6, profilePicture);
+                    stm.setString(7, email);
+                }
+                
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -185,9 +198,6 @@ public class UserDetailsDAO implements Serializable {
                     String phone = rs.getString("Phone");
                     String address = rs.getString("Address");
                     String profilePicture = rs.getString("ProfilePicture");
-                    if (searchUserDetailsList == null) {
-                        searchUserDetailsList = new ArrayList<>();
-                    }
                     UserDetailsDTO dto = new UserDetailsDTO(email, fullName, genderID, birthDate, phone, address, profilePicture);
                     searchUserDetailsList.add(dto);
                 }

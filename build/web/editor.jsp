@@ -46,42 +46,70 @@
 			<div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				<h3>Pending Articles</h3>
 				<div class="article-list">
-					
+                    <s:iterator var="article" value="pendingList" status="counter">
 					<div class="article row">
 						<div class="col-1 author-profile-picture">
-							<img src="assets/img/author.jpg" height="80px" width="80px" class="img-thumbnail">
+							<img src="data:img/jpeg;base64,<s:property value="%{authorList[#counter.count - 1].profilePicture}"/>" class="img-thumbnail"
+								height="80px" width="80px">
 						</div>
 						<div class="col-11 article-title">
-							<h4>Pending Article</h4>
+							<h4><s:property value="%{#article.title}"/></h4>
 							<span class="badge badge-primary">
-								Author Name
+								<s:property value="%{authorList[#counter.count - 1].fullName}"/>
 							</span>
 							<span class="badge badge-default">
-								Science
+								<s:property value="%{categoryList[#counter.count - 1]}"/>
 							</span>
 							<span class="badge badge-warning">
-								Today, 16:10
+								<s:date name="%{#article.publishTime}"/>
 							</span>
 							<div class="d-flex flex-row">
-								<button class="btn btn-outline-info">
+                                <s:url var="articleLink" value="viewArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                </s:url>
+								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
-								</button>
-								<button class="btn btn-outline-success">
-									<i class="icon ion-checkmark"></i> Approved
-								</button>
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button class="btn btn-outline-danger" type="button">
-											<i class="icon ion-close"></i> Reject
-										</button>
-									</span>
-									<input type="text" class="form-control" placeholder="Reason">
-								</div>
+								</s:a>
+                                    
+                                <s:url var="approveLink" value="editorApproveArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="pageNumber" value="%{pageNumber}" />
+                                    <s:param name="actionName" value="'editorViewPending'" />
+                                </s:url>
+                                <s:a cssClass="btn btn-outline-success" role="button" href="%{approveLink}">
+                                    <i class="icon ion-checkmark"></i> Approved
+                                </s:a>
+                                <form action="editorRejectArticle" method="POST">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-outline-danger" type="submit">
+                                                <i class="icon ion-close"></i> Reject
+                                            </button>
+                                        </span>
+                                        <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
+                                        <input type="hidden" name="actionName" value="<s:property value="'editorViewPending'"/>">
+                                        <input type="text" class="form-control" name="reason" placeholder="Reason">
+                                    </div>
+                                </form>
 							</div>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="editorViewPending">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             
@@ -90,34 +118,60 @@
 			<div class="tab-pane fade show active" id="manage-comments" role="tabpanel" aria-labelledby="manage-comments-tab">
 				<h3>Comments</h3>
 				<div class="comment-list">
-
+                    <s:iterator var="comment" value="commentList" status="counter">
 					<div class="comment row">
 						<div class="col-1">
-							<img src="assets/img/member.jpg" class="member-profile-picture img-thumbnail" width="80px" height="80px">
+							<img src="data:img/jpeg;base64, <s:property value="%{commenterList[#counter.count - 1].profilePicture}"/>" 
+								class="member-profile-picture img-thumbnail" 
+								width="80px" height="80px">
 						</div>
 						<div class="col-11">
-							<h4 class="article-title"><a href="">Random article title</a></h4>
+							<h4 class="article-title">
+                                <s:property value="%{articleTitle[#counter.count - 1]}"/>
+							</h4>
 							<p class="comment-content">
 								<span class="badge badge-info">
-                                    Member Name
-                                </span>
-                                <span class="badge badge-warning">
-                                    Today, 16:10
-                                </span>
+                                    <s:property value="%{commenterList[#counter.count - 1].fullName}"/>
+								</span>
+								<span class="badge badge-warning">
+                                    <s:date name="%{#comment.publishTime}"/>
+								</span>
 								<i class="icon ion-ios-play"></i>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua.
+                                <s:property value="%{#comment.commentContent}"/>
 							</p>
-							<button class="btn btn-outline-info">
-								<i class="icon ion-eye"></i> View Article
-							</button>
-							<button class="btn btn-outline-danger">
-								<i class="icon ion-close"></i> Delete comment
-							</button>
+                            <s:url var="viewArticleLink" value="viewArticle">
+                                <s:param name="articleID" value="%{#comment.articleID}" />
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-info" role="button" href="%{viewArticleLink}">
+                                <i class="icon ion-eye"></i> View Article
+                            </s:a>
+                                
+                            <s:url var="deleteCommentLink" value="editorDeleteComment">
+                                <s:param name="commentID" value="%{#comment.commentID}"/>
+                                <s:param name="pageNumber" value="%{pageNumber}"/>
+                                <s:param name="actionName" value="'editorViewComment'"/>
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-danger" role="button" href="%{deleteCommentLink}">
+                                <i class="icon ion-close"></i> Delete comment
+                            </s:a>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="editorViewComment">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             

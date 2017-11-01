@@ -351,6 +351,34 @@ public class ArticleDAO implements Serializable {
         }
         return false;
     }
+    
+    public boolean cancelRequestDelete(int articleID)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Update Article set StatusID = ? where ArticleID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, 3);
+                stm.setInt(2, articleID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
 
     private ArrayList<ArticleDTO> articleListByStatusAndAuthor; //list of  articles by status (ViewApprovedAction/ ViewDraftAction/ 
     //ViewPendingAction / ViewHomeAction)
@@ -404,6 +432,54 @@ public class ArticleDAO implements Serializable {
             }
         }
     }
+    
+    public ArrayList<ArticleDTO> getApprovedArticlesByAuthor(String authorEmail)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        
+        ArrayList<ArticleDTO> articleList = new ArrayList<>();
+        
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Select * from Article where StatusID = ? or StatusID = ? and AuthorEmail = ? order by PublishTime DESC";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, 3);
+                stm.setInt(2, 4);
+                stm.setString(3, authorEmail);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int articleID = rs.getInt("ArticleID");
+                    String featureImage = rs.getString("FeatureImage");
+                    int categoryID = rs.getInt("CategoryID");
+                    String title = rs.getString("Title");
+                    int statusID = rs.getInt("StatusID");
+                    String articleContent = rs.getString("ArticleContent");
+                    Timestamp publishTime = rs.getTimestamp("PublishTime");
+                    String statusDescription = rs.getString("StatusDescription");
+                    int viewCount = rs.getInt("ViewCount");
+
+                    ArticleDTO dto = new ArticleDTO(articleID, authorEmail, featureImage, categoryID, title, articleContent, publishTime, statusID, statusDescription, viewCount);
+                    articleList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return articleList;
+    }
+    
     //list of articles by status only
     private ArrayList<ArticleDTO> articleListByStatus;
 
@@ -682,7 +758,7 @@ public class ArticleDAO implements Serializable {
     }
 
     /* Reject article: where reject ?*/
-    public boolean rejectArticle(int articleID) throws SQLException, NamingException {
+    public boolean rejectArticle(int articleID, String reason) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -691,8 +767,8 @@ public class ArticleDAO implements Serializable {
             if (con != null) {
                 String sql = "UPDATE Article SET StatusID = ?, StatusDescription = ? WHERE ArticleID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, 1);
-                stm.setString(2, "Reject");
+                stm.setInt(1, 6);
+                stm.setString(2, reason);
                 stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if (row > 0) {

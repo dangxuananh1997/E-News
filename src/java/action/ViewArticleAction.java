@@ -23,6 +23,7 @@ public class ViewArticleAction {
 
     //Inputs
     private int articleID;
+    private boolean commentOff = false;
 
     //Outputs
     private ArticleDTO article;                         //Article
@@ -32,14 +33,12 @@ public class ViewArticleAction {
 
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
 
     public ViewArticleAction() throws Exception {
     }
 
     public String execute() throws NamingException, SQLException {
-        String url = FAIL;
-
+        
         ArticleDAO articleDAO = new ArticleDAO();
         article = articleDAO.getArticleDetails(articleID);  //get article details
 
@@ -62,9 +61,9 @@ public class ViewArticleAction {
                     this.commenterList.add(userDTO);    //get list of commenter details
                 }
             }
-            url = SUCCESS;
         }
-        return url;
+        
+        return SUCCESS;
     }
 
     public int getArticleID() {
@@ -105,6 +104,14 @@ public class ViewArticleAction {
 
     public void setCommenterList(ArrayList<UserDetailsDTO> commenterList) {
         this.commenterList = commenterList;
+    }
+
+    public boolean isCommentOff() {
+        return commentOff;
+    }
+
+    public void setCommentOff(boolean commentOff) {
+        this.commentOff = commentOff;
     }
 
 }

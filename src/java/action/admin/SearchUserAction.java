@@ -7,11 +7,10 @@ package action.admin;
 
 import java.util.ArrayList;
 
-import article.ArticleDTO;
-import user.UserDAO;
 import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 import role.RoleDAO;
+import user.UserDAO;
 
 /**
  *
@@ -26,36 +25,47 @@ public class SearchUserAction {
     //Outputs
     private ArrayList<UserDetailsDTO> userList;
     private ArrayList<String> roleList;
+    private ArrayList<Boolean> isActive;
     private int numberOfPages;      //Number of pagination page
     private final int tab = 5;      //Tab number
+    private final String actionName = "adminSearchUser";
     
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
     
     
     public SearchUserAction() {
     }
     
     public String execute() throws Exception {
+        
+        UserDetailsDAO userDetailsDAO = new UserDetailsDAO();
+        RoleDAO roleDAO = new RoleDAO();
+        UserDAO userDAO = new UserDAO();
+        
+        userList = new ArrayList<>();
+        roleList = new ArrayList<>();
+        isActive = new ArrayList<>();
+        
+        ArrayList<UserDetailsDTO> tempUserList = userDetailsDAO.searchUser(searchValue);
+        
+        if (tempUserList == null)
+            tempUserList = new ArrayList<>();
+        else {
+            //get userList
+            for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempUserList.size(); i++) {
+                this.userList.add(tempUserList.get(i));
+            }
 
-        UserDetailsDAO dao = new UserDetailsDAO();
-        RoleDAO roleDao = new RoleDAO();
-        ArrayList<UserDetailsDTO> tempUserList = dao.searchUser(searchValue);
-
+            //get roleList
+            for (int i = 0; i < 10 && i < userList.size(); i++) {
+                roleList.add(roleDAO.getRoleName(userList.get(i).getEmail()));
+                isActive.add(userDAO.isActive(userList.get(i).getEmail()));
+            }
+        }
+        
         //get pageOfNumber
         numberOfPages = tempUserList.size() / 10 + 1;
-
-        //get userList
-        for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < tempUserList.size(); i++) {
-            this.userList.add(userList.get(i));
-        }
-
-        //get roleList
-        roleList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            roleList.add(roleDao.getRoleName(userList.get(i).getEmail()));
-        }
 
         return SUCCESS;
     }
@@ -92,12 +102,28 @@ public class SearchUserAction {
         this.roleList = roleList;
     }
 
+    public ArrayList<Boolean> getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(ArrayList<Boolean> isActive) {
+        this.isActive = isActive;
+    }
+
     public int getNumberOfPages() {
         return numberOfPages;
     }
 
     public void setNumberOfPages(int numberOfPages) {
         this.numberOfPages = numberOfPages;
+    }
+
+    public int getTab() {
+        return tab;
+    }
+
+    public String getActionName() {
+        return actionName;
     }
     
 }

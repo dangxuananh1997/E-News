@@ -29,30 +29,32 @@ public class ViewByAuthorAction {
 
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
 
     public ViewByAuthorAction() {
     }
 
     public String execute() throws NamingException, SQLException {
-        String url = FAIL;
 
-        this.articleList = new ArrayList<>();
         ArticleDAO articleDAO = new ArticleDAO();
         articleDAO.getArticlesByAuthor(authorEmail);
         ArrayList<ArticleDTO> articles = articleDAO.getArticleListByAuthor(); //list of articles by author
 
-        if (articles != null) {
-            numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        this.articleList = new ArrayList<>();
+        
+        if (articles == null) {
+            articles = new ArrayList<>();
+        } else {
             for (int i = pageNumber * 10 - 10; i < pageNumber * 10 && i < articles.size(); i++) {
                 this.articleList.add(articles.get(i));  //10 articles per page
             }
             
             UserDetailsDAO userDetailsDAO = new UserDetailsDAO();
             authorName = userDetailsDAO.getFullName(authorEmail);
-            url = SUCCESS;
         }
-        return url;
+        
+        numberOfPages = articles.size() / 10 + 1;    //get number of pages
+        
+        return SUCCESS;
     }
 
     public String getAuthorName() {

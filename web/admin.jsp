@@ -22,7 +22,6 @@
 					role="tab"
                     aria-controls="all"
                     <s:if test="%{tab == 1}">aria-expanded="true"</s:if>
-                    
                     >
 					All Articles
 				</a>
@@ -33,8 +32,7 @@
 					href="adminViewPending"
                     role="tab"
                     aria-controls="pending"
-                    <s:if test="%{tab == 2}">aria-expanded="true"</s:if>
-                    
+                    <s:if test="%{tab == 2}">aria-expanded="true"</s:if>      
                     >
 					Pending Articles
 				</a>
@@ -68,7 +66,6 @@
                     role="tab"
                     aria-controls="manage-users"
                     <s:if test="%{tab == 5}">aria-expanded="true"</s:if>
-                    
                     >
 					Manage Users
 				</a>
@@ -95,39 +92,83 @@
 				<h3>All Articles</h3>
 				<div class="article-list">
 					
+                    <s:iterator var="article" value="articleList" status="counter">
 					<div class="article row">
 						<div class="col-1 author-profile-picture">
-							<img src="assets/img/author.jpg" class="img-thumbnail"
+							<img src="data:img/jpeg;base64,<s:property value="%{authorList[#counter.count - 1].profilePicture}"/>" class="img-thumbnail"
 								height="80px" width="80px">
 						</div>
 						<div class="col-11 article-title">
-							<h4>Article Title</h4>
+                            <h4><s:property value="%{#article.title}"/></h4>
 							<span class="badge badge-primary">
-								Author Name
+								<s:property value="%{authorList[#counter.count - 1].fullName}"/>
 							</span>
 							<span class="badge badge-default">
-								Science
+								<s:property value="%{categoryList[#counter.count - 1]}"/>
 							</span>
 							<span class="badge badge-warning">
-								Today, 16:10
+                                <s:date name="%{#article.publishTime}"/>
+							</span>
+							<span class="badge badge-info">
+                                <s:if test="%{#article.statusID == 1}">
+                                    Draft
+                                </s:if>
+                                <s:if test="%{#article.statusID == 2}">
+                                    Pending
+                                </s:if>
+                                <s:if test="%{#article.statusID == 3}">
+                                    Approved
+                                </s:if>
+                                <s:if test="%{#article.statusID == 4}">
+                                    Requested To Delete
+                                </s:if>
+                                <s:if test="%{#article.statusID == 5}">
+                                    Deleted
+                                </s:if>
+                                <s:if test="%{#article.statusID == 6}">
+                                    Rejected
+                                </s:if>
 							</span>
 							<div class="d-flex flex-row">
-								<button class="btn btn-outline-info">
+                                <s:url var="articleLink" value="viewArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                </s:url>
+								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
-								</button>
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button class="btn btn-outline-danger" type="button">
-											<i class="icon ion-close"></i> Delete
-										</button>
-									</span>
-									<input type="text" class="form-control" placeholder="Reason">
-								</div>
+								</s:a>
+                                <s:if test="%{#article.statusID != 5}">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <s:url var="deleteArticleLink" value="adminDeleteArticle">
+                                                <s:param name="articleID" value="%{#article.articleID}" />
+                                                <s:param name="pageNumber" value="%{pageNumber}" />
+                                                <s:param name="actionName" value="'adminViewAllArticle'" />
+                                            </s:url>
+                                            <s:a cssClass="btn btn-outline-danger" role="button" href="%{deleteArticleLink}">
+                                                <i class="icon ion-close"></i> Delete
+                                            </s:a>
+                                        </span>
+                                    </div>
+                                </s:if>
 							</div>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="adminViewAllArticle">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             
@@ -138,80 +179,135 @@
 				<h3>Pending Articles</h3>
 				<div class="article-list">
 					
+                    <s:iterator var="article" value="pendingList" status="counter">
 					<div class="article row">
 						<div class="col-1 author-profile-picture">
-							<img src="assets/img/author.jpg" class="img-thumbnail"
+							<img src="data:img/jpeg;base64,<s:property value="%{authorList[#counter.count - 1].profilePicture}"/>" class="img-thumbnail"
 								height="80px" width="80px">
 						</div>
 						<div class="col-11 article-title">
-							<h4>Pending Article</h4>
+							<h4><s:property value="%{#article.title}"/></h4>
 							<span class="badge badge-primary">
-								Author Name
+								<s:property value="%{authorList[#counter.count - 1].fullName}"/>
 							</span>
 							<span class="badge badge-default">
-								Science
+								<s:property value="%{categoryList[#counter.count - 1]}"/>
 							</span>
 							<span class="badge badge-warning">
-								Today, 16:10
+								<s:date name="%{#article.publishTime}"/>
 							</span>
 							<div class="d-flex flex-row">
-								<button class="btn btn-outline-info">
+                                <s:url var="articleLink" value="viewArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                </s:url>
+								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
-								</button>
-								<button class="btn btn-outline-success">
-									<i class="icon ion-checkmark"></i> Approved
-								</button>
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button class="btn btn-outline-danger" type="button">
-											<i class="icon ion-close"></i> Reject
-										</button>
-									</span>
-									<input type="text" class="form-control" placeholder="Reason">
-								</div>
+								</s:a>
+                                    
+                                <s:url var="approveLink" value="editorApproveArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="pageNumber" value="%{pageNumber}" />
+                                    <s:param name="actionName" value="'adminViewPending'" />
+                                </s:url>
+                                <s:a cssClass="btn btn-outline-success" role="button" href="%{approveLink}">
+                                    <i class="icon ion-checkmark"></i> Approved
+                                </s:a>
+                                <form action="editorRejectArticle" method="POST">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-outline-danger" type="submit">
+                                                <i class="icon ion-close"></i> Reject
+                                            </button>
+                                        </span>
+                                        <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
+                                        <input type="hidden" name="actionName" value="<s:property value="'adminViewPending'"/>">
+                                        <input type="text" class="form-control" name="reason" placeholder="Reason">
+                                    </div>
+                                </form>
 							</div>
 						</div>
 					</div>
-
-				</div>
+                    </s:iterator>
+                </div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="adminViewPending">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
 
             <s:if test="%{tab == 3}">
-			<!-- all articles -->
+			<!-- delete requested articles -->
 			<div class="tab-pane fade show active" id="all"
 				role="tabpanel" aria-labelledby="delete-requests-tab">
 				<h3>Delete Requests</h3>
 				<div class="article-list">
 					
+                    <s:iterator var="article" value="articleList" status="counter">
 					<div class="article row">
 						<div class="col-1 author-profile-picture">
-							<img src="assets/img/author.jpg" class="img-thumbnail"
+							<img src="data:img/jpeg;base64,<s:property value="%{authorList[#counter.count - 1].profilePicture}"/>" class="img-thumbnail"
 								height="80px" width="80px">
 						</div>
 						<div class="col-11 article-title">
-							<h4>Article Title</h4>
+							<h4><s:property value="%{#article.title}"/></h4>
 							<span class="badge badge-primary">
-								Author Name
+								<s:property value="%{authorList[#counter.count - 1].fullName}"/>
 							</span>
 							<span class="badge badge-default">
-								Science
+                                <s:property value="%{categoryList[#counter.count - 1]}"/>
 							</span>
 							<span class="badge badge-warning">
-								Today, 16:10
+                                <s:date name="%{#article.publishTime}"/>
 							</span>
 							<div class="d-flex flex-row">
-								<button class="btn btn-outline-info">
+                                <s:url var="articleLink" value="viewArticle">
+                                    <s:param name="articleID" value="%{#article.articleID}" />
+                                </s:url>
+								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
-								</button>
-                                <button class="btn btn-outline-danger" type="button">
-                                    <i class="icon ion-close"></i> Delete
-                                </button>
+								</s:a>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <s:url var="deleteArticleLink" value="adminDeleteArticle">
+                                            <s:param name="articleID" value="%{#article.articleID}" />
+                                            <s:param name="pageNumber" value="%{pageNumber}" />
+                                            <s:param name="viewActionName" value="'adminViewDeleteRequest'" />
+                                        </s:url>
+                                        <s:a cssClass="btn btn-outline-danger" role="button" href="%{deleteArticleLink}">
+                                            <i class="icon ion-close"></i> Delete
+                                        </s:a>
+                                    </span>
+                                </div>
 							</div>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="adminViewDeleteRequest">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             
@@ -221,38 +317,60 @@
 				role="tabpanel" aria-labelledby="manage-comments-tab">
 				<h3>Comments</h3>
 				<div class="comment-list">
-
+                    <s:iterator var="comment" value="commentList" status="counter">
 					<div class="comment row">
 						<div class="col-1">
-							<img src="assets/img/member.jpg" 
+                            <img src="data:img/jpeg;base64, <s:property value="%{commenterList[#counter.count - 1].profilePicture}"/>" 
 								class="member-profile-picture img-thumbnail" 
 								width="80px" height="80px">
 						</div>
 						<div class="col-11">
 							<h4 class="article-title">
-								<a href="">Random article title</a>
+                                <s:property value="%{articleTitle[#counter.count - 1]}"/>
 							</h4>
 							<p class="comment-content">
 								<span class="badge badge-info">
-									Member Name
+                                    <s:property value="%{commenterList[#counter.count - 1].fullName}"/>
 								</span>
 								<span class="badge badge-warning">
-									Today, 16:10
+                                    <s:date name="%{#comment.publishTime}"/>
 								</span>
 								<i class="icon ion-ios-play"></i>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua.
+                                <s:property value="%{#comment.commentContent}"/>
 							</p>
-							<button class="btn btn-outline-info">
-								<i class="icon ion-eye"></i> View Article
-							</button>
-							<button class="btn btn-outline-danger">
-								<i class="icon ion-close"></i> Delete comment
-							</button>
+                            <s:url var="viewArticleLink" value="viewArticle">
+                                <s:param name="articleID" value="%{#comment.articleID}" />
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-info" role="button" href="%{viewArticleLink}">
+                                <i class="icon ion-eye"></i> View Article
+                            </s:a>
+                                
+                            <s:url var="deleteCommentLink" value="editorDeleteComment">
+                                <s:param name="commentID" value="%{#comment.commentID}"/>
+                                <s:param name="pageNumber" value="%{pageNumber}"/>
+                                <s:param name="actionName" value="'adminViewComment'"/>
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-danger" role="button" href="%{deleteCommentLink}">
+                                <i class="icon ion-close"></i> Delete comment
+                            </s:a>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="adminViewComment">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             
@@ -262,39 +380,70 @@
 				role="tabpanel" aria-labelledby="manage-users-tab">
 				<h3>Manage Users</h3>
 				
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search User">
-					<span class="input-group-btn">
-						<button class="btn btn-primary" type="button">
-							<i class="icon ion-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Search
-						</button>
-					</span>
-				</div>
+                <form action="adminSearchUser" method="POST">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search User" name="searchValue" value="<s:property value="%{searchValue}"/>">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="icon ion-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Search
+                            </button>
+                        </span>
+                    </div>
+                </form>
 
 				<div class="user-list">
-
+                    <s:iterator var="user" value="userList" status="counter">
 					<div class="user row">
 						<div class="col-2">
-							<img src="assets/img/member.jpg" class="img-thumbnail"
+                            <img src="data:img/jpeg;base64,<s:property value="%{#user.profilePicture}"/>" class="img-thumbnail"
 								width="80px" height="80px">
 						</div>
 						<div class="col-10">
 							<p>
-								<a href="">
-									<span class="badge badge-info">Member Name</span>
-								</a>
-								<span class="badge badge-default">Member</span>
+                                <span class="badge badge-info"><s:property value="%{#user.fullName}"/></span>
+                                <span class="badge badge-default"><s:property value="%{roleList[#counter.count - 1]}"/></span>
+                                <s:if test="%{!isActive[#counter.count - 1]}">
+                                    <span class="badge badge-danger">Banned</span>
+                                </s:if>
 							</p>
-							<button class="btn btn-outline-info">
-								<i class="icon ion-eye"></i> View Profile
-							</button>
-							<button class="btn btn-outline-danger">
-								<i class="icon ion-close"></i> Ban User
-							</button>
+                            
+                            <s:url var="viewProfileLink" value="viewProfile">
+                                <s:param name="userEmail" value="%{#user.email}"/>
+                                <s:param name="pageNumber" value="%{pageNumber}"/>
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-info" role="button" href="%{viewProfileLink}">
+                                <i class="icon ion-eye"></i> View Profile
+                            </s:a>
+                            
+                            <s:if test="%{isActive[#counter.count - 1]}">
+                            <s:url var="banUserLink" value="adminBanUser">
+                                <s:param name="searchValue" value="%{searchValue}"/>
+                                <s:param name="actionName" value="%{actionName}"/>
+                                <s:param name="userEmail" value="%{#user.email}"/>
+                                <s:param name="pageNumber" value="%{pageNumber}"/>
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-danger" role="button" href="%{banUserLink}">
+                                <i class="icon ion-close"></i> Ban User
+                            </s:a>
+                            </s:if>
 						</div>
 					</div>
-
+                    </s:iterator>
 				</div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <s:iterator begin="1" end="%{numberOfPages}" status="counter">
+                        <li class="page-item <s:if test="%{pageNumber == #counter.count}">active</s:if>">
+                            <s:url var="pageLink" value="adminViewManageUser">
+                                <s:param name="pageNumber" value="%{#counter.count}" />
+                            </s:url>
+                            <s:a cssClass="page-link" href="%{pageLink}">
+                                <s:property value="%{#counter.count}"/>
+                            </s:a>
+                        </li>
+                        </s:iterator>
+                    </ul>
+                </nav>
 			</div>
             </s:if>
             

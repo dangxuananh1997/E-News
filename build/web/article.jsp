@@ -56,13 +56,16 @@
             <s:iterator var="commentDTO" value="commentList" status="counter">
 			<div class="comment">
 				<div class="member-info">
-					<a href="viewProfile">
+                    <s:url var="viewProfileLink" value="viewProfile">
+                        <s:param name="userEmail" value="%{commenterList[#counter.count - 1].email}"/>
+                    </s:url>
+                    <s:a href="%{viewProfileLink}">
                         <img src="data:image/jpeg;base64,<s:property value="%{commenterList[#counter.count - 1].profilePicture}"/>" class="member-profile-pic img-thumbnail" width="60px" height="60px">
-					</a>
+					</s:a>
 					<span class="badge badge-default member-name">
-						<a href="viewProfile"><s:property value="%{commenterList[#counter.count - 1].fullName}"/></a>
+						<s:a href="%{viewProfileLink}"><s:property value="%{commenterList[#counter.count - 1].fullName}"/></s:a>
 					</span>
-                        <span class="comment-time"><s:date name="%{#commentDTO.publishTime}"/></span>
+                    <span class="comment-time"><s:date name="%{#commentDTO.publishTime}"/></span>
 				</div>
 				<p class="comment-content">
                     <s:property value="%{#commentDTO.commentContent}"/>
@@ -71,7 +74,7 @@
             </s:iterator>
             
             
-            <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
+            <s:if test="%{#session.USERDETAILS != null && !commentOff}">
             <form class="comment new-comment" action="comment" method="POST">
 				<div class="member-info">
 					<a href="manageProfile">
@@ -84,7 +87,11 @@
 				<div class="input-group">
                     <input type="hidden" name="articleID" value="<s:property value="%{articleID}"/>"/>
                     <input type="hidden" name="commenterEmail" value="<s:property value="%{#session.USERDETAILS.email}"/>"/>
-					<input type="text" class="form-control" placeholder="Comment" name="commentContent">
+                    <input type="text" class="form-control" placeholder="Comment" name="commentContent" style="word-break: break-word">
+<!--                    <div class="form-group">
+                        <label for="exampleTextarea">Example textarea</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>-->
 					<span class="input-group-btn">
 						<button class="btn btn-outline-primary" type="submit">
 							Submit

@@ -18,13 +18,10 @@ public class ApproveArticleAction {
     //Inputs
     private int articleID;
     private int pageNumber;         //Current Page Number
-    
-    //Outputs
-    private int numberOfPages;      //Number of pagination page
+    private String actionName;
     
     //Return
     private final String SUCCESS = "success";
-    private final String FAIL = "fail";
     
     public ApproveArticleAction() {
     }
@@ -32,13 +29,8 @@ public class ApproveArticleAction {
     public String execute() throws Exception {
 
         //approve article
-        ArrayList<ArticleDTO> pendingList;
         ArticleDAO dao = new ArticleDAO();
         dao.approveArticle(articleID);
-        pendingList = dao.viewPendingList();
-        
-        //get numberOfPage
-        numberOfPages = pendingList.size() / 10 + 1;
 
         return SUCCESS;
     }
@@ -58,13 +50,13 @@ public class ApproveArticleAction {
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
     }
-    
-    public int getNumberOfPages() {
-        return numberOfPages;
+
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
     
 }

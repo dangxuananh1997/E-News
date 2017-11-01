@@ -182,7 +182,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "UPDATE User SET IsActive = ? WHERE Email = ?";
+                String sql = "UPDATE [User] SET IsActive = ? WHERE Email = ?";
                 stm = con.prepareStatement(sql);
                 stm.setBoolean(1, false);
                 stm.setString(2, email);

@@ -45,13 +45,14 @@ public class CommentDAO implements Serializable {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
+                    int commentID = rs.getInt("commentID");
                     String userEmail = rs.getString("UserEmail");
                     int articleID = rs.getInt("ArticleID");
                     String commentContent = rs.getString("CommentContent");
                     Timestamp publishTime = rs.getTimestamp("PublishTime");
                     boolean isActive = rs.getBoolean("IsActive");
 
-                    CommentDTO dto = new CommentDTO(userEmail, articleID, commentContent, publishTime, isActive);
+                    CommentDTO dto = new CommentDTO(commentID, userEmail, articleID, commentContent, publishTime, isActive);
                     if (this.commentProfileList == null) {
                         this.commentProfileList = new ArrayList<>();
                     }
@@ -133,7 +134,7 @@ public class CommentDAO implements Serializable {
                     boolean isActive = rs.getBoolean("IsActive");
 
                     if (isActive) {
-                        dto = new CommentDTO(userEmail, ID, commentContent, publishTime, isActive);
+                        dto = new CommentDTO(articleID, userEmail, articleID, commentContent, publishTime, isActive);
                         if (this.articleCommentList == null) {
                             this.articleCommentList = new ArrayList<>();
                         }
@@ -274,7 +275,7 @@ public class CommentDAO implements Serializable {
                     String commentContent = rs.getString("CommentContent");
                     Timestamp publishTime = rs.getTimestamp("PublishTime");
                     boolean isActive = rs.getBoolean("IsActive");                    
-                    CommentDTO dto = new CommentDTO(authorEmail, articleID, commentContent, publishTime, isActive);
+                    CommentDTO dto = new CommentDTO(commentID, authorEmail, articleID, commentContent, publishTime, isActive);
                     commentActiveList.add(dto);
                 }
             }

@@ -18,9 +18,7 @@ public class RejectArticleAction {
     //Inputs
     private int articleID;
     private String reason;
-
-    //Outputs
-    private int numberOfPages;      //Number of pagination page
+    private String actionName;
 
     //Return
     private final String SUCCESS = "success";
@@ -32,14 +30,9 @@ public class RejectArticleAction {
     public String execute() throws Exception {
 
         ArticleDAO dao = new ArticleDAO();
-        ArrayList<ArticleDTO> pendingList;
 
         //reject article
-        dao.rejectArticle(articleID);
-        pendingList = dao.viewPendingList();
-
-        //numberOfPage
-        numberOfPages = pendingList.size() / 10 + 1;
+        dao.rejectArticle(articleID, reason);
 
         return SUCCESS;
     }
@@ -60,12 +53,12 @@ public class RejectArticleAction {
         this.reason = reason;
     }
 
-    public int getNumberOfPages() {
-        return numberOfPages;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
 }
