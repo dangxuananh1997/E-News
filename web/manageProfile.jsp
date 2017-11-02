@@ -41,35 +41,35 @@
                     <div class="form-check">
                         <label for="genderID">Gender: </label>
                         <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="genderID" value="1">
+                            <input class="form-check-input" type="radio" name="genderID" value="1" <s:if test="%{#session.USERDETAILS.genderID == 1}">checked</s:if>>
                             Male
                         </label>
                         <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="genderID" value="2">
+                            <input class="form-check-input" type="radio" name="genderID" value="2" <s:if test="%{#session.USERDETAILS.genderID == 2}">checked</s:if>>
                             Female
                         </label>
                         <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="genderID" value="3">
+                            <input class="form-check-input" type="radio" name="genderID" value="3" <s:if test="%{#session.USERDETAILS.genderID == 3}">checked</s:if>>
                             Other
                         </label>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon">Date</span>
-                            <input type="number" class="form-control" name="day" value="">
+                            <input type="number" class="form-control" name="day" value="<s:date name="%{#session.USERDETAILS.birthDate}" format="dd"/>">
                             <span class="input-group-addon">Month</span>
-                            <input type="number" class="form-control" name="month" value="">
+                            <input type="number" class="form-control" name="month" value="<s:date name="%{#session.USERDETAILS.birthDate}" format="MM"/>">
                             <span class="input-group-addon">Year</span>
-                            <input type="number" class="form-control" name="year" value="">
+                            <input type="number" class="form-control" name="year" value="<s:date name="%{#session.USERDETAILS.birthDate}" format="yyyy"/>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address">Address:</label>
-                        <input class="form-control" type="text" name="address" value="">
+                        <input class="form-control" type="text" name="address" value="<s:property value="%{#session.USERDETAILS.address}"/>">
                     </div>
                     <div class="form-group">
                         <label for="address">Phone Number:</label>
-                        <input class="form-control" type="number" name="phone" value="">
+                        <input class="form-control" type="number" name="phone" value="<s:property value="%{#session.USERDETAILS.phone}"/>">
                     </div>
                     <button type="submit" class="btn btn-success">Update Profile</button>
                     <button class="btn btn-info">Back to Home</button>

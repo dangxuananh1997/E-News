@@ -10,9 +10,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import java.util.Base64;
@@ -61,7 +58,7 @@ public class UpdateProfileAction extends ActionSupport {
         email = member.getEmail();  //get email from session
         
         //get birthdate
-        java.sql.Date date = new java.sql.Date(year, month, day);
+        java.sql.Date date = new java.sql.Date(year - 1900, month - 1, day);
         UserDetailsDAO dao = new UserDetailsDAO();
         boolean result = dao.updateProfile(email, fullName, genderID, date, phone, address, img);
         if (result) {

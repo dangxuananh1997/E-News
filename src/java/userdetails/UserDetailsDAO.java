@@ -102,9 +102,9 @@ public class UserDetailsDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                if (profilePicture != "") {
+                if (profilePicture.isEmpty()) {
                     String sql = "Update UserDetails set FullName = ?, "
-                        + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
+                            + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ? where Email = ? ";
                     stm = con.prepareStatement(sql);
                     stm.setString(1, name);
                     stm.setInt(2, gender);
@@ -114,7 +114,7 @@ public class UserDetailsDAO implements Serializable {
                     stm.setString(6, email);
                 } else {
                     String sql = "Update UserDetails set FullName = ?, "
-                        + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
+                            + "GenderID = ?, Birthdate = ?, Phone = ?, Address = ?, ProfilePicture = ? where Email = ? ";
                     stm = con.prepareStatement(sql);
                     stm.setString(1, name);
                     stm.setInt(2, gender);
