@@ -41,7 +41,9 @@
             </result>
         </action>
         <action name="registerUser" class="action.RegisterAction">
-            <result name="success" type="redirect">index.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">viewHome</param>
+            </result>
             <result name="input" type="redirect">register.jsp</result>
         </action>
         <action name="viewHome" class="action.ViewHomeAction">
