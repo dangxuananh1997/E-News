@@ -31,7 +31,11 @@
             </s:if>
 			<label for="role">Category: </label>
 			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="categoryID" value="1" <s:if test="%{ article == null || article == '' || article.categoryID == 1}">checked</s:if> >Economy
+				<input type="radio" class="form-check-input" name="categoryID" value="1" 
+                    <s:if test="%{article.categoryID == 1}">checked</s:if>
+                    <s:if test="%{article == null || article == ''}">checked</s:if>
+                    <s:if test="%{article.categoryID == null || article.categoryID == ''}">checked</s:if>
+                    >Economy
 			</label>
 			<label class="form-check-label">
 				<input type="radio" class="form-check-input" name="categoryID" value="2" <s:if test="%{article.categoryID == 2}">checked</s:if> >Entertainment
