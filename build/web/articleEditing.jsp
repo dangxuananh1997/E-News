@@ -14,11 +14,12 @@
     
 	<link rel="stylesheet" type="text/css" href="css/articleEditing.css">
 	<script type="text/javascript" src="js/articleEditing.js"></script>
+    <script type="text/javascript" src="jquery-validation/dist/jquery.validate.min.js"></script>
 </head>
 <body>
 	<div class="e-navbar"></div>
 
-	<form class="container" method="POST" action="authorEditArticle" enctype="multipart/form-data" >
+	<form class="container" method="POST" action="authorEditArticle" enctype="multipart/form-data" id="articleForm">
 
 		<div class="form-group">
 			<label for="title"><h3>Title</h3></label>
@@ -35,7 +36,6 @@
                     <s:if test="%{article.categoryID == 1}">checked</s:if>
                     <s:if test="%{article == null || article == ''}">checked</s:if>
                     <s:if test="%{article.categoryID == null || article.categoryID == ''}">checked</s:if>
-                    
                     >Economy
 			</label>
 			<label class="form-check-label">
@@ -78,7 +78,7 @@
         </script>
         </s:if>
                 
-		<input type="hidden" name="articleContent" id="content">
+		<input name="articleContent" id="content">
         
         <button name="btnAction" value="draft" class="btn btn-warning">Save Draft</button>
         <button name="btnAction" value="submit" class="btn btn-success">Submit</button>
