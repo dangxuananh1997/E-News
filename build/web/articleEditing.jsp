@@ -35,6 +35,7 @@
                     <s:if test="%{article.categoryID == 1}">checked</s:if>
                     <s:if test="%{article == null || article == ''}">checked</s:if>
                     <s:if test="%{article.categoryID == null || article.categoryID == ''}">checked</s:if>
+                    
                     >Economy
 			</label>
 			<label class="form-check-label">

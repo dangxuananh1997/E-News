@@ -212,19 +212,18 @@
                                 <s:a cssClass="btn btn-outline-success" role="button" href="%{approveLink}">
                                     <i class="icon ion-checkmark"></i> Approved
                                 </s:a>
-                                <form action="editorRejectArticle" method="POST">
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-outline-danger" type="submit">
-                                                <i class="icon ion-close"></i> Reject
-                                            </button>
-                                        </span>
-                                        <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
-                                        <input type="hidden" name="actionName" value="<s:property value="'adminViewPending'"/>">
-                                        <input type="text" class="form-control" name="reason" placeholder="Reason">
-                                    </div>
-                                </form>
 							</div>
+                            <form action="editorRejectArticle" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
+                                    <input type="hidden" name="actionName" value="<s:property value="'adminViewPending'"/>">
+                                    <br>
+                                    <textarea class="form-control" rows="2" name="reason" placeholder="Reason"></textarea>
+                                    <button class="btn btn-outline-danger" type="submit">
+                                        <i class="icon ion-close"></i> Reject
+                                    </button>
+                                </div>
+                            </form>
 						</div>
 					</div>
                     </s:iterator>

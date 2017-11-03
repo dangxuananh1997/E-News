@@ -33,9 +33,9 @@
                         <s:property value="%{#articleDTO.title}"/>
                     </s:a>
                 </h3>
-                <s:a cssClass="article-preview" href="%{articleLink}">
-					<s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>
-				</s:a>
+                <%--<s:a cssClass="article-preview" href="%{articleLink}">--%>
+					<%--<s:property value="%{#articleDTO.articleContent}" escapeHtml="false"/>--%>
+				<%--</s:a>--%>
 				<span class="badge badge-primary author">
                     <s:url var="articlesByAuthorLink" value="viewByAuthor">
                         <s:param name="authorEmail" value="%{#articleDTO.authorEmail}" />

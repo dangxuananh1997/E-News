@@ -67,9 +67,7 @@
 					</span>
                     <span class="comment-time"><s:date name="%{#commentDTO.publishTime}"/></span>
 				</div>
-				<p class="comment-content">
-                    <s:property value="%{#commentDTO.commentContent}"/>
-				</p>
+				<p class="comment-content"><s:property value="%{#commentDTO.commentContent}"/></p>
 			</div>
             </s:iterator>
             
@@ -84,20 +82,14 @@
                         <a href="manageProfile"><s:property value="%{#session.USERDETAILS.fullName}"/></a>
 					</span>
 				</div>
-				<div class="input-group">
-                    <input type="hidden" name="articleID" value="<s:property value="%{articleID}"/>"/>
-                    <input type="hidden" name="commenterEmail" value="<s:property value="%{#session.USERDETAILS.email}"/>"/>
-                    <input type="text" class="form-control" placeholder="Comment" name="commentContent" style="word-break: break-word">
-<!--                    <div class="form-group">
-                        <label for="exampleTextarea">Example textarea</label>
-                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-                    </div>-->
-					<span class="input-group-btn">
-						<button class="btn btn-outline-primary" type="submit">
-							Submit
-						</button>
-					</span>
-				</div>
+                <input type="hidden" name="articleID" value="<s:property value="%{articleID}"/>"/>
+                <input type="hidden" name="commenterEmail" value="<s:property value="%{#session.USERDETAILS.email}"/>"/>
+                <div class="form-group">
+                    <textarea class="form-control" rows="2" name="commentContent"></textarea>
+                </div>
+                <button class="btn btn-outline-primary" type="submit">
+                    Submit
+                </button>
 			</form>
             </s:if>
 			
