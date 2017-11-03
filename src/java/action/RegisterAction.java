@@ -13,28 +13,43 @@ import userdetails.UserDetailsDAO;
  * @author Administrator
  */
 public class RegisterAction {
+
     private String email;
     private String password;
     private String name;
+    private String error;
     private final String SUCCESS = "success";
     private final String FAIL = "fail";
-    
+
     public RegisterAction() {
     }
-    
+
     public String execute() throws Exception {
         String url = FAIL;
-        
+
         UserDAO userDAO = new UserDAO();
-        boolean isCreated = userDAO.createAccount(email, password);
-        if(isCreated){
-            UserDetailsDAO detailDAO = new UserDetailsDAO();
-            boolean isInserted = detailDAO.insertEmailAndFullName(email, name);
-            if(isInserted){
-                url = SUCCESS;
+        boolean isEmailExisted = userDAO.checkEmail(email);
+        if (!isEmailExisted) {
+            boolean isCreated = userDAO.createAccount(email, password);
+            if (isCreated) {
+                UserDetailsDAO detailDAO = new UserDetailsDAO();
+                boolean isInserted = detailDAO.insertEmailAndFullName(email, name);
+                if (isInserted) {
+                    url = SUCCESS;
+                }
             }
+        }else{
+            error = "Email already exists";
         }
         return url;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     /**
@@ -78,6 +93,5 @@ public class RegisterAction {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
 }
