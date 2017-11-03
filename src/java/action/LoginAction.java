@@ -29,6 +29,7 @@ public class LoginAction {
     private final String SUCCESS_AUTHOR = "successAuthor";
     private final String SUCCESS_EDITOR = "successEditor";
     private final String SUCCESS_ADMIN = "successAdmin";
+    private String error;
     private final String FAIL = "fail";
 
     public LoginAction() {
@@ -39,7 +40,7 @@ public class LoginAction {
 
         UserDAO userDao = new UserDAO();
         boolean result = userDao.checkLogin(email, password);
-        
+
         if (result) {
             boolean isActive = userDao.isActive(email);
             if (isActive) {
@@ -58,13 +59,25 @@ public class LoginAction {
                         url = SUCCESS_ADMIN;
                         break;
                 }
+                UserDetailsDAO detailDAO = new UserDetailsDAO();
+                userDetails = detailDAO.getUserDetails(email);
+                Map session = ActionContext.getContext().getSession();
+                session.put("USERDETAILS", userDetails);
+            } else {
+                error = "Your account has been banned";
             }
-            UserDetailsDAO detailDAO = new UserDetailsDAO();
-            userDetails = detailDAO.getUserDetails(email);
-            Map session = ActionContext.getContext().getSession();
-            session.put("USERDETAILS", userDetails);
+        } else {
+            error = "Email or password is invalid";
         }
         return url;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public String getEmail() {

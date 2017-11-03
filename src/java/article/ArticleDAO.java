@@ -252,9 +252,10 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where CategoryID = ? order by PublishTime DESC";
+                String sql = "Select * from Article where CategoryID = ? and StatusID = ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, categoryID);
+                stm.setInt(2, 3);
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
@@ -538,10 +539,11 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "UPDATE Article SET StatusID = ? WHERE ArticleID = ?";
+                String sql = "UPDATE Article SET StatusID = ?, StatusDescription = ? WHERE ArticleID = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 5);
-                stm.setInt(2, articleID);
+                stm.setString(2, "Deleted");
+                stm.setInt(3, articleID);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;

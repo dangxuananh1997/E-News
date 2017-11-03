@@ -110,8 +110,39 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+    //check if email already exists in database (RegisterAction)
+    public boolean checkEmail(String email)
+            throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
 
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "Select Email from [User] where Email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }    
     //create new user account (RegisterAction)
+
     public boolean createAccount(String email, String password)
             throws NamingException, SQLException {
         Connection con = null;
