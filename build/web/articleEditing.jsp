@@ -82,7 +82,7 @@
         
         <button name="btnAction" value="draft" class="btn btn-warning">Save Draft</button>
         <button name="btnAction" value="submit" class="btn btn-success">Submit</button>
-		<a class="btn btn-info" role="button" href="">Back</a>
+		<a class="btn btn-info" role="button" href="authorViewPending">Back</a>
 	</form>
 	
 	<div class="e-footer"></div>

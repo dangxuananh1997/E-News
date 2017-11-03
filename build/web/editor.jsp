@@ -66,6 +66,7 @@
 							<div class="d-flex flex-row">
                                 <s:url var="articleLink" value="viewArticle">
                                     <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="commentOff" value="true"/>
                                 </s:url>
 								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
@@ -84,7 +85,6 @@
                                 <div class="form-group">
                                     <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
                                     <input type="hidden" name="actionName" value="<s:property value="'editorViewPending'"/>">
-                                    <br>
                                     <textarea class="form-control" rows="2" name="reason" placeholder="Reason"></textarea>
                                     <button class="btn btn-outline-danger" type="submit">
                                         <i class="icon ion-close"></i> Reject
@@ -140,6 +140,7 @@
 							</p>
                             <s:url var="viewArticleLink" value="viewArticle">
                                 <s:param name="articleID" value="%{#comment.articleID}" />
+                                <s:param name="commentOff" value="true"/>
                             </s:url>
                             <s:a cssClass="btn btn-outline-info" role="button" href="%{viewArticleLink}">
                                 <i class="icon ion-eye"></i> View Article

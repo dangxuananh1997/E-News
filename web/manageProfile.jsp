@@ -72,7 +72,7 @@
                         <input class="form-control" type="number" name="phone" value="<s:property value="%{#session.USERDETAILS.phone}"/>">
                     </div>
                     <button type="submit" class="btn btn-success">Update Profile</button>
-                    <button class="btn btn-info">Back to Home</button>
+                    <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>
             </form>
             <form action="updatePassword" method="POST" class="row">
@@ -99,7 +99,7 @@
                         50M3C0D3
                     </div>
                     <button class="btn btn-success">Update Password</button>
-                    <button class="btn btn-info">Back to Home</button>
+                    <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>
             </form>
         </div>

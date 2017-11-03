@@ -47,8 +47,10 @@
 					document.write('<s:property value="%{article.articleContent}" escapeHtml="false"/>');
 				</script>
 			</div>
+            <s:if test="%{!commentOff}">
             <span class="badge badge-success article-statistic">Comments: <s:property value="%{commentList.size}"/></span>
             <span class="badge badge-success article-statistic">Read: <s:property value="%{article.viewCount}"/></span>
+            </s:if>
 		</div>
 
 		<div class="comment-section">

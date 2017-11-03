@@ -132,6 +132,7 @@
 							<div class="d-flex flex-row">
                                 <s:url var="articleLink" value="viewArticle">
                                     <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="commentOff" value="true"/>
                                 </s:url>
 								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
@@ -199,6 +200,7 @@
 							<div class="d-flex flex-row">
                                 <s:url var="articleLink" value="viewArticle">
                                     <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="commentOff" value="true"/>
                                 </s:url>
 								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
@@ -217,7 +219,6 @@
                                 <div class="form-group">
                                     <input type="hidden" name="articleID" value="<s:property value="%{#article.articleID}"/>">
                                     <input type="hidden" name="actionName" value="<s:property value="'adminViewPending'"/>">
-                                    <br>
                                     <textarea class="form-control" rows="2" name="reason" placeholder="Reason"></textarea>
                                     <button class="btn btn-outline-danger" type="submit">
                                         <i class="icon ion-close"></i> Reject
@@ -272,6 +273,7 @@
 							<div class="d-flex flex-row">
                                 <s:url var="articleLink" value="viewArticle">
                                     <s:param name="articleID" value="%{#article.articleID}" />
+                                    <s:param name="commentOff" value="true"/>
                                 </s:url>
 								<s:a cssClass="btn btn-outline-info" role="button" href="%{articleLink}">
 									<i class="icon ion-eye"></i> View
@@ -281,7 +283,7 @@
                                         <s:url var="deleteArticleLink" value="adminDeleteArticle">
                                             <s:param name="articleID" value="%{#article.articleID}" />
                                             <s:param name="pageNumber" value="%{pageNumber}" />
-                                            <s:param name="viewActionName" value="'adminViewDeleteRequest'" />
+                                            <s:param name="actionName" value="'adminViewDeleteRequest'" />
                                         </s:url>
                                         <s:a cssClass="btn btn-outline-danger" role="button" href="%{deleteArticleLink}">
                                             <i class="icon ion-close"></i> Delete
@@ -339,6 +341,7 @@
 							</p>
                             <s:url var="viewArticleLink" value="viewArticle">
                                 <s:param name="articleID" value="%{#comment.articleID}" />
+                                <s:param name="commentOff" value="true"/>
                             </s:url>
                             <s:a cssClass="btn btn-outline-info" role="button" href="%{viewArticleLink}">
                                 <i class="icon ion-eye"></i> View Article
@@ -414,7 +417,7 @@
                                 <i class="icon ion-eye"></i> View Profile
                             </s:a>
                             
-                            <s:if test="%{isActive[#counter.count - 1]}">
+                            <s:if test="%{isActive[#counter.count - 1] && roleList[#counter.count - 1] != 'Administrator'}">
                             <s:url var="banUserLink" value="adminBanUser">
                                 <s:param name="searchValue" value="%{searchValue}"/>
                                 <s:param name="actionName" value="%{actionName}"/>
