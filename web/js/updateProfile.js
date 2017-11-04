@@ -65,7 +65,9 @@ $(function() {
 			},
 			phone: {
 				required: true,
-				number: true
+				number: true,
+				min: 1000000000,
+				max: 99999999999
 			}
 		},
 		messages: {
@@ -95,7 +97,9 @@ $(function() {
 			},
 			phone: {
 				required: 'Phone is required!',
-				number: 'Invalid Phone number!'
+				number: 'Invalid Phone number!',
+				min: 'Invalid Phone number!',
+				max: 'Invalid Phone number!',
 			}
 		}
 	})
