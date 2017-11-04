@@ -21,6 +21,23 @@
 
 	<form class="container" method="POST" action="authorEditArticle" enctype="multipart/form-data" id="articleForm">
 
+        <s:if test="%{article != null}">
+        <div class="form-group">
+			<label><h3>Feature Image</h3></label>
+            <s:if test="%{article.featureImage != '' && article.featureImage != null}">
+            <div class="feature-pic">
+                <img src="data:image/jpeg;base64, <s:property value="%{article.featureImage}"/>"/>
+            </div>
+            </s:if>
+            <div>
+                <s:if test="%{article.featureImage == null || article.featureImage == ''}">
+                    <p id="image-title">No Feature Image</p>
+                </s:if>
+                <input name="image" class="input-image" value="<s:property value="%{article.featureImage}"/>">
+            </div>
+		</div>
+        </s:if>
+        
 		<div class="form-group">
 			<label for="title"><h3>Title</h3></label>
             <input type="text" class="form-control" name="title" placeholder="Article title" value="<s:property value="%{article.title}"/>">
@@ -71,14 +88,15 @@
 		<input type="file" name="featureImage" class="feature-picture-upload" accept=".jpg, .jpeg, .png">
 		<label class="btn btn-outline-primary" for="featureImage">Upload New Feature Picture</label>
 
+        <div>
         <div id="summernote"></div>
+		<input name="articleContent" id="content">
+        </div>
         <s:if test="%{article.articleContent != '' && article.articleContent != null}">
         <script>
             $('#summernote').summernote('code', '<s:property value="%{article.articleContent}" escapeHtml="false"/>');
         </script>
         </s:if>
-                
-		<input name="articleContent" id="content">
         
         <button name="btnAction" value="draft" class="btn btn-warning">Save Draft</button>
         <button name="btnAction" value="submit" class="btn btn-success">Submit</button>

@@ -15,7 +15,7 @@ $(function() {
             var re = new RegExp('^(?=.*[a-zA-Z0-9])');
             return this.optional(element) || re.test(value);
         },
-        "Empty String!"
+        "Empty Title!"
     );
     
 	$('#articleForm').validate({
@@ -26,6 +26,9 @@ $(function() {
 			},
 			articleContent: {
 				required: true	
+			},
+			image: {
+				required: true
 			}
 		},
 		messages: {
@@ -34,6 +37,9 @@ $(function() {
 			},
 			articleContent: {
 				required: 'Content is required!'	
+			},
+			image: {
+				required: 'Feature Image is required!'
 			}
 		}
 	});
@@ -67,9 +73,17 @@ $(document).ready(function() {
     $('input[type="file"].feature-picture-upload').change(function(e){
     	var fileName = e.target.files[0].name;
         $('label.btn').text(fileName);
+        $('.input-image').val('has value!');
+        $('#image-title').html(fileName);
     });
 
 	$('.btn-success').on('click', function() {
+		var code = $('#summernote').summernote('code');
+		filteredContent = $(code).text().replace(/\s+/g, '');
+
+		if (!filteredContent.trim() == '') {		
+			$('#content').val(code);
+		}
 		$("#articleForm").valid();
 	});
 

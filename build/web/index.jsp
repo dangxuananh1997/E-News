@@ -16,7 +16,7 @@
 	<div class="e-login"></div>
 
     <s:if test="%{error != null && error != ''}">
-        <label class="help-block float-right"><s:property value="%{error}"/></label>
+        <label class="help-block float-right" style="margin-bottom: -5px"><s:property value="%{error}"/></label>
     </s:if>
     
 	<section class="container main">
