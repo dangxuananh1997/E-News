@@ -11,6 +11,7 @@
 	<script src="js/config.js"></script>
 	<script src="js/manageProfile.js"></script>
     <script type="text/javascript" src="jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="js/updateProfile.js"></script>
     <script src="js/updatePassword.js"></script>
 </head>
 <body>
@@ -20,7 +21,7 @@
 		<h2>Edit Profile</h2>
         <div class="edit-profile-form">
 			<h3 class="breakline">Information</h3>
-            <form action="updateProfile" method="POST" enctype="multipart/form-data" class="row">
+            <form action="updateProfile" method="POST" enctype="multipart/form-data" class="row" id="updateProfileForm">
                 <div class="col-md-3 profile-pic">
                     <label>Profile Picture</label>
                     <s:if test="%{#session.USERDETAILS.profilePicture != null && #session.USERDETAILS.profilePicture != ''}">
@@ -72,9 +73,9 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Phone Number:</label>
-                        <input class="form-control" type="number" name="phone" value="<s:property value="%{#session.USERDETAILS.phone}"/>">
+                        <input class="form-control" type="text" name="phone" value="<s:property value="%{#session.USERDETAILS.phone}"/>">
                     </div>
-                    <button type="submit" class="btn btn-success">Update Profile</button>
+                    <button type="submit" class="btn btn-success" id="btn-profile">Update Profile</button>
                     <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>
             </form>
@@ -105,7 +106,7 @@
                         50M3C0D3
                     </div>
                     <input type="hidden" id="code" value="123">
-                    <button class="btn btn-success">Update Password</button>
+                    <button class="btn btn-success" id="btn-password">Update Password</button>
                     <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>
             </form>

@@ -70,7 +70,7 @@ $(function() {
 
 
 $(document).ready(function() {
-	$('.btn-success').on('click', function() {
+	$('#btn-password').on('click', function() {
 		$('#updatePasswordForm').valid();
 	});
 	var code = makeCode()
