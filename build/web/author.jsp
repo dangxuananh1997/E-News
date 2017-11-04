@@ -252,6 +252,7 @@
 						</div>
 						<div class="col-11 article-title">
                             <h4><s:property value="%{#article.title}"/></h4>
+                            <h5>Reject Reason: <s:property value="%{#article.statusDescription}"/></h5>
 							<s:url value="authorViewArticleEditing" var="editingLink">
                                 <s:param name="articleID" value="%{#article.articleID}"/>
                             </s:url>

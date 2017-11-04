@@ -24,7 +24,7 @@
 				<label for="newPassword">New Password:</label>
 				<input class="form-control" type="password" name="newPassword" id="newPassword">
                 <s:if test="%{error != null && error != ''}">
-                    <label id="email-error" class="help-block" for="email"><s:property value="%{error}"/></label>
+                    <label id="newPassword-error" class="help-block" for="newPassword"><s:property value="%{error}"/></label>
                 </s:if>
 			</div>
 

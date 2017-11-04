@@ -4,8 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/src/java/struts.xml</file>
-            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/src/java/action/author/RejectArticleAction.java</file>
-            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/src/java/action/editor/ApproveArticleAction.java</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/resetPassword.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/src/java/action/ResetPasswordAction.java</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/newPassword.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/e-navbar.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/author.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/register.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/e-login.jsp</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/src/java/action/NewPasswordAction.java</file>
+            <file>file:/D:/Study/FPT/Courses/2017Fall/LAB231%20-%20Lab%20Java%20Web/E-News/web/manageProfile.jsp</file>
         </group>
     </open-files>
 </project-private>
