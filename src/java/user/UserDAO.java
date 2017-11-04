@@ -143,7 +143,7 @@ public class UserDAO implements Serializable {
     }    
     //create new user account (RegisterAction)
 
-    public boolean createAccount(String email, String password)
+    public boolean createAccount(String email, String password, int roleID)
             throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -155,7 +155,7 @@ public class UserDAO implements Serializable {
                 stm = con.prepareStatement(sqlUsers);
                 stm.setString(1, email);
                 stm.setString(2, password);
-                stm.setInt(3, 1);
+                stm.setInt(3, roleID);
                 stm.setBoolean(4, true);
                 int row = stm.executeUpdate();
                 if (row > 0) {

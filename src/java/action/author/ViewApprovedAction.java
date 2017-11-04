@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import article.ArticleDTO;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.Map;
-import userdetails.UserDetailsDAO;
 import userdetails.UserDetailsDTO;
 
 /**
@@ -38,7 +37,7 @@ public class ViewApprovedAction {
         Map session = ActionContext.getContext().getSession();
         UserDetailsDTO dto = (UserDetailsDTO) session.get("USERDETAILS");
         email = dto.getEmail(); //get email from session
-        
+        System.out.println(email);
         approvedList = new ArrayList<>();
             
         ArticleDAO articleDAO = new ArticleDAO();

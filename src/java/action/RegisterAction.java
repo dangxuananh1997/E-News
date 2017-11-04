@@ -30,7 +30,7 @@ public class RegisterAction {
         UserDAO userDAO = new UserDAO();
         boolean isEmailExisted = userDAO.checkEmail(email);
         if (!isEmailExisted) {
-            boolean isCreated = userDAO.createAccount(email, password);
+            boolean isCreated = userDAO.createAccount(email, password, 1);
             if (isCreated) {
                 UserDetailsDAO detailDAO = new UserDetailsDAO();
                 boolean isInserted = detailDAO.insertEmailAndFullName(email, name);
