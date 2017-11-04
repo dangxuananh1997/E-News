@@ -445,11 +445,10 @@ public class ArticleDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Article where StatusID = ? or StatusID = ? and AuthorEmail = ? order by PublishTime DESC";
+                String sql = "Select * from Article where StatusID = ? and AuthorEmail = ? order by PublishTime DESC";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, 3);
-                stm.setInt(2, 4);
-                stm.setString(3, authorEmail);
+                stm.setString(2, authorEmail);
                 rs = stm.executeQuery();
 
                 while (rs.next()) {

@@ -5,28 +5,53 @@
  */
 package action.admin;
 
+import user.UserDAO;
+import userdetails.UserDetailsDAO;
+
 /**
  *
  * @author dangxuananh1997
  */
 public class AddUserAction {
-    
+
     private String email;
     private String password;
     private String name;
     private String error;
     private int roleID;
-    
+
     private final String SUCCESS = "success";
     private final String FAIL = "fail";
-    
+
     public AddUserAction() {
     }
-    
+
     public String execute() throws Exception {
-        
-        
-        return SUCCESS;
+        String url = FAIL;
+
+        UserDAO userDAO = new UserDAO();
+        boolean isEmailExisted = userDAO.checkEmail(email);
+        if (!isEmailExisted) {
+            boolean isCreated = false;
+            switch (roleID) {
+                case 2:
+                    isCreated = userDAO.createAccount(email, password, 2);  //create author account
+                    break;
+                case 3:
+                    isCreated = userDAO.createAccount(email, password, 3);  //create editor account
+                    break;
+            }
+            if (isCreated) {
+                UserDetailsDAO detailDAO = new UserDetailsDAO();
+                boolean isInserted = detailDAO.insertEmailAndFullName(email, name);
+                if (isInserted) {
+                    url = SUCCESS;
+                }
+            }
+        } else {
+            error = "Email already exists";
+        }
+        return url;
     }
 
     public String getEmail() {
@@ -68,5 +93,5 @@ public class AddUserAction {
     public void setRoleID(int roleID) {
         this.roleID = roleID;
     }
-    
+
 }
