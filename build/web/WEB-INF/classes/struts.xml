@@ -87,6 +87,18 @@
             <result name="input">manageProfile.jsp</result>
             <result name="fail">oops.html</result>
         </action>
+        <action name="resetPassword" class="action.ResetPasswordAction">
+            <result name="success">newPassword.jsp</result>
+            <result name="input">resetPassword.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
+        <action name="newPassword" class="action.NewPasswordAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">viewHome</param>
+            </result>
+            <result name="input">newPassword.jsp</result>
+            <result name="fail">oops.html</result>
+        </action>
         <!--author-->
         <action name="authorViewApproved" class="action.author.ViewApprovedAction">
             <result name="success">author.jsp</result>
