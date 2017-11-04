@@ -5,29 +5,40 @@
  */
 package action;
 
+import userdetails.UserDetailsDAO;
+
 /**
  *
  * @author dangxuananh1997
  */
 public class ResetPasswordAction {
-    
+
     //Inputs
     private String email;
     private String phone;
-    
+
     //Outputs
     private String error;
-    
+
     //Returns
     private final String SUCCESS = "success";
     private final String INPUT = "input";
     private final String FAIL = "fail";
-    
+
     public ResetPasswordAction() {
     }
-    
+
     public String execute() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String url = FAIL;
+        UserDetailsDAO dao = new UserDetailsDAO();
+        boolean result = dao.checkEmailAndPhone(email, phone);
+        if (result) {
+            url = SUCCESS;
+        }else{
+            error = "Invalid email or phone";
+            url = INPUT;
+        }
+        return url;
     }
 
     public String getEmail() {
@@ -53,5 +64,5 @@ public class ResetPasswordAction {
     public void setError(String error) {
         this.error = error;
     }
-    
+
 }
