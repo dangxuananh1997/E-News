@@ -12,6 +12,7 @@ package action;
 public class NewPasswordAction {
     
     //Inputs
+    private String email;
     private String newPassword;
     
     //Returns
@@ -31,6 +32,14 @@ public class NewPasswordAction {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }
