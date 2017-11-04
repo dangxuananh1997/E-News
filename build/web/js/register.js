@@ -41,8 +41,7 @@ $(function() {
 		rules: {
 			email: {
 				email: true,
-				required: true,
-				notEmptyString: true
+				required: true
 			},
 			name: {
 				required: true,
@@ -67,10 +66,21 @@ $(function() {
 			}
 		},
 		messages: {
+			email: {
+				required: 'Email is required!'
+			},
+			name: {
+				required: 'Full Name is required!'
+			},
+			password: {
+				required: 'Password is required!'
+			},
 			passwordConfirm: {
+				required: 'Confirm Password is required!',
 				equalTo: 'Password not match!'
 			},
 			code: {
+				required: 'Security Code is required!',
 				equalTo: 'Incorrect Code! '
 			},
 			acceptTerms: {

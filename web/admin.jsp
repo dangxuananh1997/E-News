@@ -454,7 +454,7 @@
 			<div class="tab-pane fade show active" id="add-user"
 				role="tabpanel" aria-labelledby="add-user-tab">
 				<h3>Add Users</h3>
-				<form class="register-form">
+				<form class="register-form" action="adminAddUser" method="POST">
 					<div class="form-group">
 						<label for="email">Email:</label>
 						<input class="form-control" type="text" name="email">
@@ -475,11 +475,11 @@
 					<div class="form-check">
 						<label for="role">Role: </label>
 						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="role" value="author">
+							<input class="form-check-input" type="radio" name="roleID" value="2" checked>
 							Author
 						</label>
 						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="role" value="editor">
+							<input class="form-check-input" type="radio" name="roleID" value="3">
 							Editor
 						</label>
 					</div>

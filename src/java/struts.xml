@@ -190,5 +190,17 @@
                 <param name="pageNumber">${pageNumber}</param>
             </result>
         </action>
+        <action name="adminUnbanUser" class="action.admin.UnbanUserAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">${actionName}</param>
+                <param name="searchValue">${searchValue}</param>
+                <param name="pageNumber">${pageNumber}</param>
+            </result>
+        </action>
+        <action name="adminAddUser" class="action.admin.AddUserAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">adminViewManageUser</param>
+            </result>
+        </action>
     </package>
 </struts>

@@ -236,6 +236,38 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+    
+    /* Unban users */
+    public boolean unbanUser(String email) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [User] SET IsActive = ? WHERE Email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, true);
+                stm.setString(2, email);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
 
     /* get role id by email */
     private ArrayList<Integer> roleIDList;

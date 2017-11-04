@@ -44,7 +44,8 @@ public class ViewArticleAction {
 
         if (article != null) {  //article details not null
 
-            articleDAO.updateViewCount(articleID, article.getViewCount() + 1);  //update view count
+            if (!commentOff)
+                articleDAO.updateViewCount(articleID, article.getViewCount() + 1);  //update view count
 
             UserDetailsDAO userDAO = new UserDetailsDAO();
             author = userDAO.getUserDetails(article.getAuthorEmail());  //get author email
