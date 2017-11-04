@@ -12,10 +12,15 @@
 
 	<section class="container">
 		<h2>Reset Password</h2>
-		<form class="reset-password">
+		<form class="reset-password" action="resetPassword" method="POST">
 			<div class="form-group">
 				<label for="email">Email:</label>
 				<input class="form-control" type="text" name="email">
+			</div>
+
+			<div class="form-group">
+				<label for="phone">Phone:</label>
+				<input class="form-control" type="text" name="phone">
 			</div>
 
 			<div class="form-group">
@@ -28,7 +33,7 @@
 			</div>
 			
 			<button class="btn btn-success">Reset Password</button>
-			<button class="btn btn-info">Back to Home</button>
+			<a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
 		</form>
 	</section>
 

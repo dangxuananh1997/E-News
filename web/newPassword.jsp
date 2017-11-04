@@ -12,15 +12,15 @@
 
 	<section class="container">
 		<h2>Reset Password</h2>
-		<form class="reset-password" action="resetPassword" method="POST">
+		<form class="reset-password" action="newPassword" method="POST">
 			<div class="form-group">
-				<label for="email">Email:</label>
-				<input class="form-control" type="text" name="email">
+				<label for="newPassword">New Password:</label>
+				<input class="form-control" type="password" name="newPassword" id="newPassword">
 			</div>
 
 			<div class="form-group">
-				<label for="phone">Phone:</label>
-				<input class="form-control" type="text" name="phone">
+				<label for="confirmNewPassword">Confirm Password:</label>
+				<input class="form-control" type="password" name="confirmNewPassword">
 			</div>
 
 			<div class="form-group">
@@ -32,7 +32,7 @@
 				50M3C0D3
 			</div>
 			
-			<button class="btn btn-success">Reset Password</button>
+			<button class="btn btn-success">Change Password</button>
 			<a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
 		</form>
 	</section>
