@@ -119,7 +119,18 @@
                 <img src="assets/img/default-user.png" height="30px" width="30px" class="profile-pic">
             </s:if>
         </a>
-        <a href="manageProfile" class="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.fullName}"/></span></a>
+        <!--<a href="manageProfile" class="manageProfile"><span class="badge badge-info"><s:property value="%{#session.USERDETAILS.fullName}"/></span></a>-->
+        <div>
         <a href="logout" class="btn btn-danger logout" role="button">Log Out</a>
+        <s:if test="%{#session.ROLEID == 2}">
+            <a href="authorViewDraft" class="btn btn-primary logout" role="button">Dashboard</a>    
+        </s:if>
+        <s:if test="%{#session.ROLEID == 3}">
+            <a href="editorViewPending" class="btn btn-primary logout" role="button">Dashboard</a>    
+        </s:if>
+        <s:if test="%{#session.ROLEID == 4}">
+            <a href="adminViewAllArticle" class="btn btn-primary logout" role="button">Dashboard</a>    
+        </s:if>
+        </div>
     </s:if>
 </nav>

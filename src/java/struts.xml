@@ -92,10 +92,11 @@
             <result name="input">resetPassword.jsp</result>
             <result name="fail">oops.html</result>
         </action>
-        <action name="newPassword" class="action.ResetPasswordAction">
+        <action name="newPassword" class="action.NewPasswordAction">
             <result name="success" type="redirectAction">
                 <param name="actionName">viewHome</param>
             </result>
+            <result name="input">newPassword.jsp</result>
             <result name="fail">oops.html</result>
         </action>
         <!--author-->

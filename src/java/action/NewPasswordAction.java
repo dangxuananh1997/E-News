@@ -32,9 +32,10 @@ public class NewPasswordAction {
         String url = FAIL;
         UserDAO dao = new UserDAO();
         String currentPassword = dao.getPassword(email);
+        
         if (currentPassword != null) {
             if (currentPassword.equals(newPassword)) {
-                error = "New password cannot be the same as old password";
+                error = "New password cannot be the same as old password!";
                 url = INPUT;
             } else {
                 boolean result = dao.updatePassword(email, newPassword);

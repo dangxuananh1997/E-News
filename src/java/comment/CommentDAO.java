@@ -121,9 +121,10 @@ public class CommentDAO implements Serializable {
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
-                String sql = "Select * from Comment where ArticleID = ?";
+                String sql = "Select * from Comment where ArticleID = ? And IsActive = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, articleID);
+                stm.setBoolean(2, true);
                 rs = stm.executeQuery();
 
                 while (rs.next()) {

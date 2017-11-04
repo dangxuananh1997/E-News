@@ -24,6 +24,7 @@ public class LoginAction {
     //Outputs
     private UserDetailsDTO userDetails;
     private String error;
+    private int roleID;
 
     //Return
     private final String SUCCESS_MEMBER = "successMember";
@@ -63,6 +64,7 @@ public class LoginAction {
                 userDetails = detailDAO.getUserDetails(email);
                 Map session = ActionContext.getContext().getSession();
                 session.put("USERDETAILS", userDetails);
+                session.put("ROLEID", userDao.getRole(email));
             } else {
                 error = "Your account has been banned!";
             }

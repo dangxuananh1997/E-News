@@ -41,7 +41,7 @@
 				<span class="article-publish-time"><s:date name="%{article.publishTime}" format="dd/MM/yyyy" /></span>
 			</div>
 
-			<div class="content">
+			<div class="content clearfix">
 				<script type="text/javascript">
 					// load from database
 					document.write('<s:property value="%{article.articleContent}" escapeHtml="false"/>');

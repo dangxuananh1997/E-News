@@ -61,6 +61,8 @@ public class ViewArticleAction {
                     UserDetailsDTO userDTO = userDAO.getUserDetails(commenterEmail);
                     this.commenterList.add(userDTO);    //get list of commenter details
                 }
+            } else {
+                commentList = new ArrayList<>();
             }
         }
         

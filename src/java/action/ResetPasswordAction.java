@@ -34,7 +34,7 @@ public class ResetPasswordAction {
         boolean result = dao.checkEmailAndPhone(email, phone);
         if (result) {
             url = SUCCESS;
-        }else{
+        } else {
             error = "Invalid email or phone";
             url = INPUT;
         }

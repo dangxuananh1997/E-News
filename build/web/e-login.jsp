@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-primary">Login</button>
                 <a href="register" class="btn btn-success">Register</a>
             </form>
-            <a href="resetPassword" class="forget-password">Forget password</a>
+            <a href="resetPassword.jsp" class="forget-password">Forget password</a>
         </div>
     </div>
 
