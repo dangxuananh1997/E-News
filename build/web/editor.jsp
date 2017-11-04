@@ -136,7 +136,7 @@
                                     <s:date name="%{#comment.publishTime}"/>
 								</span>
 								<i class="icon ion-ios-play"></i>
-                                <s:property value="%{#comment.commentContent}"/>
+                                <p class="ccontent"><s:property value="%{#comment.commentContent}"/></p>
 							</p>
                             <s:url var="viewArticleLink" value="viewArticle">
                                 <s:param name="articleID" value="%{#comment.articleID}" />

@@ -23,7 +23,8 @@ public class ViewHomeAction {
     private int numberOfPages;                  //Number of pagination page
     private ArrayList<ArticleDTO> articleList;  //List of articles to show on view
     private ArrayList<String> authorNameList;   //List of authors
-
+    private String error;
+    
     //Return
     private final String SUCCESS = "success";
 
@@ -93,6 +94,14 @@ public class ViewHomeAction {
 
     public void setAuthorNameList(ArrayList<String> authorNameList) {
         this.authorNameList = authorNameList;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
 }

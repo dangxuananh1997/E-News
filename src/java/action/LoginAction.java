@@ -23,13 +23,13 @@ public class LoginAction {
 
     //Outputs
     private UserDetailsDTO userDetails;
+    private String error;
 
     //Return
     private final String SUCCESS_MEMBER = "successMember";
     private final String SUCCESS_AUTHOR = "successAuthor";
     private final String SUCCESS_EDITOR = "successEditor";
     private final String SUCCESS_ADMIN = "successAdmin";
-    private String error;
     private final String FAIL = "fail";
 
     public LoginAction() {
@@ -64,10 +64,10 @@ public class LoginAction {
                 Map session = ActionContext.getContext().getSession();
                 session.put("USERDETAILS", userDetails);
             } else {
-                error = "Your account has been banned";
+                error = "Your account has been banned!";
             }
         } else {
-            error = "Email or password is invalid";
+            error = "Email or password is invalid!";
         }
         return url;
     }

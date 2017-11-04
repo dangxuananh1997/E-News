@@ -33,6 +33,7 @@
             </result>
             <result name="fail" type="redirectAction">
                 <param name="actionName">viewHome</param>
+                <param name="error">${error}</param>
             </result>
         </action>
         <action name="logout" class="action.LogoutAction">

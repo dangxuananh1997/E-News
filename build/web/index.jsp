@@ -15,6 +15,10 @@
 	<div class="e-navbar"></div>
 	<div class="e-login"></div>
 
+    <s:if test="%{error != null && error != ''}">
+        <label class="help-block float-right"><s:property value="%{error}"/></label>
+    </s:if>
+    
 	<section class="container main">
         
         <s:iterator var="articleDTO" value="articleList" status="counter">
