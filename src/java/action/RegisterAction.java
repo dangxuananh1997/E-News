@@ -19,6 +19,7 @@ public class RegisterAction {
     private String name;
     private String error;
     private final String SUCCESS = "success";
+    private final String INPUT = "input";
     private final String FAIL = "fail";
 
     public RegisterAction() {
@@ -38,10 +39,35 @@ public class RegisterAction {
                     url = SUCCESS;
                 }
             }
-        }else{
+        } else {
             error = "Email already exists";
+            url = INPUT;
         }
         return url;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getError() {
@@ -50,48 +76,6 @@ public class RegisterAction {
 
     public void setError(String error) {
         this.error = error;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

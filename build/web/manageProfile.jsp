@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="/struts-tags" prefix="s"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="css/manageProfile.css">
 	<script src="js/config.js"></script>
 	<script src="js/manageProfile.js"></script>
+    <script type="text/javascript" src="jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="js/updatePassword.js"></script>
 </head>
 <body>
 	<div class="e-navbar"></div>
@@ -75,17 +78,20 @@
                     <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>
             </form>
-            <form action="updatePassword" method="POST" class="row">
+            <form action="updatePassword" method="POST" class="row" id="updatePasswordForm">
                 <div class="col-md-3"></div>
                 <div class="col-md-9 info">
                     <h3 class="breakline">Update Password</h3>
-                    <div class="form-group">
+                    <div class="form-group <s:if test="%{error != null && error != ''}">has-danger</s:if>">
                         <label for="password">Old Password:</label>
                         <input class="form-control" type="password" name="oldPassword">
+                        <s:if test="%{error != null && error != ''}">
+                            <label id="oldPassword-error" class="help-block" for="oldPassword"><s:property value="%{error}"/></label>
+                        </s:if>
                     </div>
                     <div class="form-group">
                         <label for="passwordConfirm">New Password:</label>
-                        <input class="form-control" type="password" name="newPassword">
+                        <input class="form-control" type="password" name="newPassword" id="newPassword">
                     </div>
                     <div class="form-group">
                         <label for="passwordConfirm">Confirm New Password:</label>
@@ -98,6 +104,7 @@
                     <div class="security-code">
                         50M3C0D3
                     </div>
+                    <input type="hidden" id="code" value="123">
                     <button class="btn btn-success">Update Password</button>
                     <a class="btn btn-info" role="button" href="viewHome">Back to Home</a>
                 </div>

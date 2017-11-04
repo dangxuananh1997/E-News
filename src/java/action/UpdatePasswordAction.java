@@ -27,6 +27,7 @@ public class UpdatePasswordAction {
 
     //return
     private final String SUCCESS = "success";
+    private final String INPUT = "input";
     private final String FAIL = "fail";
 
     public UpdatePasswordAction() {
@@ -42,18 +43,17 @@ public class UpdatePasswordAction {
         UserDAO user = new UserDAO();
         boolean isCurrentPassword = user.checkLogin(email, oldPassword);    //check if oldPassword is current password
         if (isCurrentPassword) {
-            System.out.println(oldPassword);
             if (newPassword.equals(oldPassword)) {
-                error = "New password cannot be the same as old password";
-                System.out.println("UpdatePasswordAction " + error);
+                error = "New password cannot be the same as old password!";
+                url = INPUT;
             }
             boolean result = user.updatePassword(email, newPassword);    //update new password
             if (result) {
                 url = SUCCESS;
             }
         } else {
-            error = "Old password is invalid";
-            System.out.println("UpdatePasswordAction " + error);
+            error = "Old password is invalid!";
+            url = INPUT;
         }
         return url;
     }
