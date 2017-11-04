@@ -8,6 +8,8 @@
     <title>Admin Page</title>
     <link rel="stylesheet" type="text/css" href="css/managePage.css">
     <script src="js/config.js"></script>
+    <script type="text/javascript" src="jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="js/register.js"></script>
 </head>
 <body>
 	<div class="e-navbar"></div>
@@ -428,6 +430,18 @@
                                 <i class="icon ion-close"></i> Ban User
                             </s:a>
                             </s:if>
+                                
+                            <s:if test="%{isActive[#counter.count - 1] == false && roleList[#counter.count - 1] != 'Administrator'}">
+                            <s:url var="unbanUserLink" value="adminUnbanUser">
+                                <s:param name="searchValue" value="%{searchValue}"/>
+                                <s:param name="actionName" value="%{actionName}"/>
+                                <s:param name="userEmail" value="%{#user.email}"/>
+                                <s:param name="pageNumber" value="%{pageNumber}"/>
+                            </s:url>
+                            <s:a cssClass="btn btn-outline-success" role="button" href="%{unbanUserLink}">
+                                <i class="icon ion-checkmark"></i> Unban User
+                            </s:a>
+                            </s:if>
 						</div>
 					</div>
                     </s:iterator>
@@ -454,7 +468,7 @@
 			<div class="tab-pane fade show active" id="add-user"
 				role="tabpanel" aria-labelledby="add-user-tab">
 				<h3>Add Users</h3>
-				<form class="register-form" action="adminAddUser" method="POST">
+				<form class="register-form" action="adminAddUser" method="POST" id="registerForm">
 					<div class="form-group">
 						<label for="email">Email:</label>
 						<input class="form-control" type="text" name="email">
@@ -465,7 +479,7 @@
 					</div>
 					<div class="form-group">
 						<label for="password">Password:</label>
-						<input class="form-control" type="password" name="password">
+						<input class="form-control" type="password" name="password" id="password">
 					</div>
 					<div class="form-group">
 						<label for="passwordConfirm">Confirm Password:</label>
@@ -489,8 +503,9 @@
 					<div class="security-code">
 						50M3C0D3
 					</div>
+                    <input type="hidden" id="code" value="123">
 					<button class="btn btn-success">Register</button>
-					<a href="home" class="btn btn-info">Back to Home</a>
+					<a href="viewHome" class="btn btn-info" role="button">Back to Home</a>
 				</form>
 			</div>
             </s:if>
